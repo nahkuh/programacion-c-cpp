@@ -3,7 +3,7 @@ using namespace std;
 
 int main(){
 
-    cout << "Hola mundo de C++";
-    cout << "Hola git";
+    std::cout << "Hola mundo de C++";
+    std::cout << "Hola git, vamos a add y commitarte";
     return 0;
 }
