@@ -1,9 +1,7 @@
-<<<<<<< HEAD
 **/.vscode/
 **/git-*.pdf
 notas de texto.txt
-output/
-=======
+
 # Prerequisites
 *.d
 
@@ -45,4 +43,3 @@ output/
 
 # debug information files
 *.dwo
->>>>>>> ef960b85bbe2473934228bc3ccaf35f0d44b2b1c
