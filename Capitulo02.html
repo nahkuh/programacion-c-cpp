@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Capítulo 2 – Introducción a la programación en C</title>
+  <style>
+    body {
+      font-family: 'Courier New', monospace;
+      line-height: 1.6;
+      margin: 40px;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+    h1, h2, h3 {
+      color: #004d99;
+    }
+    table {
+      border-collapse: collapse;
+      margin: 20px 0;
+      width: 100%;
+    }
+    th, td {
+      border: 1px solid #999;
+      padding: 8px 12px;
+      text-align: left;
+    }
+    th {
+      background-color: #e6f2ff;
+    }
+    pre {
+      background-color: #f4f4f4;
+      padding: 12px;
+      border-left: 4px solid #007acc;
+      overflow-x: auto;
+    }
+    .note {
+      font-style: italic;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Capítulo 2 – Introducción a la programación en C</h1>
+
+<h2>1. Elementos léxicos y sintácticos básicos</h2>
+
+<h3>1.1 Comentarios</h3>
+<p>Sintaxis: <code>/* comentario */</code><br>
+Ignorados por el compilador.</p>
+
+<h3>1.2 Directivas del preprocesador</h3>
+<p>Ejemplo: <code>#include <stdio.h></code></p>
+
+<h3>1.3 Estructura mínima de un programa</h3>
+<pre>
+#include <stdio.h>
+int main(void) {
+    /* cuerpo */
+    return 0;
+}
+</pre>
+
+<h3>1.4 Identificadores</h3>
+<ul>
+  <li>Letras, dígitos, guiones bajos (<code>_</code>).</li>
+  <li>No inician con dígito.</li>
+  <li>Sensibles a mayúsculas/minúsculas.</li>
+  <li>Máx. 31 caracteres significativos (ANSI C).</li>
+</ul>
+
+<h2>2. Tipos de datos fundamentales</h2>
+<p>Tipo entero: <code>int</code></p>
+
+<h3>2.1 Declaración de variables</h3>
+<pre>
+int entero1;
+int entero2, suma;
+</pre>
+
+<h2>3. Entrada y salida estándar</h2>
+
+<h3>3.1 Función <code>printf</code></h3>
+<p>Sintaxis: <code>printf(cadena_control, expr1, expr2, ...);</code><br>
+Especificador para enteros: <code>%d</code></p>
+
+<h3>3.2 Secuencias de escape comunes</h3>
+<table>
+  <thead>
+    <tr><th>Secuencia</th><th>Descripción</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>\n</code></td><td>Nueva línea</td></tr>
+    <tr><td><code>\t</code></td><td>Tabulador horizontal</td></tr>
+    <tr><td><code>\\</code></td><td>Diagonal invertida</td></tr>
+    <tr><td><code>\"</code></td><td>Comillas dobles</td></tr>
+    <tr><td><code>\a</code></td><td>Alerta (sonido)</td></tr>
+  </tbody>
+</table>
+
+<h3>3.3 Función <code>scanf</code></h3>
+<p>Sintaxis: <code>scanf(cadena_control, &amp;var1, &amp;var2, ...);</code><br>
+Operador de dirección: <code>&amp;</code> (obligatorio para variables básicas).</p>
+
+<h2>4. Operadores aritméticos</h2>
+
+<h3>4.1 Tabla de operadores</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Operación</th>
+      <th>Símbolo</th>
+      <th>Ejemplo algebraico</th>
+      <th>Expresión en C</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Suma</td><td><code>+</code></td><td>\( f + 7 \)</td><td><code>f + 7</code></td></tr>
+    <tr><td>Resta</td><td><code>-</code></td><td>\( p - c \)</td><td><code>p - c</code></td></tr>
+    <tr><td>Multiplicación</td><td><code>*</code></td><td>\( bm \)</td><td><code>b * m</code></td></tr>
+    <tr><td>División</td><td><code>/</code></td><td>\( x / y \)</td><td><code>x / y</code></td></tr>
+    <tr><td>Módulo</td><td><code>%</code></td><td>\( r \bmod s \)</td><td><code>r % s</code></td></tr>
+  </tbody>
+</table>
+
+<p class="note"><strong>Nota:</strong> División entera trunca (e.g., <code>7 / 4 = 1</code>).<br>
+<code>%</code> solo aplica a enteros.<br>
+No existe operador de exponenciación; \( x^2 \rightarrow x * x \).</p>
+
+<h3>4.2 Precedencia y asociatividad</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Nivel</th>
+      <th>Operadores</th>
+      <th>Asociatividad</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>1</td><td><code>*</code>, <code>/</code>, <code>%</code></td><td>Izquierda → Derecha</td></tr>
+    <tr><td>2</td><td><code>+</code>, <code>-</code></td><td>Izquierda → Derecha</td></tr>
+    <tr><td>3</td><td><code>=</code></td><td>Derecha → Izquierda</td></tr>
+  </tbody>
+</table>
+
+<h2>5. Operadores relacionales y de igualdad</h2>
+
+<h3>5.1 Tabla de operadores</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Operador algebraico</th>
+      <th>Operador en C</th>
+      <th>Condición</th>
+      <th>Significado</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>\( = \)</td><td><code>==</code></td><td><code>x == y</code></td><td>x igual a y</td></tr>
+    <tr><td>\( \neq \)</td><td><code>!=</code></td><td><code>x != y</code></td><td>x distinto de y</td></tr>
+    <tr><td>\( > \)</td><td><code>></code></td><td><code>x > y</code></td><td>x mayor que y</td></tr>
+    <tr><td>\( < \)</td><td><code><</code></td><td><code>x < y</code></td><td>x menor que y</td></tr>
+    <tr><td>\( \geq \)</td><td><code>>=</code></td><td><code>x >= y</code></td><td>x mayor o igual que y</td></tr>
+    <tr><td>\( \leq \)</td><td><code><=</code></td><td><code>x <= y</code></td><td>x menor o igual que y</td></tr>
+  </tbody>
+</table>
+
+<h2>6. Instrucción condicional <code>if</code></h2>
+<pre>
+if (condición) {
+    /* cuerpo: se ejecuta si condición ≠ 0 */
+}
+</pre>
+<p>En C: <strong>Falso</strong> = <code>0</code>, <strong>Verdadero</strong> = cualquier valor ≠ <code>0</code>.</p>
+
+<h2>7. Ejemplos representativos</h2>
+
+<h3>Ejemplo 1: Salida de texto</h3>
+<pre>
+#include <stdio.h>
+int main(void) {
+    printf("Bienvenido a C!\n");
+    return 0;
+}
+</pre>
+
+<h3>Ejemplo 2: Suma de dos enteros</h3>
+<pre>
+#include <stdio.h>
+int main(void) {
+    int entero1, entero2, suma;
+    printf("Introduzca el primer entero\n");
+    scanf("%d", &amp;entero1);
+    printf("Introduzca el segundo entero\n");
+    scanf("%d", &amp;entero2);
+    suma = entero1 + entero2;
+    printf("La suma es %d\n", suma);
+    return 0;
+}
+</pre>
+
+<h3>Ejemplo 3: Comparación de dos enteros</h3>
+<pre>
+#include <stdio.h>
+int main(void) {
+    int num1, num2;
+    scanf("%d%d", &amp;num1, &amp;num2);
+    if (num1 == num2) printf("%d es igual que %d\n", num1, num2);
+    if (num1 != num2) printf("%d no es igual que %d\n", num1, num2);
+    if (num1 < num2)  printf("%d es menor que %d\n", num1, num2);
+    if (num1 > num2)  printf("%d es mayor que %d\n", num1, num2);
+    if (num1 <= num2) printf("%d es menor o igual que %d\n", num1, num2);
+    if (num1 >= num2) printf("%d es mayor o igual que %d\n", num1, num2);
+    return 0;
+}
+</pre>
+
+<h2>8. Palabras reservadas (ANSI C)</h2>
+<pre>
+auto      double    int       struct
+break     else      long      switch
+case      enum      register  typedef
+char      extern    return    union
+const     float     short     unsigned
+continue  for       signed    void
+default   goto      sizeof    volatile
+do        if        static    while
+</pre>
+
+</body>
+</html>
