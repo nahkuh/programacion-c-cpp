@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Capítulo 3 – Desarrollo de programas estructurados en C</title>
+  <style>
+    body {
+      font-family: 'Courier New', monospace;
+      line-height: 1.6;
+      margin: 40px;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+    h1, h2, h3 {
+      color: #004d99;
+    }
+    table {
+      border-collapse: collapse;
+      margin: 20px 0;
+      width: 100%;
+    }
+    th, td {
+      border: 1px solid #999;
+      padding: 8px 12px;
+      text-align: left;
+    }
+    th {
+      background-color: #e6f2ff;
+    }
+    pre {
+      background-color: #f4f4f4;
+      padding: 12px;
+      border-left: 4px solid #007acc;
+      overflow-x: auto;
+    }
+    .note {
+      font-style: italic;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Capítulo 3 – Desarrollo de programas estructurados en C</h1>
+
+<h2>1. Algoritmos y control de programa</h2>
+
+<p><strong>Definición 1 (Algoritmo).</strong>  
+Procedimiento que especifica:  
+1. Las acciones a ejecutar.<br>
+2. El orden en que dichas acciones se llevan a cabo.</p>
+
+<p><strong>Definición 2 (Control de programa).</strong>  
+Especificación del orden de ejecución de instrucciones en un programa.</p>
+
+<p><strong>Teorema de Böhm–Jacopini.</strong>  
+Todo programa puede expresarse usando únicamente tres estructuras de control:  
+- Secuencia  
+- Selección  
+- Repetición</p>
+
+<h2>2. Estructuras de control fundamentales</h2>
+
+<h3>2.1 Secuencia</h3>
+<p>Las instrucciones se ejecutan una tras otra, en el orden escrito.</p>
+
+<h3>2.2 Selección</h3>
+<ul>
+  <li><strong><code>if</code> (selección simple):</strong>
+    <pre>if (condición) instrucción;</pre>
+  </li>
+  <li><strong><code>if...else</code> (selección doble):</strong>
+    <pre>if (condición) instrucción1; else instrucción2;</pre>
+  </li>
+  <li><strong>Operador condicional (<code>?:</code>):</strong>
+    <pre>(condición) ? expr1 : expr2;</pre>
+    <p>Único operador ternario en C.</p>
+  </li>
+</ul>
+
+<h3>2.3 Repetición</h3>
+<ul>
+  <li><strong><code>while</code>:</strong>
+    <pre>while (condición) instrucción;</pre>
+    <p>Ejecuta <code>instrucción</code> mientras <code>condición ≠ 0</code>.</p>
+  </li>
+</ul>
+
+<h2>3. Pseudocódigo y metodología de diseño</h2>
+
+<p><strong>Definición 3 (Pseudocódigo).</strong>  
+Lenguaje informal, similar al inglés, que describe algoritmos sin depender de la sintaxis de un lenguaje de programación.</p>
+
+<p><strong>Metodología: Mejoramiento arriba-abajo, paso a paso</strong></p>
+<ol>
+  <li><strong>Cima:</strong> descripción general del problema.</li>
+  <li><strong>Mejoramientos sucesivos:</strong> refinamiento en fases:
+    <ul>
+      <li>Inicialización</li>
+      <li>Procesamiento</li>
+      <li>Terminación</li>
+    </ul>
+  </li>
+</ol>
+
+<h2>4. Variables especiales</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Tipo</th>
+      <th>Propósito</th>
+      <th>Inicialización típica</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Contador</strong></td>
+      <td>Cuenta número de iteraciones o entradas</td>
+      <td><code>0</code> o <code>1</code></td>
+    </tr>
+    <tr>
+      <td><strong>Total</strong></td>
+      <td>Acumula suma de valores</td>
+      <td><code>0</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="note"><strong>Nota:</strong> No inicializar estas variables produce <em>errores lógicos</em>.</p>
+
+<h2>5. Tipos de repetición</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Tipo</th>
+      <th>Característica</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Controlada por contador</strong></td>
+      <td>Número fijo de repeticiones conocido a priori.</td>
+    </tr>
+    <tr>
+      <td><strong>Controlada por centinela</strong></td>
+      <td>Repetición termina al introducir un valor especial (e.g., <code>-1</code>).</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>6. Tipos de datos y operadores avanzados</h2>
+
+<h3>6.1 Tipo <code>float</code></h3>
+<p>Representa números de punto flotante. Para preservar fracción en promedios:</p>
+<pre>promedio = (float) total / contador;</pre>
+
+<h3>6.2 Operadores de asignación compuesta</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Operador</th>
+      <th>Ejemplo</th>
+      <th>Equivalente</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><code>+=</code></td><td><code>x += 3;</code></td><td><code>x = x + 3;</code></td></tr>
+    <tr><td><code>-=</code></td><td><code>x -= 2;</code></td><td><code>x = x - 2;</code></td></tr>
+    <tr><td><code>*=</code></td><td><code>x *= 5;</code></td><td><code>x = x * 5;</code></td></tr>
+    <tr><td><code>/=</code></td><td><code>x /= 4;</code></td><td><code>x = x / 4;</code></td></tr>
+    <tr><td><code>%=</code></td><td><code>x %= 3;</code></td><td><code>x = x % 3;</code></td></tr>
+  </tbody>
+</table>
+
+<h3>6.3 Operadores de incremento/decremento</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Operador</th>
+      <th>Ejemplo</th>
+      <th>Comportamiento</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>++x</code></td>
+      <td>preincremento</td>
+      <td>Incrementa <code>x</code>, luego usa el nuevo valor.</td>
+    </tr>
+    <tr>
+      <td><code>x++</code></td>
+      <td>posincremento</td>
+      <td>Usa valor actual de <code>x</code>, luego lo incrementa.</td>
+    </tr>
+    <tr>
+      <td><code>--x</code></td>
+      <td>predecremento</td>
+      <td>Decrementa <code>x</code>, luego usa el nuevo valor.</td>
+    </tr>
+    <tr>
+      <td><code>x--</code></td>
+      <td>posdecremento</td>
+      <td>Usa valor actual, luego lo decrementa.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="note"><strong>Restricción:</strong> Solo aplicable a <em>nombres de variable simples</em>.</p>
+
+<h2>7. Precedencia y asociatividad (actualizada)</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Nivel</th>
+      <th>Operadores</th>
+      <th>Asociatividad</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>1</td><td><code>++ -- + - (tipo)</code></td><td>Derecha → Izquierda</td></tr>
+    <tr><td>2</td><td><code>* / %</code></td><td>Izquierda → Derecha</td></tr>
+    <tr><td>3</td><td><code>+ -</code></td><td>Izquierda → Derecha</td></tr>
+    <tr><td>4</td><td><code>< <= > >=</code></td><td>Izquierda → Derecha</td></tr>
+    <tr><td>5</td><td><code>== !=</code></td><td>Izquierda → Derecha</td></tr>
+    <tr><td>6</td><td><code>?:</code></td><td>Derecha → Izquierda</td></tr>
+    <tr><td>7</td><td><code>= += -= *= /= %=</code></td><td>Derecha → Izquierda</td></tr>
+  </tbody>
+</table>
+
+<h2>8. Ejercicios resueltos representativos</h2>
+
+<h3>Ejercicio R1: Promedio con repetición controlada por contador</h3>
+<pre>
+int total = 0, contador = 1, calificacion;
+while (contador <= 10) {
+    scanf("%d", &calificacion);
+    total += calificacion;
+    contador++;
+}
+printf("Promedio: %d\n", total / 10);
+</pre>
+
+<h3>Ejercicio R2: Promedio con centinela</h3>
+<pre>
+int total = 0, contador = 0, calificacion;
+scanf("%d", &calificacion);
+while (calificacion != -1) {
+    total += calificacion;
+    contador++;
+    scanf("%d", &calificacion);
+}
+if (contador != 0)
+    printf("Promedio: %.2f\n", (float)total / contador);
+else
+    printf("No se introdujeron calificaciones\n");
+</pre>
+
+<h3>Ejercicio R3: Análisis de resultados (aprobado/reprobado)</h3>
+<pre>
+int aprobados = 0, reprobados = 0, estudiante = 1, resultado;
+while (estudiante <= 10) {
+    scanf("%d", &resultado);
+    if (resultado == 1) aprobados++;
+    else reprobados++;
+    estudiante++;
+}
+printf("Aprobados: %d\nReprobados: %d\n", aprobados, reprobados);
+if (aprobados > 8) printf("Objetivo alcanzado\n");
+</pre>
+
+<h2>9. Ejercicios propuestos (base teórica)</h2>
+
+<ol>
+  <li><strong>Ejercicio 3.5:</strong> Escriba un programa que calcule la suma de los enteros del 1 al 10 usando un ciclo <code>while</code>.</li>
+  <li><strong>Ejercicio 3.8:</strong> Lea dos enteros <code>x</code> e <code>y</code>, y calcule \( x^y \) mediante multiplicación repetida en un ciclo <code>while</code>.</li>
+  <li><strong>Ejercicio 3.17:</strong> Calcule km/l por tanque y promedio total usando <code>-1</code> como centinela.</li>
+  <li><strong>Ejercicio 3.23:</strong> Use un ciclo para imprimir los números del 1 al 10 separados por tres espacios.</li>
+  <li><strong>Ejercicio 3.24:</strong> Lea 10 números y determine el mayor usando solo tres variables: <code>contador</code>, <code>numero</code>, <code>mayor</code>.</li>
+  <li><strong>Ejercicio 3.28:</strong> Modifique el programa de resultados (aprobado/reprobado) para que solo acepte <code>1</code> o <code>2</code>. Si el usuario ingresa otro valor, vuelva a pedirlo.</li>
+  <li><strong>Ejercicio 3.38:</strong> Imprima 100 asteriscos, uno a la vez, insertando un salto de línea cada 10. Use <code>%</code> para detectar múltiplos.</li>
+</ol>
+
+</body>
+</html>
