@@ -12,7 +12,7 @@
       background-color: #f9f9f9;
       color: #333;
     }
-    h1, h2, h3 {
+    h1, h2, h3, h4 {
       color: #004d99;
     }
     table {
@@ -37,6 +37,14 @@
     .note {
       font-style: italic;
       color: #666;
+    }
+    .flowchart {
+      background-color: #fff;
+      padding: 15px;
+      border: 1px solid #ccc;
+      margin: 20px 0;
+      font-family: monospace;
+      white-space: pre;
     }
   </style>
 </head>
@@ -65,27 +73,75 @@ Todo programa puede expresarse usando únicamente tres estructuras de control:
 <h3>2.1 Secuencia</h3>
 <p>Las instrucciones se ejecutan una tras otra, en el orden escrito.</p>
 
-<h3>2.2 Selección</h3>
-<ul>
-  <li><strong><code>if</code> (selección simple):</strong>
-    <pre>if (condición) instrucción;</pre>
-  </li>
-  <li><strong><code>if...else</code> (selección doble):</strong>
-    <pre>if (condición) instrucción1; else instrucción2;</pre>
-  </li>
-  <li><strong>Operador condicional (<code>?:</code>):</strong>
-    <pre>(condición) ? expr1 : expr2;</pre>
-    <p>Único operador ternario en C.</p>
-  </li>
-</ul>
+<div class="flowchart">
+[Inicio]
+   ↓
+┌───────────────┐
+│ Acción 1      │
+└───────────────┘
+   ↓
+┌───────────────┐
+│ Acción 2      │
+└───────────────┘
+   ↓
+[Fin]
+</div>
 
-<h3>2.3 Repetición</h3>
-<ul>
-  <li><strong><code>while</code>:</strong>
-    <pre>while (condición) instrucción;</pre>
-    <p>Ejecuta <code>instrucción</code> mientras <code>condición ≠ 0</code>.</p>
-  </li>
-</ul>
+<h3>2.2 Selección simple (<code>if</code>)</h3>
+<p>Ejecuta una acción si la condición es verdadera (<code>≠ 0</code>).</p>
+
+<div class="flowchart">
+       ↓
+   ┌───────────────┐
+   │ ¿condición?   │
+   └───────────────┘
+     ↙️           ↘️
+(verdadero)    (falso)
+     ↓               ↓
+┌───────────┐     [continuación]
+│ Acción    │
+└───────────┘
+     ↓
+[continuación]
+</div>
+
+<h3>2.3 Selección doble (<code>if...else</code>)</h3>
+<p>Ejecuta acción A si la condición es verdadera; de lo contrario, ejecuta acción B.</p>
+
+<div class="flowchart">
+       ↓
+   ┌───────────────┐
+   │ ¿condición?   │
+   └───────────────┘
+     ↙️           ↘️
+(verdadero)    (falso)
+     ↓               ↓
+┌───────────┐   ┌───────────┐
+│ Acción A  │   │ Acción B  │
+└───────────┘   └───────────┘
+     ↓_______________↓
+             ↓
+      [continuación]
+</div>
+
+<h3>2.4 Repetición (<code>while</code>)</h3>
+<p>Ejecuta un cuerpo mientras la condición sea verdadera.</p>
+
+<div class="flowchart">
+       ↓
+   ┌───────────────┐
+   │ ¿condición?   │
+   └───────────────┘
+        ↙️        ↘️
+   (verdadero)   (falso)
+        ↓             ↓
+   ┌───────────┐   [continuación]
+   │  Cuerpo   │
+   │  del ciclo│
+   └───────────┘
+        ↓
+   ─────↑ (retroalimentación)
+</div>
 
 <h2>3. Pseudocódigo y metodología de diseño</h2>
 
