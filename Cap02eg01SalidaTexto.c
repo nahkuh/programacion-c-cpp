@@ -1,6 +1,6 @@
 // Ejemplo 1: Salida de Texto | 26sep2025 | Cap02eg01SalidaTexto.c
 
-#include <stdio.h> /*directiva de preprocesamiento con llamado a la directiva estandar*/
+#include <stdio.h> /*directiva de preprocesamiento con llamado a la biblioteca estandar*/
  
 /*la funcion main inicia la ejecución del programa*/
 int main(void){ /* int indica que la salida de main es un numero entero, 
