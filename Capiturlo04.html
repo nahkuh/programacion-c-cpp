@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Capítulo 4 – Control de programas en C</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      margin: 40px;
+      background-color: #fdfdfd;
+      color: #222;
+    }
+    h1, h2, h3, h4 {
+      color: #004d99;
+      margin-top: 1.8em;
+    }
+    table {
+      border-collapse: collapse;
+      margin: 20px 0;
+      width: 100%;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    th, td {
+      border: 1px solid #999;
+      padding: 10px 12px;
+      text-align: left;
+    }
+    th {
+      background-color: #e6f2ff;
+      font-weight: bold;
+    }
+    pre {
+      background-color: #f8f8f8;
+      padding: 14px;
+      border-left: 4px solid #007acc;
+      overflow-x: auto;
+      font-family: 'Consolas', 'Courier New', monospace;
+      margin: 16px 0;
+    }
+    .flowchart {
+      background-color: #fff;
+      padding: 16px;
+      border: 1px solid #ddd;
+      margin: 20px 0;
+      font-family: monospace;
+      white-space: pre;
+      font-size: 0.95em;
+    }
+    .note {
+      font-style: italic;
+      color: #555;
+      margin: 12px 0;
+    }
+    ol li, ul li {
+      margin-bottom: 6px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Capítulo 4 – Control de programas en C</h1>
+
+<h2>1. Repetición controlada por contador</h2>
+
+<p><strong>Definición 1.</strong> Técnica de repetición en la que se conoce <em>a priori</em> el número exacto de iteraciones. Requiere:</p>
+<ol>
+  <li>Nombre de una <strong>variable de control</strong> (contador).</li>
+  <li><strong>Valor inicial</strong> de la variable.</li>
+  <li><strong>Incremento</strong> (o decremento) por iteración.</li>
+  <li><strong>Condición de terminación</strong> (valor final).</li>
+</ol>
+
+<h2>2. Instrucción <code>for</code></h2>
+
+<p><strong>Definición 2.</strong> Estructura de repetición que encapsula inicialización, condición y actualización en su encabezado.</p>
+
+<p><strong>Sintaxis:</strong></p>
+<pre>for (expr1; expr2; expr3)
+    instrucción;</pre>
+
+<p><strong>Equivalencia con <code>while</code>:</strong></p>
+<pre>expr1;
+while (expr2) {
+    instrucción;
+    expr3;
+}</pre>
+
+<h3>Diagrama de flujo (<code>for</code>)</h3>
+<div class="flowchart">
+       ↓
+[Inicialización]
+       ↓
+[¿Condición?] ←───────┐
+   ↙️        ↘️         │
+(falso)    (verdadero) │
+   ↓           ↓        │
+[salida]   [Cuerpo]     │
+               ↓        │
+          [Actualización]──┘
+</div>
+
+<h2>3. Instrucción <code>do...while</code></h2>
+
+<p><strong>Definición 3.</strong> Estructura de repetición que evalúa la condición al final, garantizando al menos una ejecución del cuerpo.</p>
+
+<p><strong>Sintaxis:</strong></p>
+<pre>do {
+    instrucción;
+} while (condición);</pre>
+
+<h3>Diagrama de flujo (<code>do...while</code>)</h3>
+<div class="flowchart">
+       ↓
+   [Cuerpo]
+       ↓
+[¿Condición?] 
+   ↙️        ↘️
+(falso)    (verdadero)
+   ↓           ↑
+[salida]───────┘
+</div>
+
+<h2>4. Instrucción <code>switch</code></h2>
+
+<p><strong>Definición 4.</strong> Estructura de selección múltiple que evalúa una expresión entera y ejecuta el bloque <code>case</code> correspondiente.</p>
+
+<p><strong>Sintaxis:</strong></p>
+<pre>switch (expresión) {
+    case constante1: instrucciones; break;
+    case constante2: instrucciones; break;
+    ...
+    default: instrucciones;
+}</pre>
+
+<h3>Diagrama de flujo (<code>switch</code>)</h3>
+<div class="flowchart">
+       ↓
+[¿exp == c1?] → sí → [acción1] → break → salida
+       ↓ no
+[¿exp == c2?] → sí → [acción2] → break → salida
+       ↓ no
+      ... 
+       ↓ no
+[default] → [acción_def] → salida
+</div>
+
+<h2>5. Instrucciones <code>break</code> y <code>continue</code></h2>
+
+<table>
+  <thead>
+    <tr><th>Instrucción</th><th>Efecto</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>break</code></td><td>Sale inmediatamente de <code>for</code>, <code>while</code>, <code>do...while</code> o <code>switch</code>.</td></tr>
+    <tr><td><code>continue</code></td><td>Salta al final del cuerpo del ciclo y pasa a la siguiente iteración.</td></tr>
+  </tbody>
+</table>
+
+<h2>6. Operadores lógicos</h2>
+
+<h3>Tabla de operadores</h3>
+<table>
+  <thead>
+    <tr><th>Operador</th><th>Nombre</th><th>Descripción</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>&&</code></td><td>AND lógico</td><td>Verdadero si <strong>ambas</strong> expresiones son verdaderas.</td></tr>
+    <tr><td><code>||</code></td><td>OR lógico</td><td>Verdadero si <strong>al menos una</strong> expresión es verdadera.</td></tr>
+    <tr><td><code>!</code></td><td>NOT lógico</td><td>Invierte el valor lógico de la expresión.</td></tr>
+  </tbody>
+</table>
+
+<h3>Tablas de verdad</h3>
+
+<table>
+  <caption><strong>AND (<code>&&</code>)</strong></caption>
+  <thead><tr><th>A</th><th>B</th><th>A && B</th></tr></thead>
+  <tbody>
+    <tr><td>0</td><td>0</td><td>0</td></tr>
+    <tr><td>0</td><td>≠0</td><td>0</td></tr>
+    <tr><td>≠0</td><td>0</td><td>0</td></tr>
+    <tr><td>≠0</td><td>≠0</td><td>1</td></tr>
+  </tbody>
+</table>
+
+<table>
+  <caption><strong>OR (<code>||</code>)</strong></caption>
+  <thead><tr><th>A</th><th>B</th><th>A || B</th></tr></thead>
+  <tbody>
+    <tr><td>0</td><td>0</td><td>0</td></tr>
+    <tr><td>0</td><td>≠0</td><td>1</td></tr>
+    <tr><td>≠0</td><td>0</td><td>1</td></tr>
+    <tr><td>≠0</td><td>≠0</td><td>1</td></tr>
+  </tbody>
+</table>
+
+<table>
+  <caption><strong>NOT (<code>!</code>)</strong></caption>
+  <thead><tr><th>A</th><th>!A</th></tr></thead>
+  <tbody>
+    <tr><td>0</td><td>1</td></tr>
+    <tr><td>≠0</td><td>0</td></tr>
+  </tbody>
+</table>
+
+<p class="note"><strong>Precedencia:</strong> <code>!</code> > <code>&&</code> > <code>||</code><br>
+<strong>Evaluación cortocircuitada:</strong> Si el resultado se conoce antes de evaluar toda la expresión, se detiene.</p>
+
+<h2>7. Precedencia y asociatividad (actualizada)</h2>
+
+<table>
+  <thead>
+    <tr><th>Nivel</th><th>Operadores</th><th>Asociatividad</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>1</td><td><code>++ -- + - ! (tipo)</code></td><td>Derecha → Izquierda</td></tr>
+    <tr><td>2</td><td><code>* / %</code></td><td>Izquierda → Derecha</td></tr>
+    <tr><td>3</td><td><code>+ -</code></td><td>Izquierda → Derecha</td></tr>
+    <tr><td>4</td><td><code>< <= > >=</code></td><td>Izquierda → Derecha</td></tr>
+    <tr><td>5</td><td><code>== !=</code></td><td>Izquierda → Derecha</td></tr>
+    <tr><td>6</td><td><code>&&</code></td><td>Izquierda → Derecha</td></tr>
+    <tr><td>7</td><td><code>||</code></td><td>Izquierda → Derecha</td></tr>
+    <tr><td>8</td><td><code>?:</code></td><td>Derecha → Izquierda</td></tr>
+    <tr><td>9</td><td><code>= += -= *= /= %=</code></td><td>Derecha → Izquierda</td></tr>
+    <tr><td>10</td><td><code>,</code></td><td>Izquierda → Derecha</td></tr>
+  </tbody>
+</table>
+
+<h2>8. Ejercicios resueltos representativos</h2>
+
+<h3>Ejercicio R1: Suma de pares con <code>for</code></h3>
+<pre>
+#include <stdio.h>
+
+int main() {
+    int suma = 0, numero;
+    for (numero = 2; numero <= 100; numero += 2)
+        suma += numero;
+    printf("La suma es %d\n", suma);
+    return 0;
+}
+</pre>
+
+<h3>Ejercicio R2: Interés compuesto con <code>for</code> y <code>pow</code></h3>
+<pre>
+#include <stdio.h>
+#include <math.h>
+
+int main() {
+    double principal = 1000.0, tasa = 0.05, monto;
+    int anio;
+    printf("%4s%21s\n", "Anio", "Monto");
+    for (anio = 1; anio <= 10; anio++) {
+        monto = principal * pow(1.0 + tasa, anio);
+        printf("%4d%21.2f\n", anio, monto);
+    }
+    return 0;
+}
+</pre>
+
+<h3>Ejercicio R3: Conteo de calificaciones con <code>switch</code></h3>
+<pre>
+#include <stdio.h>
+
+int main() {
+    int calificacion, cuentaA = 0, cuentaB = 0;
+    while ((calificacion = getchar()) != EOF) {
+        switch (calificacion) {
+            case 'A': case 'a': ++cuentaA; break;
+            case 'B': case 'b': ++cuentaB; break;
+            case ' ': case '\n': case '\t': break;
+            default: printf("Calificación inválida\n");
+        }
+    }
+    printf("A: %d\nB: %d\n", cuentaA, cuentaB);
+    return 0;
+}
+</pre>
+
+<h3>Ejercicio R4: Uso de <code>break</code> en <code>for</code></h3>
+<pre>
+#include <stdio.h>
+
+int main() {
+    for (int x = 1; x <= 10; x++) {
+        if (x == 5) break;
+        printf("%d ", x);
+    }
+    printf("\nRompe en x == 5\n");
+    return 0;
+}
+</pre>
+
+<h3>Ejercicio R5: Uso de <code>continue</code> en <code>for</code></h3>
+<pre>
+#include <stdio.h>
+
+int main() {
+    for (int x = 1; x <= 10; x++) {
+        if (x == 5) continue;
+        printf("%d ", x);
+    }
+    printf("\nIgnora el 5\n");
+    return 0;
+}
+</pre>
+
+<h2>9. Ejercicios propuestos (base teórica)</h2>
+
+<ol>
+  <li><strong>Ejercicio 4.9</strong><br>Escriba un programa que sume una secuencia de enteros. El primer entero indica cuántos valores seguirán.<br>→ Practica: <code>for</code> controlado por contador.</li>
+  <li><strong>Ejercicio 4.10</strong><br>Calcule el promedio de enteros usando <code>9999</code> como centinela.<br>→ Practica: repetición controlada por centinela, validación.</li>
+  <li><strong>Ejercicio 4.18</strong><br>Lea cinco números (1–30) e imprima una línea de asteriscos por cada número.<br>→ Practica: <code>for</code> anidado, ciclos simples.</li>
+  <li><strong>Ejercicio 4.19</strong><br>Calcule ventas totales usando <code>switch</code> para seleccionar precios por código de producto.<br>→ Practica: <code>switch</code>, acumulación, entrada/salida.</li>
+  <li><strong>Ejercicio 4.24</strong><br>Evalúe expresiones lógicas con <code>&&</code>, <code>||</code>, <code>!</code> y determine su valor (0 o 1).<br>→ Practica: operadores lógicos, precedencia, evaluación cortocircuitada.</li>
+  <li><strong>Ejercicio 4.31</strong><br>Imprima un rombo de asteriscos usando ciclos anidados.<br>→ Practica: <code>for</code> anidado, control de formato.</li>
+  <li><strong>Ejercicio 4.37</strong><br>Reescriba un ciclo con <code>break</code> usando solo <code>while</code> y una bandera booleana.<br>→ Practica: eliminación de <code>break</code>, lógica de control estructurado.</li>
+</ol>
+
+</body>
+</html>
