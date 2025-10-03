@@ -22,7 +22,7 @@ int main(void){
     }
     if(resultado!=0){
         printf("Aprobados: %d, Reprobados: %d\n", aprobados, reprobados);
-        if((float)aprobados*100/estudiante>8) printf("Objetivo alcanzado \n"); 
+        if((float)aprobados*10/estudiante>8) printf("Objetivo alcanzado \n"); 
     }else{
         printf("No se introdujeron Resultados\n");
     }
