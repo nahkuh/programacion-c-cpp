@@ -27,3 +27,7 @@ Especificador	Uso	Ejemplo	Salida
     }
     return 0;
 }
+
+//para que corra un programa con la librerria <math.h> debes correr
+// gcc -Wall -Wextra -g3 programa.c -o programa -lm
+
