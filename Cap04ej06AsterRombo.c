@@ -1,7 +1,7 @@
 /* Ejercicio 4.31
    Imprima un rombo de asteriscos usando ciclos anidados.
    → Practica: for anidado, control de formato.
- |Cap04ej06AsterRombo.c|7oct2025
+ |Cap04ej06AsterRombo.c|7oct2025|
 */
 
 #include <stdio.h>
