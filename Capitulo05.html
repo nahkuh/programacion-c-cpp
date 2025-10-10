@@ -54,11 +54,11 @@
 
 <h1>Capítulo 5 – Funciones en C</h1>
 
-<h2>1. Conceptos fundamentales</h2>
-<p><strong>Definición 1 (Función).</strong> Módulo autónomo que realiza una tarea específica.</p>
-<p><strong>Definición 2 (Llamada a función).</strong> Transfiere control a la función; al terminar, devuelve el control.</p>
-<p><strong>Definición 3 (Parámetro formal).</strong> Variable local en la cabecera de la función.</p>
-<p><strong>Definición 4 (Argumento).</strong> Valor pasado en la llamada.</p>
+<h2>1. Módulos y funciones</h2>
+<p><strong>Definición 1.</strong> Función: módulo autónomo que realiza una tarea específica.</p>
+<p><strong>Definición 2.</strong> Llamada a función: transfiere control al módulo invocado.</p>
+<p><strong>Definición 3.</strong> Argumento: valor pasado en la llamada.</p>
+<p><strong>Definición 4.</strong> Parámetro formal: variable local que recibe el argumento.</p>
 
 <h2>2. Estructura de una función</h2>
 <pre>tipo_retorno nombre(lista) {
@@ -66,55 +66,16 @@
     return expresión;
 }</pre>
 
-<h2>3. Clases de funciones</h2>
-<table>
-  <thead><tr><th>Tipo</th><th>Devuelve valor</th><th>Uso</th></tr></thead>
-  <tbody>
-    <tr><td>Con retorno</td><td>Sí</td><td>Cálculos</td></tr>
-    <tr><td>Sin retorno (<code>void</code>)</td><td>No</td><td>Efectos secundarios</td></tr>
-  </tbody>
-</table>
-
-<h2>4. Prototipos de función</h2>
+<h2>3. Prototipos de función</h2>
 <p><strong>Definición 5.</strong> Declaración que especifica nombre, tipo de retorno y tipos de parámetros.</p>
-<pre>int cubo(int n);
+<pre>int cuadrado(int y);
 void mensaje(void);</pre>
 
-<h2>5. Paso de parámetros</h2>
-<p>C usa <strong>paso por valor</strong>: se copia el argumento. No se modifican variables del llamador.</p>
+<h2>4. Llamada por valor</h2>
+<p><strong>Definición 6.</strong> Se copia el valor del argumento; la función no modifica la variable original.</p>
+<p><strong>Regla:</strong> C usa <strong>paso por valor</strong> exclusivamente.</p>
 
-<h2>6. Alcance y duración</h2>
-<h3>Clases de almacenamiento</h3>
-<table>
-  <thead><tr><th>Clase</th><th>Alcance</th><th>Duración</th><th>Inicialización</th></tr></thead>
-  <tbody>
-    <tr><td><code>auto</code></td><td>Bloque</td><td>Automática</td><td>Basura</td></tr>
-    <tr><td><code>register</code></td><td>Bloque</td><td>Automática</td><td>Basura</td></tr>
-    <tr><td><code>static</code></td><td>Bloque/archivo</td><td>Estática</td><td><code>0</code></td></tr>
-    <tr><td><code>extern</code></td><td>Archivo/programa</td><td>Estática</td><td><code>0</code></td></tr>
-  </tbody>
-</table>
-
-<h3>Variables locales vs. globales</h3>
-<table>
-  <thead><tr><th>Característica</th><th>Local</th><th>Global</th></tr></thead>
-  <tbody>
-    <tr><td>Declaración</td><td>Dentro de función</td><td>Fuera de funciones</td></tr>
-    <tr><td>Alcance</td><td>Solo en función</td><td>Todo el programa</td></tr>
-    <tr><td>Duración</td><td>Llamada</td><td>Ejecución completa</td></tr>
-    <tr><td>Inicialización</td><td>No automática</td><td><code>0</code></td></tr>
-  </tbody>
-</table>
-
-<h2>7. Funciones recursivas</h2>
-<p><strong>Definición 6.</strong> Función que se llama a sí misma.</p>
-<p>Requiere: <strong>caso base</strong> y <strong>caso recursivo</strong>.</p>
-<pre>unsigned long factorial(unsigned int n) {
-    if (n <= 1) return 1;
-    return n * factorial(n - 1);
-}</pre>
-
-<h2>8. Encabezados estándar</h2>
+<h2>5. Encabezados estándar</h2>
 <table>
   <thead><tr><th>Encabezado</th><th>Propósito</th></tr></thead>
   <tbody>
@@ -125,24 +86,59 @@ void mensaje(void);</pre>
   </tbody>
 </table>
 
-<h2>9. Funciones matemáticas (<code><math.h></code>)</h2>
+<h2>6. Funciones matemáticas (<code><math.h></code>)</h2>
 <table>
   <thead><tr><th>Función</th><th>Propósito</th></tr></thead>
   <tbody>
     <tr><td><code>sqrt(x)</code></td><td>Raíz cuadrada</td></tr>
-    <tr><td><code>pow(x, y)</code></td><td>\(x^y\)</td></tr>
+    <tr><td><code>exp(x)</code></td><td>\(e^x\)</td></tr>
+    <tr><td><code>log(x)</code></td><td>Logaritmo natural</td></tr>
+    <tr><td><code>log10(x)</code></td><td>Logaritmo base 10</td></tr>
     <tr><td><code>fabs(x)</code></td><td>Valor absoluto</td></tr>
     <tr><td><code>ceil(x)</code>, <code>floor(x)</code></td><td>Redondeo</td></tr>
+    <tr><td><code>pow(x, y)</code></td><td>\(x^y\)</td></tr>
+    <tr><td><code>fmod(x, y)</code></td><td>Residuo (punto flotante)</td></tr>
     <tr><td><code>sin(x)</code>, <code>cos(x)</code></td><td>Trigonométricas</td></tr>
   </tbody>
 </table>
 
-<h2>10. Números aleatorios</h2>
+<h2>7. Números aleatorios</h2>
 <pre>#include <stdlib.h>
 #include <time.h>
 
 srand(time(NULL));
 int n = rand() % 100; // 0 a 99</pre>
+
+<h2>8. Clases de almacenamiento</h2>
+<table>
+  <thead><tr><th>Clase</th><th>Alcance</th><th>Duración</th><th>Inicialización</th></tr></thead>
+  <tbody>
+    <tr><td><code>auto</code></td><td>Bloque</td><td>Automática</td><td>Basura</td></tr>
+    <tr><td><code>register</code></td><td>Bloque</td><td>Automática</td><td>Basura</td></tr>
+    <tr><td><code>static</code></td><td>Bloque/archivo</td><td>Estática</td><td><code>0</code></td></tr>
+    <tr><td><code>extern</code></td><td>Archivo/programa</td><td>Estática</td><td><code>0</code></td></tr>
+  </tbody>
+</table>
+
+<h2>9. Reglas de alcance</h2>
+<table>
+  <thead><tr><th>Tipo</th><th>Descripción</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Bloque</strong></td><td>Variables dentro de <code>{}</code></td></tr>
+    <tr><td><strong>Archivo</strong></td><td>Variables/funciones globales</td></tr>
+    <tr><td><strong>Función</strong></td><td>Etiquetas (<code>case</code>, <code>goto</code>)</td></tr>
+    <tr><td><strong>Prototipo</strong></td><td>Nombres en prototipos (ignorados)</td></tr>
+  </tbody>
+</table>
+<p><strong>Regla de ocultamiento:</strong> Identificador interno oculta al externo con mismo nombre.</p>
+
+<h2>10. Recursividad</h2>
+<p><strong>Definición 8.</strong> Función que se llama a sí misma.</p>
+<p><strong>Requisitos:</strong> caso base + caso recursivo.</p>
+<pre>long factorial(long n) {
+    if (n <= 1) return 1;
+    return n * factorial(n - 1);
+}</pre>
 
 <h2>11. Diagramas de flujo</h2>
 <h3>Llamada a función</h3>
@@ -170,41 +166,36 @@ int n = rand() % 100; // 0 a 99</pre>
 </div>
 
 <h2>12. Ejercicios resueltos</h2>
-<h3>Ejercicio R1: Cubo</h3>
+<h3>Ejercicio R1: Cuadrado</h3>
 <pre>
 #include <stdio.h>
-int cubo(int n) { return n * n * n; }
+int cuadrado(int y) { return y * y; }
 int main() {
-    printf("El cubo de 3 es %d\n", cubo(3));
+    for (int x = 1; x <= 10; x++)
+        printf("%d ", cuadrado(x));
+    printf("\n");
     return 0;
 }
 </pre>
 
-<h3>Ejercicio R2: void</h3>
+<h3>Ejercicio R2: Máximo</h3>
 <pre>
 #include <stdio.h>
-void imprimir_mensaje(void) {
-    printf("Hola desde una función!\n");
+int maximo(int x, int y, int z) {
+    int max = x;
+    if (y > max) max = y;
+    if (z > max) max = z;
+    return max;
 }
 int main() {
-    imprimir_mensaje();
+    int a, b, c;
+    scanf("%d%d%d", &a, &b, &c);
+    printf("El maximo es: %d\n", maximo(a, b, c));
     return 0;
 }
 </pre>
 
-<h3>Ejercicio R3: Recursión</h3>
-<pre>
-#include <stdio.h>
-unsigned long factorial(unsigned int n) {
-    return (n <= 1) ? 1 : n * factorial(n - 1);
-}
-int main() {
-    printf("5! = %lu\n", factorial(5));
-    return 0;
-}
-</pre>
-
-<h3>Ejercicio R4: Aleatorios</h3>
+<h3>Ejercicio R3: Aleatorios</h3>
 <pre>
 #include <stdio.h>
 #include <stdlib.h>
@@ -212,24 +203,53 @@ int main() {
 int main() {
     srand(time(NULL));
     for (int i = 1; i <= 5; i++)
-        printf("%d ", rand() % 100);
+        printf("%d ", 1 + rand() % 6);
     printf("\n");
+    return 0;
+}
+</pre>
+
+<h3>Ejercicio R4: Factorial recursivo</h3>
+<pre>
+#include <stdio.h>
+long factorial(long n) {
+    if (n <= 1) return 1;
+    return n * factorial(n - 1);
+}
+int main() {
+    for (int i = 0; i <= 10; i++)
+        printf("%2d! = %ld\n", i, factorial(i));
+    return 0;
+}
+</pre>
+
+<h3>Ejercicio R5: Fibonacci recursivo</h3>
+<pre>
+#include <stdio.h>
+long fibonacci(long n) {
+    if (n == 0 || n == 1) return n;
+    return fibonacci(n - 1) + fibonacci(n - 2);
+}
+int main() {
+    long n;
+    scanf("%ld", &n);
+    printf("Fibonacci(%ld) = %ld\n", n, fibonacci(n));
     return 0;
 }
 </pre>
 
 <h2>13. Ejercicios propuestos</h2>
 <ol>
-  <li><strong>5.14:</strong> Función recursiva <code>enteroPotencia(base, exponente)</code>.</li>
-  <li><strong>5.15:</strong> Función <code>múltiplo(a, b)</code> que devuelva 1 si <code>a</code> es múltiplo de <code>b</code>.</li>
-  <li><strong>5.18:</strong> Función <code>par(n)</code> usando operador módulo.</li>
-  <li><strong>5.20:</strong> Función que imprima un cuadrado de asteriscos de lado <code>n</code>.</li>
-  <li><strong>5.24:</strong> Función recursiva <code>suma(n)</code> del 1 a <code>n</code>.</li>
-  <li><strong>5.27:</strong> Función <code>calidad(ventas)</code> para salario de vendedor.</li>
-  <li><strong>5.30:</strong> Función <code>minimo(a, b, c)</code>.</li>
-  <li><strong>5.33:</strong> Función recursiva <code>fibonacci(n)</code>.</li>
-  <li><strong>5.36:</strong> Función <code>hipotenusa(a, b)</code> usando <code><math.h></code>.</li>
-  <li><strong>5.40:</strong> Función <code>calidad_dado()</code> que simule lanzamiento de dado.</li>
+  <li><strong>5.16:</strong> Función iterativa <code>potenciaInt(base, exponente)</code>.</li>
+  <li><strong>5.17:</strong> Función <code>multiplo(a, b)</code>.</li>
+  <li><strong>5.18:</strong> Función <code>impar(n)</code> usando operador módulo.</li>
+  <li><strong>5.19:</strong> Función que imprime cuadrado de asteriscos de lado <code>n</code>.</li>
+  <li><strong>5.25:</strong> Función que devuelve el menor de tres <code>float</code>.</li>
+  <li><strong>5.30:</strong> Función <code>puntosCalidad(promedio)</code>.</li>
+  <li><strong>5.37:</strong> Función recursiva <code>potencia(base, exponente)</code>.</li>
+  <li><strong>5.29:</strong> Función iterativa <code>mcd(a, b)</code>.</li>
+  <li><strong>5.28:</strong> Función que invierte dígitos de un entero.</li>
+  <li><strong>5.42:</strong> Función recursiva <code>mcd(a, b)</code>.</li>
 </ol>
 
 </body>
