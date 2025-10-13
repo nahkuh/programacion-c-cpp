@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Capítulo 6 – Arreglos en C</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      margin: 40px;
+      background-color: #fdfdfd;
+      color: #222;
+    }
+    h1, h2, h3, h4 {
+      color: #004d99;
+    }
+    table {
+      border-collapse: collapse;
+      margin: 20px 0;
+      width: 100%;
+    }
+    th, td {
+      border: 1px solid #999;
+      padding: 10px 12px;
+      text-align: left;
+    }
+    th {
+      background-color: #e6f2ff;
+    }
+    pre {
+      background-color: #f8f8f8;
+      padding: 14px;
+      border-left: 4px solid #007acc;
+      overflow-x: auto;
+      font-family: 'Consolas', monospace;
+    }
+    .flowchart {
+      background-color: #fff;
+      padding: 16px;
+      border: 1px solid #ddd;
+      margin: 20px 0;
+      font-family: monospace;
+      white-space: pre;
+      font-size: 0.95em;
+    }
+    .note {
+      font-style: italic;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Capítulo 6 – Arreglos en C</h1>
+
+<h2>1. Introducción</h2>
+<p><strong>Definición 1.</strong> Arreglo: colección homogénea, contigua y ordenada de elementos del mismo tipo, accesibles mediante un subíndice entero.</p>
+
+<h2>2. Declaración de arreglos</h2>
+<p><strong>Sintaxis:</strong></p>
+<pre>tipo nombre[tamaño];</pre>
+<p>Ejemplo: <code>int c[12];</code></p>
+<p><strong>Regla:</strong> Subíndices de <code>0</code> a <code>tamaño − 1</code>.</p>
+
+<h2>3. Inicialización de arreglos</h2>
+<table>
+  <thead><tr><th>Forma</th><th>Sintaxis</th><th>Comentario</th></tr></thead>
+  <tbody>
+    <tr><td>Explícita</td><td><code>int n[5] = {1, 2, 3, 4, 5};</code></td><td>Inicializa todos.</td></tr>
+    <tr><td>Parcial</td><td><code>int n[5] = {1, 2};</code></td><td>Resto = <code>0</code>.</td></tr>
+    <tr><td>Implícita</td><td><code>int n[] = {1, 2, 3};</code></td><td>Tamaño = 3.</td></tr>
+    <tr><td>Cadena</td><td><code>char s[] = "hola";</code></td><td>Incluye <code>\0</code>.</td></tr>
+  </tbody>
+</table>
+
+<h2>4. Paso de arreglos a funciones</h2>
+<p><strong>Definición 2.</strong> Los arreglos se pasan por <em>referencia simulada</em>: se pasa la dirección del primer elemento.</p>
+<pre>void procesar(int a[], int n);  // prototipo
+procesar(arreglo, tamaño);      // llamada</pre>
+<p><strong>Regla:</strong> El tamaño no se verifica; el programador debe pasarlo.</p>
+
+<h2>5. Ordenamiento de arreglos</h2>
+<h3>5.1 Ordenamiento por selección</h3>
+<p><strong>Definición 3.</strong> Encuentra el mínimo en el subarreglo no ordenado e intercambia.</p>
+<p><strong>Complejidad:</strong> \( O(n^2) \)</p>
+
+<h2>6. Búsqueda en arreglos</h2>
+<h3>6.1 Búsqueda lineal</h3>
+<p><strong>Definición 4.</strong> Recorrido secuencial.</p>
+<p><strong>Complejidad:</strong> \( O(n) \)</p>
+
+<h3>6.2 Búsqueda binaria</h3>
+<p><strong>Definición 5.</strong> Requiere arreglo ordenado; divide el espacio de búsqueda a la mitad en cada paso.</p>
+<p><strong>Complejidad:</strong> \( O(\log n) \)</p>
+
+<h2>7. Arreglos con múltiples subíndices</h2>
+<p><strong>Definición 6.</strong> Arreglo bidimensional: acceso mediante fila y columna.</p>
+<pre>int tabla[3][4]; // 3 filas, 4 columnas</pre>
+<p><strong>Almacenamiento:</strong> Por filas.</p>
+
+<h2>8. Diagramas de flujo</h2>
+<h3>Búsqueda lineal</h3>
+<div class="flowchart">
+       ↓
+[índice = 0]
+       ↓
+[¿índice < n?] → no → [no encontrado]
+       ↓ sí
+[¿a[índice] == clave?] → sí → [encontrado]
+       ↓ no
+[índice++]
+       ↑
+</div>
+
+<h3>Búsqueda binaria</h3>
+<div class="flowchart">
+       ↓
+[bajo = 0, alto = n-1]
+       ↓
+[¿bajo ≤ alto?] → no → [no encontrado]
+       ↓ sí
+[medio = (bajo+alto)/2]
+       ↓
+[¿clave == a[medio]?] → sí → [encontrado]
+       ↓ no
+[¿clave < a[medio]?] → sí → [alto = medio-1]
+       ↓ no
+[bajo = medio+1]
+       ↑
+</div>
+
+<h2>9. Ejercicios resueltos</h2>
+<h3>Ejercicio R1: Histograma</h3>
+<pre>
+#include <stdio.h>
+#define TAMAÑO 5
+
+int main() {
+    int frec[TAMAÑO] = {0};
+    int calif, i, j;
+    
+    printf("Introduzca calificaciones (0-4, -1 para terminar):\n");
+    scanf("%d", &calif);
+    while (calif != -1) {
+        if (calif >= 0 && calif < TAMAÑO)
+            ++frec[calif];
+        scanf("%d", &calif);
+    }
+    
+    printf("\nHistograma:\n");
+    for (i = 0; i < TAMAÑO; i++) {
+        printf("%2d: ", i);
+        for (j = 1; j <= frec[i]; j++) printf("*");
+        printf("\n");
+    }
+    return 0;
+}
+</pre>
+
+<h3>Ejercicio R2: Ordenamiento por selección</h3>
+<pre>
+void ordenar(int a[], int n) {
+    int i, j, min, temp;
+    for (i = 0; i < n - 1; i++) {
+        min = i;
+        for (j = i + 1; j < n; j++)
+            if (a[j] < a[min]) min = j;
+        temp = a[i]; a[i] = a[min]; a[min] = temp;
+    }
+}
+</pre>
+
+<h3>Ejercicio R3: Búsqueda binaria</h3>
+<pre>
+int busquedaBinaria(int a[], int clave, int n) {
+    int bajo = 0, alto = n - 1, medio;
+    while (bajo <= alto) {
+        medio = (bajo + alto) / 2;
+        if (clave == a[medio]) return medio;
+        if (clave < a[medio]) alto = medio - 1;
+        else bajo = medio + 1;
+    }
+    return -1;
+}
+</pre>
+
+<h3>Ejercicio R4: Arreglo bidimensional</h3>
+<pre>
+#include <stdio.h>
+#define FILAS 3
+#define COLS 4
+
+int main() {
+    int tabla[FILAS][COLS] = {{1,2,3,4}, {5,6,7,8}, {9,10,11,12}};
+    int suma, i, j;
+    
+    for (i = 0; i < FILAS; i++) {
+        suma = 0;
+        for (j = 0; j < COLS; j++) suma += tabla[i][j];
+        printf("Fila %d: suma = %d\n", i, suma);
+    }
+    return 0;
+}
+</pre>
+
+<h2>10. Ejercicios propuestos</h2>
+<ol>
+  <li><strong>6.9:</strong> Inicialice un arreglo con los primeros 10 números pares.</li>
+  <li><strong>6.12:</strong> Escriba <code>sumaArreglo(a, n)</code>.</li>
+  <li><strong>6.15:</strong> Ordene en orden descendente.</li>
+  <li><strong>6.18:</strong> Búsqueda lineal en arreglo desordenado.</li>
+  <li><strong>6.20:</strong> Búsqueda binaria (ordene primero).</li>
+  <li><strong>6.27:</strong> Simule lanzamiento de dos dados con <code>frec[6][6]</code>.</li>
+  <li><strong>6.30:</strong> Función <code>imprimirMatriz(m, filas, cols)</code>.</li>
+  <li><strong>6.33:</strong> Calcule promedio, mediana y moda.</li>
+  <li><strong>6.35:</strong> Búsqueda binaria recursiva.</li>
+  <li><strong>6.40:</strong> Determinante de matriz 3×3.</li>
+</ol>
+
+</body>
+</html>
