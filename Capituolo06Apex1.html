@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía de Archivos .h en C</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            line-height: 1.6; color: #333; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+            min-height: 100vh; 
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .header { 
+            text-align: center; color: white; margin-bottom: 40px; padding: 40px 20px; 
+            background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); 
+            border-radius: 20px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); 
+        }
+        .header h1 { font-size: 3em; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); }
+        .header p { font-size: 1.2em; opacity: 0.9; }
+        .card { 
+            background: white; border-radius: 15px; padding: 30px; margin-bottom: 30px; 
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); transition: transform 0.3s ease, box-shadow 0.3s ease; 
+        }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15); }
+        .card h2 { color: #4a5568; border-bottom: 3px solid #667eea; padding-bottom: 10px; margin-bottom: 20px; font-size: 1.8em; }
+        .card h3 { color: #2d3748; margin: 25px 0 15px 0; font-size: 1.3em; }
+        .code-block { 
+            background: #1a202c; color: #e2e8f0; padding: 20px; border-radius: 10px; margin: 15px 0; 
+            overflow-x: auto; font-family: 'Courier New', monospace; border-left: 4px solid #667eea; 
+        }
+        .code-comment { color: #718096; font-style: italic; }
+        .code-keyword { color: #fc8181; }
+        .code-type { color: #f6ad55; }
+        .code-function { color: #68d391; }
+        .code-string { color: #fbb6ce; }
+        .grid { 
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); 
+            gap: 30px; margin-top: 40px; 
+        }
+        .step { 
+            background: white; padding: 25px; border-radius: 15px; text-align: center; 
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1); 
+        }
+        .step-number { 
+            background: #667eea; color: white; width: 50px; height: 50px; border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center; font-size: 1.5em; 
+            font-weight: bold; margin: 0 auto 20px auto; 
+        }
+        .best-practices { background: linear-gradient(135deg, #68d391, #38a169); color: white; }
+        .best-practices h2 { color: white; border-bottom-color: white; }
+        .warning { 
+            background: #fed7d7; border-left: 4px solid #e53e3e; padding: 15px; 
+            border-radius: 5px; margin: 15px 0; 
+        }
+        .tip { 
+            background: #c6f6d5; border-left: 4px solid #38a169; padding: 15px; 
+            border-radius: 5px; margin: 15px 0; 
+        }
+        .file-structure { 
+            background: #2d3748; color: white; padding: 20px; border-radius: 10px; 
+            font-family: 'Courier New', monospace; margin: 20px 0; 
+        }
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2em; }
+            .grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Creación de Archivos .h en C</h1>
+            <p>Guía completa para crear tus propias bibliotecas de funciones</p>
+        </div>
+
+        <div class="grid">
+            <div class="step"><div class="step-number">1</div><h3>Archivo de Cabecera (.h)</h3><p>Contiene las declaraciones de funciones y constantes</p></div>
+            <div class="step"><div class="step-number">2</div><h3>Archivo de Implementación (.c)</h3><p>Implementa las funciones declaradas en el .h</p></div>
+            <div class="step"><div class="step-number">3</div><h3>Archivo Principal</h3><p>Usa las funciones incluyendo el archivo .h</p></div>
+        </div>
+
+        <div class="card">
+            <h2>📁 Estructura de Archivos</h2>
+            <div class="file-structure">
+proyecto/<br>
+├── <span style="color: #68d391;">main.c</span><br>
+├── <span style="color: #f6ad55;">mis_funciones.h</span><br>
+└── <span style="color: #f6ad55;">mis_funciones.c</span>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>1. Archivo de Cabecera (.h)</h2>
+            <p>Este archivo contiene las declaraciones de funciones (prototipos) y constantes.</p>
+            <div class="code-block">
+<span class="code-comment">// mis_funciones.h</span><br>
+<span class="code-comment">// Guardas de inclusión para evitar inclusiones múltiples</span><br>
+<span class="code-keyword">#ifndef</span> MIS_FUNCIONES_H<br>
+<span class="code-keyword">#define</span> MIS_FUNCIONES_H<br>
+<br>
+<span class="code-comment">// Incluir bibliotecas necesarias</span><br>
+<span class="code-keyword">#include</span> <span class="code-string">&lt;stdio.h&gt;</span><br>
+<span class="code-keyword">#include</span> <span class="code-string">&lt;math.h&gt;</span><br>
+<br>
+<span class="code-comment">// Constantes</span><br>
+<span class="code-keyword">#define</span> PI 3.141592653589793<br>
+<span class="code-keyword">#define</span> MAX_LONGITUD 100<br>
+<br>
+<span class="code-comment">// Declaraciones de funciones (prototipos)</span><br>
+<span class="code-type">int</span> <span class="code-function">suma</span>(<span class="code-type">int</span> a, <span class="code-type">int</span> b);<br>
+<span class="code-type">float</span> <span class="code-function">calcular_promedio</span>(<span class="code-type">float</span> arr[], <span class="code-type">int</span> n);<br>
+<span class="code-type">void</span> <span class="code-function">imprimir_mensaje</span>(<span class="code-type">char</span> mensaje[]);<br>
+<span class="code-type">int</span> <span class="code-function">es_primo</span>(<span class="code-type">int</span> numero);<br>
+<br>
+<span class="code-keyword">#endif</span> <span class="code-comment">// MIS_FUNCIONES_H</span>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>2. Archivo de Implementación (.c)</h2>
+            <p>Contiene las implementaciones reales de las funciones declaradas en el .h</p>
+            <div class="code-block">
+<span class="code-comment">// mis_funciones.c</span><br>
+<span class="code-keyword">#include</span> <span class="code-string">"mis_funciones.h"</span><br>
+<br>
+<span class="code-comment">// Implementación de suma</span><br>
+<span class="code-type">int</span> <span class="code-function">suma</span>(<span class="code-type">int</span> a, <span class="code-type">int</span> b) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">return</span> a + b;<br>
+}<br>
+<br>
+<span class="code-comment">// Implementación de calcular_promedio</span><br>
+<span class="code-type">float</span> <span class="code-function">calcular_promedio</span>(<span class="code-type">float</span> arr[], <span class="code-type">int</span> n) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-type">float</span> total = 0.0;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">for</span>(<span class="code-type">int</span> i = 0; i &lt; n; i++) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;total += arr[i];<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">return</span> total / n;<br>
+}<br>
+<br>
+<span class="code-comment">// Implementación de imprimir_mensaje</span><br>
+<span class="code-type">void</span> <span class="code-function">imprimir_mensaje</span>(<span class="code-type">char</span> mensaje[]) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;printf(<span class="code-string">"Mensaje: %s\n"</span>, mensaje);<br>
+}<br>
+<br>
+<span class="code-comment">// Implementación de es_primo</span><br>
+<span class="code-type">int</span> <span class="code-function">es_primo</span>(<span class="code-type">int</span> numero) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">if</span> (numero &lt;= 1) <span class="code-keyword">return</span> 0;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">for</span>(<span class="code-type">int</span> i = 2; i &lt;= sqrt(numero); i++) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">if</span> (numero % i == 0) <span class="code-keyword">return</span> 0;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">return</span> 1;<br>
+}
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>3. Archivo Principal (main.c)</h2>
+            <p>Archivo que utiliza las funciones de tu biblioteca personalizada</p>
+            <div class="code-block">
+<span class="code-comment">// main.c</span><br>
+<span class="code-keyword">#include</span> <span class="code-string">&lt;stdio.h&gt;</span><br>
+<span class="code-keyword">#include</span> <span class="code-string">"mis_funciones.h"</span><br>
+<br>
+<span class="code-type">int</span> <span class="code-function">main</span>(<span class="code-type">void</span>) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-comment">// Usar funciones de tu biblioteca</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;printf(<span class="code-string">"Suma: %d\n"</span>, <span class="code-function">suma</span>(5, 3));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-type">float</span> numeros[] = {1.5, 2.5, 3.5, 4.5};<br>
+&nbsp;&nbsp;&nbsp;&nbsp;printf(<span class="code-string">"Promedio: %.2f\n"</span>, <span class="code-function">calcular_promedio</span>(numeros, 4));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-function">imprimir_mensaje</span>(<span class="code-string">"¡Hola desde mi biblioteca!"</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;printf(<span class="code-string">"¿17 es primo? %s\n"</span>, <span class="code-function">es_primo</span>(17) ? <span class="code-string">"Sí"</span> : <span class="code-string">"No"</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">return</span> 0;<br>
+}
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>🔧 Compilación</h2>
+            <div class="code-block">
+<span class="code-comment"># Compilar todos los archivos juntos</span><br>
+gcc -o programa main.c mis_funciones.c -lm<br>
+<br>
+<span class="code-comment"># O compilar por separado (recomendado para proyectos grandes)</span><br>
+gcc -c mis_funciones.c -o mis_funciones.o<br>
+gcc -c main.c -o main.o<br>
+gcc -o programa main.o mis_funciones.o -lm
+            </div>
+            <div class="tip"><strong>💡 Tip:</strong> Usa <code>-lm</code> para enlazar la biblioteca matemática cuando uses funciones como <code>sqrt()</code>, <code>pow()</code>, etc.</div>
+        </div>
+
+        <div class="card best-practices">
+            <h2>⭐ Mejores Prácticas</h2>
+            <div class="tip"><h3>✅ Usa Guardas de Inclusión</h3><p>Siempre protege tus headers con <code>#ifndef</code>, <code>#define</code>, <code>#endif</code> para evitar inclusiones múltiples.</p></div>
+            <div class="tip"><h3>✅ Nombres Descriptivos</h3><p>Usa nombres claros para funciones y constantes: <code>calcular_area_circulo()</code> en lugar de <code>calc()</code>.</p></div>
+            <div class="tip"><h3>✅ Documenta tus Funciones</h3><p>Incluye comentarios que expliquen qué hace cada función y sus parámetros.</p></div>
+            <div class="tip"><h3>✅ Organiza por Módulos</h3><p>Agrupa funciones relacionadas en el mismo archivo .h (matemáticas, strings, archivos, etc.).</p></div>
+        </div>
+
+        <div class="card">
+            <h2>⚠️ Errores Comunes</h2>
+            <div class="warning"><h3>❌ Olvidar las Guardas de Inclusión</h3><p>Puede causar errores de redefinición de funciones.</p></div>
+            <div class="warning"><h3>❌ Definir Funciones en el .h</h3><p>El archivo .h solo debe contener declaraciones, no implementaciones.</p></div>
+            <div class="warning"><h3>❌ No Incluir Dependencias</h3><p>Si tus funciones usan <code>printf</code>, incluye <code>stdio.h</code> en el .h o .c según corresponda.</p></div>
+        </div>
+
+        <div class="card">
+            <h2>🎯 Ejemplo Avanzado: Biblioteca Matemática</h2>
+            <div class="code-block">
+<span class="code-comment">// matematicas.h</span><br>
+<span class="code-keyword">#ifndef</span> MATEMATICAS_H<br>
+<span class="code-keyword">#define</span> MATEMATICAS_H<br>
+<br>
+<span class="code-keyword">typedef</span> <span class="code-type">struct</span> {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-type">double</span> x;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-type">double</span> y;<br>
+} Punto2D;<br>
+<br>
+<span class="code-comment">// Funciones de geometría</span><br>
+<span class="code-type">double</span> <span class="code-function">distancia_entre_puntos</span>(Punto2D p1, Punto2D p2);<br>
+<span class="code-type">double</span> <span class="code-function">area_circulo</span>(<span class="code-type">double</span> radio);<br>
+<span class="code-type">double</span> <span class="code-function">perimetro_circulo</span>(<span class="code-type">double</span> radio);<br>
+<br>
+<span class="code-comment">// Funciones de utilidad</span><br>
+<span class="code-type">int</span> <span class="code-function">maximo</span>(<span class="code-type">int</span> a, <span class="code-type">int</span> b);<br>
+<span class="code-type">int</span> <span class="code-function">minimo</span>(<span class="code-type">int</span> a, <span class="code-type">int</span> b);<br>
+<span class="code-type">int</span> <span class="code-function">factorial</span>(<span class="code-type">int</span> n);<br>
+<br>
+<span class="code-keyword">#endif</span>
+            </div>
+        </div>
+
+        <div class="header" style="margin-top: 50px;">
+            <h2>¡Listo para Crear tus Propias Bibliotecas! 🎉</h2>
+            <p>Ahora puedes organizar tu código en módulos reutilizables y bien estructurados</p>
+        </div>
+    </div>
+</body>
+</html>
