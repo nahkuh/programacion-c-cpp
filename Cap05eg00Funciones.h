@@ -7,7 +7,7 @@ Cap05eg00Funciones.h|16oct2025|*/
 #define CAP05EG00FUNCIONES_H
 
 /*lista de ctes simbolicas*/
-enum Estatus { CONTINUA, GANA, PIERDE };
+//enum Estatus { CONTINUA, GANA, PIERDE };
 
 
 
