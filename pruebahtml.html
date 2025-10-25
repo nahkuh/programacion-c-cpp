@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tratado Completo de Apuntadores en C - Capítulo 7</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            border-radius: 10px;
+        }
+        .header h1 {
+            font-size: 2.8em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .header h2 {
+            font-size: 1.4em;
+            opacity: 0.9;
+            font-weight: normal;
+        }
+        .section {
+            margin-bottom: 40px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 5px solid #3498db;
+            transition: transform 0.3s ease;
+        }
+        .section:hover {
+            transform: translateX(5px);
+        }
+        .section h3 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.6em;
+            border-bottom: 2px solid #bdc3c7;
+            padding-bottom: 10px;
+        }
+        .code-block {
+            background: #1a202c;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: 'Fira Code', 'Courier New', monospace;
+            font-size: 0.95em;
+            border-left: 4px solid #667eea;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th, td {
+            border: 1px solid #bdc3c7;
+            padding: 15px;
+            text-align: left;
+        }
+        th {
+            background: linear-gradient(135deg, #34495e, #2c3e50);
+            color: white;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        tr:nth-child(even) {
+            background: #ecf0f1;
+        }
+        tr:hover {
+            background: #d6eaf8;
+            transition: background 0.3s ease;
+        }
+        .important {
+            background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+            border-left: 5px solid #f39c12;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(243, 156, 18, 0.2);
+        }
+        .warning {
+            background: linear-gradient(135deg, #f8d7da, #f5b7b1);
+            border-left: 5px solid #e74c3c;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.2);
+        }
+        .tip {
+            background: linear-gradient(135deg, #d1ecf1, #aed6f1);
+            border-left: 5px solid #3498db;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.2);
+        }
+        .exercise {
+            background: linear-gradient(135deg, #d5f4e6, #a3e4d7);
+            border-left: 5px solid #27ae60;
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 10px;
+            box-shadow: 0 6px 20px rgba(39, 174, 96, 0.2);
+        }
+        .exercise h4 {
+            color: #27ae60;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+        .conclusion {
+            background: linear-gradient(135deg, #e8f4f8, #d6eaf8);
+            padding: 30px;
+            margin: 40px 0;
+            border-radius: 15px;
+            text-align: center;
+            border: 3px solid #3498db;
+        }
+        .conclusion h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.8em;
+        }
+        @media print {
+            body { 
+                background: white; 
+                font-size: 12pt;
+            }
+            .container { 
+                box-shadow: none; 
+                padding: 20px;
+            }
+            .section { 
+                break-inside: avoid; 
+                margin-bottom: 20px;
+            }
+            .code-block { 
+                background: #f8f9fa; 
+                color: #333; 
+                font-size: 10pt;
+            }
+        }
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin: 30px 0;
+            padding: 20px;
+            background: #ecf0f1;
+            border-radius: 10px;
+        }
+        .nav-btn {
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 Tratado Completo de Apuntadores en C</h1>
+            <h2>Capítulo 7 - Deitel & Deitel - Teoría, Ejemplos y Ejercicios Prácticos</h2>
+        </div>
+
+        <div class="nav-buttons">
+            <a href="#teoria" class="nav-btn">📖 Teoría Completa</a>
+            <a href="#ejercicios" class="nav-btn">💪 Ejercicios Prácticos</a>
+            <a href="#conclusion" class="nav-btn">🎯 Conclusión</a>
+        </div>
+
+        <div id="teoria">
+            <!-- 7.1 Introducción -->
+            <div class="section">
+                <h3>7.1 Introducción a los Apuntadores</h3>
+                <p>Un <strong>apuntador</strong> es una variable cuyo valor es una <strong>dirección de memoria</strong> de otra variable.</p>
+                
+                <div class="code-block">
+// Ejemplo fundamental
+int x = 10;         // Variable que almacena el valor 10
+int *ptr = &x;      // Apuntador que almacena la dirección de x
+
+printf("Valor de x: %d\n", x);           // 10
+printf("Dirección de x: %p\n", &x);      // Ej: 0x7fff5fbff85c
+printf("Valor de ptr: %p\n", ptr);       // Misma dirección
+printf("Valor apuntado: %d\n", *ptr);    // 10
+                </div>
+
+                <div class="important">
+                    <strong>💡 Concepto Clave:</strong> Los apuntadores permiten acceso y manipulación directa de memoria, 
+                    lo que proporciona gran poder pero también mayor responsabilidad.
+                </div>
+            </div>
+
+            <!-- 7.2 Definición e Inicialización -->
+            <div class="section">
+                <h3>7.2 Definición e Inicialización de Variables de Apuntador</h3>
+                
+                <table>
+                    <tr><th>Tipo</th><th>Declaración</th><th>Significado</th></tr>
+                    <tr><td><code>int</code></td><td><code>int *ptr;</code></td><td>Apuntador a entero</td></tr>
+                    <tr><td><code>float</code></td><td><code>float *fPtr;</code></td><td>Apuntador a flotante</td></tr>
+                    <tr><td><code>char</code></td><td><code>char *cPtr;</code></td><td>Apuntador a carácter</td></tr>
+                    <tr><td><code>double</code></td><td><code>double *dPtr;</code></td><td>Apuntador a double</td></tr>
+                    <tr><td><code>void</code></td><td><code>void *vPtr;</code></td><td>Apuntador genérico</td></tr>
+                </table>
+
+                <div class="code-block">
+#include <stdio.h>
+
+int main(void) {
+    int x = 10, y = 20;
+    
+    // Declaración e inicialización correcta
+    int *ptr = &x;           // ✅ ptr apunta a x
+    int *ptr2 = NULL;        // ✅ Inicialización segura
+    int *ptr3 = &y;          // ✅ ptr3 apunta a y
+    
+    printf("Valor de x: %d\n", x);
+    printf("Dirección de x: %p\n", (void*)&x);
+    printf("Valor de ptr: %p\n", (void*)ptr);
+    printf("Valor apuntado por ptr: %d\n", *ptr);
+    
+    return 0;
+}
+                </div>
+
+                <div class="warning">
+                    <strong>⚠️ Error Común:</strong>
+                    <code>int *ptr; *ptr = 10;</code> - Comportamiento indefinido porque <code>ptr</code> no está inicializado.
+                </div>
+            </div>
+
+            <!-- 7.3 Operadores para Apuntadores -->
+            <div class="section">
+                <h3>7.3 Operadores para Apuntadores</h3>
+                
+                <table>
+                    <tr><th>Operador</th><th>Nombre</th><th>Ejemplo</th><th>Resultado</th></tr>
+                    <tr><td><code>&</code></td><td>Dirección</td><td><code>&x</code></td><td>Dirección de x</td></tr>
+                    <tr><td><code>*</code></td><td>Desreferencia</td><td><code>*ptr</code></td><td>Valor en la dirección</td></tr>
+                    <tr><td><code>=</code></td><td>Asignación</td><td><code>ptr = &x</code></td><td>ptr apunta a x</td></tr>
+                </table>
+
+                <div class="code-block">
+#include <stdio.h>
+
+int main(void) {
+    int a = 5, b = 10;
+    int *ptr1, *ptr2;
+    
+    ptr1 = &a;      // ptr1 contiene la dirección de a
+    ptr2 = &b;      // ptr2 contiene la dirección de b
+    
+    printf("a = %d, &a = %p\n", a, (void*)&a);
+    printf("ptr1 = %p, *ptr1 = %d\n", (void*)ptr1, *ptr1);
+    
+    *ptr1 = 25;     // Cambia el valor de a a 25
+    printf("Ahora a = %d\n", a);
+    
+    ptr1 = ptr2;    // Ahora ptr1 apunta a b
+    printf("ptr1 ahora apunta a b: *ptr1 = %d\n", *ptr1);
+    
+    return 0;
+}
+                </div>
+            </div>
+
+            <!-- Continúan todas las demás secciones del capítulo 7 -->
+            <!-- 7.4 Llamada por Referencia -->
+            <div class="section">
+                <h3>7.4 Llamada a Funciones por Referencia</h3>
+                
+                <table>
+                    <tr><th>Característica</th><th>Paso por Valor</th><th>Paso por Referencia</th></tr>
+                    <tr><td><strong>Qué se pasa</strong></td><td>Copia del valor</td><td>Dirección de la variable</td></tr>
+                    <tr><td><strong>Modificación</strong></td><td>No afecta original</td><td>Afecta variable original</td></tr>
+                    <tr><td><strong>Memoria</strong></td><td>Duplica valores</td><td>Usa misma ubicación</td></tr>
+                    <tr><td><strong>Sintaxis</strong></td><td><code>funcion(variable)</code></td><td><code>funcion(&variable)</code></td></tr>
+                </table>
+
+                <div class="code-block">
+#include <stdio.h>
+
+void intercambiar(int *x, int *y);
+void cuadrado(int *numero);
+
+int main(void) {
+    int a = 5, b = 10;
+    
+    printf("Antes: a = %d, b = %d\n", a, b);
+    intercambiar(&a, &b);  // ✅ Paso por referencia
+    printf("Después: a = %d, b = %d\n", a, b);
+    
+    cuadrado(&a);
+    printf("a al cuadrado: %d\n", a);
+    
+    return 0;
+}
+
+void intercambiar(int *x, int *y) {
+    int temp = *x;
+    *x = *y;
+    *y = temp;
+}
+
+void cuadrado(int *numero) {
+    *numero = (*numero) * (*numero);
+}
+                </div>
+            </div>
+
+            <!-- 7.5 Uso de const -->
+            <div class="section">
+                <h3>7.5 Uso del calificador const con apuntadores</h3>
+                
+                <table>
+                    <tr><th>Declaración</th><th>Significado</th><th>Qué se puede modificar</th></tr>
+                    <tr><td><code>const int *ptr</code></td><td>Apuntador a constante</td><td>Puede cambiar ptr, NO *ptr</td></tr>
+                    <tr><td><code>int *const ptr</code></td><td>Apuntador constante</td><td>Puede cambiar *ptr, NO ptr</td></tr>
+                    <tr><td><code>const int *const ptr</code></td><td>Apuntador constante a constante</td><td>NO puede cambiar ptr NI *ptr</td></tr>
+                </table>
+
+                <div class="code-block">
+#include <stdio.h>
+
+int main(void) {
+    int x = 10, y = 20;
+    
+    // 1. Apuntador a dato constante
+    const int *ptr1 = &x;
+    // *ptr1 = 15;  // ❌ ERROR: dato es constante
+    ptr1 = &y;      // ✅ Puede cambiar a qué apunta
+    
+    // 2. Apuntador constante
+    int *const ptr2 = &x;
+    *ptr2 = 25;     // ✅ Puede cambiar el valor
+    // ptr2 = &y;   // ❌ ERROR: apuntador es constante
+    
+    // 3. Apuntador constante a dato constante
+    const int *const ptr3 = &x;
+    // *ptr3 = 30;  // ❌ ERROR: dato constante
+    // ptr3 = &y;   // ❌ ERROR: apuntador constante
+    
+    printf("x = %d, y = %d\n", x, y);
+    return 0;
+}
+                </div>
+            </div>
+
+            <!-- 7.6 Ordenamiento Burbuja -->
+            <div class="section">
+                <h3>7.6 Ordenamiento Burbuja mediante Llamadas por Referencia</h3>
+                
+                <div class="code-block">
+#include <stdio.h>
+
+#define TAMANIO 10
+
+void ordenamientoBurbuja(int *const arreglo, const int tamanio);
+void intercambiar(int *ptrElemento1, int *ptrElemento2);
+void imprimirArreglo(const int *const arreglo, const int tamanio);
+
+int main(void) {
+    int arreglo[TAMANIO] = {2, 6, 4, 8, 10, 12, 89, 68, 45, 37};
+    
+    printf("Arreglo original:\n");
+    imprimirArreglo(arreglo, TAMANIO);
+    
+    ordenamientoBurbuja(arreglo, TAMANIO);
+    
+    printf("\nArreglo ordenado:\n");
+    imprimirArreglo(arreglo, TAMANIO);
+    
+    return 0;
+}
+
+void ordenamientoBurbuja(int *const arreglo, const int tamanio) {
+    for(int pasada = 0; pasada < tamanio - 1; pasada++) {
+        for(int j = 0; j < tamanio - 1; j++) {
+            if(arreglo[j] > arreglo[j + 1]) {
+                intercambiar(&arreglo[j], &arreglo[j + 1]);
+            }
+        }
+    }
+}
+
+void intercambiar(int *ptrElemento1, int *ptrElemento2) {
+    int temp = *ptrElemento1;
+    *ptrElemento1 = *ptrElemento2;
+    *ptrElemento2 = temp;
+}
+
+void imprimirArreglo(const int *const arreglo, const int tamanio) {
+    for(int i = 0; i < tamanio; i++) {
+        printf("%4d", arreglo[i]);
+    }
+    printf("\n");
+}
+                </div>
+            </div>
+
+            <!-- 7.7 Operador sizeof -->
+            <div class="section">
+                <h3>7.7 El operador sizeof</h3>
+                
+                <div class="code-block">
+#include <stdio.h>
+
+int main(void) {
+    char c;
+    int i;
+    double d;
+    char *cPtr;
+    int *iPtr;
+    double *dPtr;
+    
+    printf("Tamaños de tipos básicos:\n");
+    printf("sizeof(char) = %zu\n", sizeof(char));
+    printf("sizeof(int) = %zu\n", sizeof(int));
+    printf("sizeof(double) = %zu\n", sizeof(double));
+    
+    printf("\nTamaños de variables:\n");
+    printf("sizeof(c) = %zu\n", sizeof(c));
+    printf("sizeof(i) = %zu\n", sizeof(i));
+    printf("sizeof(d) = %zu\n", sizeof(d));
+    
+    printf("\nTamaños de apuntadores:\n");
+    printf("sizeof(cPtr) = %zu\n", sizeof(cPtr));
+    printf("sizeof(iPtr) = %zu\n", sizeof(iPtr));
+    printf("sizeof(dPtr) = %zu\n", sizeof(dPtr));
+    
+    printf("\nTamaños de arreglos:\n");
+    int arreglo[10];
+    printf("sizeof(arreglo) = %zu\n", sizeof(arreglo));
+    printf("Elementos en arreglo: %zu\n", sizeof(arreglo) / sizeof(arreglo[0]));
+    
+    return 0;
+}
+                </div>
+            </div>
+
+            <!-- 7.8 Aritmética de Apuntadores -->
+            <div class="section">
+                <h3>7.8 Expresiones con Apuntadores y Aritmética de Apuntadores</h3>
+                
+                <table>
+                    <tr><th>Operación</th><th>Ejemplo</th><th>Equivalente en enteros</th></tr>
+                    <tr><td><code>ptr + n</code></td><td><code>ptr + 1</code></td><td>Avanza n * sizeof(tipo) bytes</td></tr>
+                    <tr><td><code>ptr - n</code></td><td><code>ptr - 1</code></td><td>Retrocede n * sizeof(tipo) bytes</td></tr>
+                    <tr><td><code>ptr++</code></td><td><code>ptr++</code></td><td>Avanza a siguiente elemento</td></tr>
+                    <tr><td><code>ptr--</code></td><td><code>ptr--</code></td><td>Retrocede a elemento anterior</td></tr>
+                    <tr><td><code>ptr1 - ptr2</code></td><td><code>ptr1 - ptr2</code></td><td>Número de elementos entre ptr1 y ptr2</td></tr>
+                </table>
+
+                <div class="code-block">
+#include <stdio.h>
+
+int main(void) {
+    int arreglo[] = {10, 20, 30, 40, 50};
+    int *ptr = arreglo;
+    
+    printf("Aritmética de apuntadores:\n");
+    for(int i = 0; i < 5; i++) {
+        printf("ptr + %d = %p, *(ptr + %d) = %d\n", 
+               i, (void*)(ptr + i), i, *(ptr + i));
+    }
+    
+    // Diferencia entre apuntadores
+    printf("\nDiferencia: (ptr + 4) - ptr = %td\n", (ptr + 4) - ptr);
+    
+    return 0;
+}
+                </div>
+            </div>
+
+            <!-- 7.9 Apuntadores y Arreglos -->
+            <div class="section">
+                <h3>7.9 Relación entre Apuntadores y Arreglos</h3>
+                
+                <div class="code-block">
+#include <stdio.h>
+
+int main(void) {
+    int arreglo[5] = {10, 20, 30, 40, 50};
+    int *ptr = arreglo;
+    
+    // Todas estas expresiones son equivalentes para acceder al tercer elemento:
+    printf("arreglo[2] = %d\n", arreglo[2]);        // ✅ 30
+    printf("*(arreglo + 2) = %d\n", *(arreglo + 2)); // ✅ 30  
+    printf("ptr[2] = %d\n", ptr[2]);                // ✅ 30
+    printf("*(ptr + 2) = %d\n", *(ptr + 2));        // ✅ 30
+    
+    // Pero hay diferencias importantes:
+    printf("sizeof(arreglo) = %zu\n", sizeof(arreglo));  // 20 bytes
+    printf("sizeof(ptr) = %zu\n", sizeof(ptr));          // 4 u 8 bytes
+    
+    // ptr puede cambiar, arreglo no
+    ptr = ptr + 1;        // ✅ Válido
+    // arreglo = arreglo + 1;  // ❌ ERROR
+    
+    return 0;
+}
+                </div>
+            </div>
+
+            <!-- 7.10 Arreglos de Apuntadores -->
+            <div class="section">
+                <h3>7.10 Arreglos de Apuntadores</h3>
+                
+                <div class="code-block">
+#include <stdio.h>
+
+int main(void) {
+    int a = 10, b = 20, c = 30, d = 40, e = 50;
+    
+    // Arreglo de apuntadores a int
+    int *apuntadores[5] = {&a, &b, &c, &d, &e};
+    
+    printf("Arreglo de apuntadores a enteros:\n");
+    for(int i = 0; i < 5; i++) {
+        printf("apuntadores[%d] = %p, *apuntadores[%d] = %d\n", 
+               i, (void*)apuntadores[i], i, *apuntadores[i]);
+    }
+    
+    // Arreglo de apuntadores a strings
+    const char *meses[] = {
+        "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+        "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+    };
+    
+    printf("\nMeses del año:\n");
+    for(int i = 0; i < 12; i++) {
+        printf("%2d: %s\n", i + 1, meses[i]);
+    }
+    
+    return 0;
+}
+                </div>
+            </div>
+
+            <!-- 7.11 Ejemplo Cartas -->
+            <div class="section">
+                <h3>7.11 Ejemplo Práctico: Barajar y Repartir Cartas</h3>
+                
+                <div class="code-block">
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+#define PALOS 4
+#define NUMEROS 13
+#define CARTAS 52
+
+void barajar(int *const mazo);
+void repartir(const int *const mazo);
+
+int main(void) {
+    int mazo[CARTAS] = {0};
+    
+    srand(time(NULL));
+    barajar(mazo);
+    repartir(mazo);
+    
+    return 0;
+}
+
+void barajar(int *const mazo) {
+    // Inicializar mazo
+    for(int i = 0; i < CARTAS; i++) {
+        mazo[i] = i;
+    }
+    
+    // Barajar
+    for(int i = 0; i < CARTAS; i++) {
+        int j = rand() % CARTAS;
+        int temp = mazo[i];
+        mazo[i] = mazo[j];
+        mazo[j] = temp;
+    }
+}
+
+void repartir(const int *const mazo) {
+    const char *palo[] = {"Corazones", "Diamantes", "Tréboles", "Espadas"};
+    const char *cara[] = {"As", "Dos", "Tres", "Cuatro", "Cinco", "Seis",
+                         "Siete", "Ocho", "Nueve", "Diez", "Joto", "Reina", "Rey"};
+    
+    printf("5 cartas repartidas:\n");
+    for(int i = 0; i < 5; i++) {
+        int carta = mazo[i];
+        printf("%-6s de %-10s\n", cara[carta % NUMEROS], palo[carta / NUMEROS]);
+    }
+}
+                </div>
+            </div>
+
+            <!-- 7.12 Apuntadores a Funciones -->
+            <div class="section">
+                <h3>7.12 Apuntadores a Funciones</h3>
+                
+                <div class="code-block">
+#include <stdio.h>
+
+// Funciones de ejemplo
+int suma(int a, int b) { return a + b; }
+int resta(int a, int b) { return a - b; }
+int multiplicacion(int a, int b) { return a * b; }
+
+int main(void) {
+    // Apuntador a función que recibe dos int y devuelve int
+    int (*operacion)(int, int);
+    
+    int x = 10, y = 5;
+    char op = '+';
+    
+    // Asignar función según operación
+    switch(op) {
+        case '+': operacion = suma; break;
+        case '-': operacion = resta; break;
+        case '*': operacion = multiplicacion; break;
+        default: return 1;
+    }
+    
+    // Usar el apuntador a función
+    int resultado = operacion(x, y);
+    printf("%d %c %d = %d\n", x, op, y, resultado);
+    
+    return 0;
+}
+                </div>
+            </div>
+        </div>
+
+        <!-- EJERCICIOS PRÁCTICOS -->
+        <div id="ejercicios">
+            <div class="section" style="border-left-color: #27ae60;">
+                <h3>💪 10 Ejercicios Prácticos de Apuntadores</h3>
+                
+                <div class="exercise">
+                    <h4>Ejercicio 1: Intercambio de Variables</h4>
+                    <p><strong>Objetivo:</strong> Practicar paso por referencia</p>
+                    <p><strong>Enunciado:</strong> Escribe una función <code>intercambiar</code> que reciba dos apuntadores a enteros e intercambie sus valores. El programa principal debe demostrar el intercambio.</p>
+                    <div class="code-block">
+// Esqueleto para comenzar
+#include <stdio.h>
+
+void intercambiar(int *a, int *b) {
+    // Tu código aquí
+}
+
+int main(void) {
+    int x = 5, y = 10;
+    printf("Antes: x=%d, y=%d\n", x, y);
+    intercambiar(&x, &y);
+    printf("Después: x=%d, y=%d\n", x, y);
+    return 0;
+}
+                    </div>
+                </div>
+
+                <div class="exercise">
+                    <h4>Ejercicio 2: Encontrar Máximo y Mínimo</h4>
+                    <p><strong>Objetivo:</strong> Múltiples valores de retorno usando apuntadores</p>
+                    <p><strong>Enunciado:</strong> Crea una función <code>encontrarMaxMin</code> que reciba un arreglo de enteros y devuelva tanto el valor máximo como el mínimo usando apuntadores.</p>
+                    <div class="code-block">
+void encontrarMaxMin(int arreglo[], int tamaño, int *max, int *min) {
+    // Tu código aquí
+}
+                    </div>
+                </div>
+
+                <div class="exercise">
+                    <h4>Ejercicio 3: Calculadora con Apuntadores a Funciones</h4>
+                    <p><strong>Objetivo:</strong> Practicar arreglos de apuntadores a funciones</p>
+                    <p><strong>Enunciado:</strong> Implementa una calculadora que use un arreglo de apuntadores a funciones para las operaciones básicas (suma, resta, multiplicación, división).</p>
+                </div>
+
+                <div class="exercise">
+                    <h4>Ejercicio 4: Ordenamiento Genérico</h4>
+                    <p><strong>Objetivo:</strong> Usar apuntadores a funciones para callbacks</p>
+                    <p><strong>Enunciado:</strong> Escribe una función <code>ordenar</code> que reciba un arreglo, su tamaño y un apuntador a función de comparación. Implementa funciones de comparación para orden ascendente y descendente.</p>
+                </div>
+
+                <div class="exercise">
+                    <h4>Ejercicio 5: Manipulación de Strings</h4>
+                    <p><strong>Objetivo:</strong> Apuntadores y aritmética con caracteres</p>
+                    <p><strong>Enunciado:</strong> Crea funciones para: longitud de string, copiar string, concatenar strings - todo usando solo apuntadores y aritmética de apuntadores (sin usar <code>[]</code>).</p>
+                </div>
+
+                <div class="exercise">
+                    <h4>Ejercicio 6: Gestor de Estudiantes</h4>
+                    <p><strong>Objetivo:</strong> Arreglos de apuntadores a estructuras</p>
+                    <p><strong>Enunciado:</strong> Define una estructura <code>Estudiante</code> y crea un arreglo de apuntadores a estudiantes. Implementa funciones para agregar, buscar y listar estudiantes.</p>
+                </div>
+
+                <div class="exercise">
+                    <h4>Ejercicio 7: Matriz Dinámica</h4>
+                    <p><strong>Objetivo:</strong> Apuntadores dobles y memoria dinámica</p>
+                    <p><strong>Enunciado:</strong> Crea una función que asigne memoria para una matriz MxN usando apuntador doble. Implementa funciones para llenar, imprimir y liberar la matriz.</p>
+                </div>
+
+                <div class="exercise">
+                    <h4>Ejercicio 8: Contador de Palabras</h4>
+                    <p><strong>Objetivo:</strong> Apuntadores y procesamiento de texto</p>
+                    <p><strong>Enunciado:</strong> Escribe una función que cuente palabras en un string usando solo apuntadores. Considera múltiples espacios y signos de puntuación.</p>
+                </div>
+
+                <div class="exercise">
+                    <h4>Ejercicio 9: Calculadora de Longitud con sizeof</h4>
+                    <p><strong>Objetivo:</strong> Practicar el operador sizeof</p>
+                    <p><strong>Enunciado:</strong> Crea un programa que muestre los tamaños en bytes de todos los tipos de datos básicos, apuntadores a ellos, y diferentes arreglos.</p>
+                </div>
+
+                <div class="exercise">
+                    <h4>Ejercicio 10: Simulador de Baraja Mejorado</h4>
+                    <p><strong>Objetivo:</strong> Integrar múltiples conceptos</p>
+                    <p><strong>Enunciado:</strong> Mejora el ejemplo de baraja para incluir: repartir a múltiples jugadores, calcular puntuación, determinar ganador, y usar estructuras con apuntadores.</p>
+                </div>
+
+                <div class="tip">
+                    <strong>💡 Sugerencia:</strong> Comienza con los ejercicios 1-3 para dominar los conceptos básicos, luego avanza a los más complejos. Cada ejercicio fortalece diferentes aspectos de los apuntadores.
+                </div>
+            </div>
+        </div>
+
+        <!-- CONCLUSIÓN -->
+        <div id="conclusion" class="conclusion">
+            <h3>🎯 Conclusión del Capítulo 7</h3>
+            <p>El dominio de los apuntadores es <strong>fundamental</strong> para convertirse en un programador C experto. A través de este capítulo hemos cubierto:</p>
+            
+            <ul style="text-align: left; margin: 20px 0;">
+                <li>✅ <strong>Definición y uso básico</strong> de apuntadores</li>
+                <li>✅ <strong>Paso por referencia</strong> para modificar variables en funciones</li>
+                <li>✅ <strong>Calificador const</strong> para proteger datos</li>
+                <li>✅ <strong>Aritmética de apuntadores</strong> para navegar en memoria</li>

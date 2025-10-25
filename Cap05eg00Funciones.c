@@ -7,7 +7,7 @@ Cap05eg00Funciones.c|16oct2025|*/
 #include <stdio.h>
 #include <stdlib.h>
 
-extern int x;
+//extern int x=0; /*aqui y no en (.h) debe declararse la variable global solo cuando se usa el programa de alcance por el momento la contamos porque para todos los demas programas del capitulo 5 no la usamos y causa problemas */
 
 /* definición de la función cuadrado, devuelve el cuadrado del parámetro */
 int cuadrado( int y ){ /* y es una copia del argumento para la función */
@@ -72,9 +72,34 @@ void usoStaticLocal(void){
 
 /* la función usoGlobal modifica la variable global x durante cada llamada */
 void usoGlobal(void){
-    printf( "\nla x global es %d al entrar a usoGlobal\n",x);
+   /* printf( "\nla x global es %d al entrar a usoGlobal\n",x);
     x *= 10;
-    printf( "la x global es %d al salir de uusoGlobal\n", x );
+    printf( "la x global es %d al salir de uusoGlobal\n", x ); */
 
 }
 
+
+
+/* definicion recursiva de la función factorial */
+   long factorial( long numero ){
+      
+      if( numero == 1 || numero == 0 )
+         return 1;
+      else{
+         return numero*factorial( numero-1 );
+      }
+      
+
+   }
+
+   /* definicion recursiva de la función version de nofai de fibonacci */
+   long nofai( long numero ){
+      
+      if( numero == 1 || numero == 0 )
+         return (numero == 0) ?  0 :  1;
+      else{
+         return nofai( numero - 2 ) + nofai( numero - 1 );
+      }
+      
+
+   }
