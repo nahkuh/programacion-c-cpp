@@ -1,5 +1,5 @@
-/* Este procedimiento solo hace llamar a la funcion potencia() que progrmamos usando iteración en
-   Cap05ej00Funciones.c | 26oct2025
+/* Este procedimiento solo hace llamar a la funcion MCDrc() que progrmamos usando iteración en
+   Cap05ej00Funciones.c | 29oct2025
 */
 
 #include <stdio.h>
@@ -7,8 +7,8 @@
 
 int main(void){
 
-    long base;
-    long exponente;
+    long numero1;
+    long numero2;
 
     char respuesta[]="s";
     char si[]="s"; 
@@ -17,12 +17,12 @@ int main(void){
     c los concidera distintos porque los define por su dirección en memoria, por lo que
     2 arreglos no puedens ser iguales, pero sus elementos si y si se pueden comparar */
     while ( respuesta[0]==si[0] || respuesta[0]=='S' ){
-        printf("Escribe una base, ahora un exponente\n");
-        scanf("%ld%ld",&base,&exponente);
+        printf("Escribe 2 numeros para calcular su MAXIMO COMUN DIVISOR: ");
+        scanf("%ld%ld",&numero1,&numero2);
 
-        printf("%ld^(%ld) = %ld",base,exponente,potencia(base,exponente));
+        printf("MCD(%ld,%ld) =  %ld",numero1,numero2,MCDrc(numero1,numero2));
 
-        printf("\n\n quieres calcular otra potencia, escribe (s) para sí, y (n) para no: ");
+        printf("\n\n quieres calcular otra potencia, escribe (s) para si, y (n) para no: ");
         scanf("%s",  respuesta);
 
         /* code */
@@ -30,3 +30,4 @@ int main(void){
     
 
 }
+

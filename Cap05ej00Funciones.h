@@ -11,6 +11,24 @@ no crear errores de multiplicidad #indef
 /*lista de funciones header*/
 long potencia(long/*base*/,long/*exponente*/);
 
+long multiplo(long/*multiplo*/,long/*factor*/);
 
+int impar(int n); /**/
+
+void cuadrado(int /*lado o numero de asteriscos por lado*/); /* cuadrado funcion iterativa */
+
+long minimo(long ,long , long); 
+
+long int alreves( long int );
+
+long MCD( long, long);
+
+float promedio( int );
+
+int puntos( float );
+
+long potenciaRc(long/*base*/,long/*exponente*/);
+
+long MCDrc( long, long);
 
 #endif // CAP05EJ00FUNCIONES_H

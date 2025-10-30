@@ -1,5 +1,5 @@
-/* Este procedimiento solo hace llamar a la funcion potencia() que progrmamos usando iteración en
-   Cap05ej00Funciones.c | 26oct2025
+/* Este procedimiento solo hace llamar a la funcion potenciaRc() que progrmamos usando recursividad en
+   Cap05ej00Funciones.c | 29oct2029
 */
 
 #include <stdio.h>
@@ -20,9 +20,9 @@ int main(void){
         printf("Escribe una base, ahora un exponente\n");
         scanf("%ld%ld",&base,&exponente);
 
-        printf("%ld^(%ld) = %ld",base,exponente,potencia(base,exponente));
+        printf("%ld^(%ld) = %ld",base,exponente,potenciaRc(base,exponente));
 
-        printf("\n\n quieres calcular otra potencia, escribe (s) para sí, y (n) para no: ");
+        printf("\n\n quieres calcular otra potencia, escribe (s) para si, y (n) para no: ");
         scanf("%s",  respuesta);
 
         /* code */
