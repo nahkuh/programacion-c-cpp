@@ -1,0 +1,391 @@
+# Generar el HTML completo con los 10 ejercicios incluidos
+
+html_content = """
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Capítulo 7: Apuntadores en C</title>
+  <style>
+    body { 
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+      margin: 40px; 
+      background: #f9f9f9; 
+      color: #333; 
+      line-height: 1.6;
+    }
+    h1, h2, h3 { 
+      color: #2c3e50; 
+    }
+    table { 
+      width: 100%; 
+      border-collapse: collapse; 
+      margin: 20px 0; 
+    }
+    th, td { 
+      border: 1px solid #ccc; 
+      padding: 12px; 
+      text-align: left; 
+    }
+    th { 
+      background-color: #ecf0f1; 
+    }
+    pre { 
+      background: #2d2d2d; 
+      color: #f8f8f2; 
+      padding: 15px; 
+      border-radius: 5px; 
+      overflow-x: auto; 
+      margin: 15px 0;
+    }
+    .tip { 
+      background: #d5f5e3; 
+      padding: 12px; 
+      border-left: 4px solid #27ae60; 
+      margin: 15px 0; 
+    }
+    .error { 
+      background: #f9e79f; 
+      padding: 12px; 
+      border-left: 4px solid #f39c12; 
+      margin: 15px 0; 
+    }
+    ol li {
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Capítulo 7: Apuntadores en C</h1>
+  <p><em>Tratado teórico-práctico basado en “Cómo programar en C” – Deitel & Deitel</em></p>
+
+  <h2>1. Introducción (7.1)</h2>
+  <p>Los <strong>apuntadores</strong> son una de las características más poderosas y complejas del lenguaje C. Permiten:</p>
+  <ul>
+    <li>Simular <strong>llamadas por referencia</strong>.</li>
+    <li>Crear y manipular <strong>estructuras de datos dinámicas</strong>: listas ligadas, pilas, colas, árboles.</li>
+    <li>Optimizar el paso de grandes estructuras de datos a funciones.</li>
+  </ul>
+  <p>Un apuntador es una variable cuyo valor es la <strong>dirección de memoria</strong> de otra variable. A través de ellos se realiza <strong>referencia indirecta</strong> a los datos.</p>
+
+  <h2>2. Definición e inicialización de variables de apuntador (7.2)</h2>
+
+  <h3>Definición</h3>
+  <pre><code>tipo *nombre;</code></pre>
+  <p>Ejemplo:</p>
+  <pre><code>int *ptrCuenta;  // ptrCuenta es un apuntador a un entero
+int cuenta;      // cuenta es una variable entera</code></pre>
+
+  <div class="error">
+    <strong>Error común 7.1</strong>: El asterisco <code>*</code> no se distribuye en múltiples declaraciones.<br>
+    ❌ <code>int* ptrX, ptrY;</code> → <code>ptrY</code> <strong>no es apuntador</strong><br>
+    ✅ <code>int *ptrX, *ptrY;</code>
+  </div>
+
+  <h3>Inicialización</h3>
+  <p>Un apuntador puede inicializarse con:</p>
+  <ul>
+    <li><code>0</code></li>
+    <li><code>NULL</code> (definido en <code><stddef.h></code>)</li>
+    <li>Dirección de una variable (<code>&variable</code>)</li>
+  </ul>
+  <pre><code>int *ptr = NULL;  // apuntador nulo
+int x = 5;
+int *ptrX = &x;   // apuntador a x</code></pre>
+
+  <div class="tip">
+    <strong>Buena práctica 7.1</strong>: Incluir <code>ptr</code> en el nombre para claridad.<br>
+    <strong>Tip 7.1</strong>: Siempre inicializar apuntadores para evitar comportamiento indefinido.
+  </div>
+
+  <h2>3. Operadores para apuntadores (7.3)</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Operador</th>
+        <th>Nombre</th>
+        <th>Descripción</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>&</code></td>
+        <td>Operador de dirección</td>
+        <td>Devuelve la dirección de una variable</td>
+      </tr>
+      <tr>
+        <td><code>*</code></td>
+        <td>Operador de indirección / desreferencia</td>
+        <td>Devuelve el valor almacenado en la dirección apuntada</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Ejemplo</h3>
+  <pre><code>int a = 7;
+int *ptrA = &a;
+
+printf("Dirección de a: %p\\n", &a);
+printf("Valor de ptrA: %p\\n", ptrA);
+printf("Valor de a: %d\\n", a);
+printf("Valor de *ptrA: %d\\n", *ptrA);</code></pre>
+
+  <div class="error">
+    <strong>Error común 7.2</strong>: Desreferenciar un apuntador no inicializado → comportamiento indefinido o fallo de segmentación.
+  </div>
+
+  <h2>4. Llamada a funciones por referencia (7.4)</h2>
+  <p>En C, todos los argumentos se pasan <strong>por valor</strong>. Para modificar variables en la función llamadora, se usa <strong>simulación de llamada por referencia</strong> mediante apuntadores.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Llamada por valor</th>
+        <th>Llamada por referencia</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Copia del valor</td>
+        <td>Copia de la <strong>dirección</strong></td>
+      </tr>
+      <tr>
+        <td>No modifica la original</td>
+        <td><strong>Modifica</strong> la original</td>
+      </tr>
+      <tr>
+        <td>Ej: <code>cuboPorValor(n)</code></td>
+        <td>Ej: <code>cuboPorReferencia(&n)</code></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Ejemplo funcional</h3>
+  <pre><code>void cuboPorReferencia(int *ptrN) {
+    *ptrN = (*ptrN) * (*ptrN) * (*ptrN);
+}</code></pre>
+
+  <div class="tip">
+    <strong>Tip 7.2</strong>: Usar llamada por valor a menos que se requiera modificar el argumento.
+  </div>
+
+  <h2>5. Uso del calificador <code>const</code> con apuntadores (7.5)</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Tipo de apuntador</th>
+        <th>Modificable el apuntador</th>
+        <th>Modificable el dato</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><code>int *ptr</code></td><td>✅</td><td>✅</td></tr>
+      <tr><td><code>const int *ptr</code></td><td>✅</td><td>❌</td></tr>
+      <tr><td><code>int *const ptr</code></td><td>❌</td><td>✅</td></tr>
+      <tr><td><code>const int *const ptr</code></td><td>❌</td><td>❌</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Explicación detallada</h3>
+  <ol>
+    <li><strong>Apuntador no constante a dato no constante</strong>: acceso total.</li>
+    <li><strong>Apuntador no constante a dato constante</strong>: <code>const char *s</code> → solo lectura del dato.</li>
+    <li><strong>Apuntador constante a dato no constante</strong>: <code>int *const ptr = &x;</code> → no se puede cambiar la dirección.</li>
+    <li><strong>Apuntador constante a dato constante</strong>: <code>const int *const ptr = &x;</code> → nada es modificable.</li>
+  </ol>
+
+  <div class="tip">
+    <strong>Tip 7.3</strong>: Declarar como <code>const</code> cualquier parámetro que no deba modificarse.
+  </div>
+
+  <h2>6. Ordenamiento burbuja mediante llamadas por referencia (7.6)</h2>
+  <p>Se usa <code>intercambia(&a[j], &a[j+1])</code> para intercambiar elementos <strong>por referencia</strong>.</p>
+
+  <h3>Función <code>intercambia</code></h3>
+  <pre><code>void intercambia(int *ptr1, int *ptr2) {
+    int temp = *ptr1;
+    *ptr1 = *ptr2;
+    *ptr2 = temp;
+}</code></pre>
+
+  <div class="tip">
+    <strong>Ingeniería de software 7.4</strong>: Siempre pasar el tamaño del arreglo a la función.
+  </div>
+
+  <h2>7. El operador <code>sizeof</code> (7.7)</h2>
+  <p>Operador unario que devuelve el tamaño en bytes de un tipo o variable <strong>en tiempo de compilación</strong>.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Tipo</th>
+        <th>Tamaño (bytes)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><code>char</code></td><td>1</td></tr>
+      <tr><td><code>short</code></td><td>2</td></tr>
+      <tr><td><code>int</code></td><td>4</td></tr>
+      <tr><td><code>long</code></td><td>4 o 8</td></tr>
+      <tr><td><code>float</code></td><td>4</td></tr>
+      <tr><td><code>double</code></td><td>8</td></tr>
+      <tr><td><code>long double</code></td><td>8 o 16</td></tr>
+      <tr><td>Apuntador</td><td>4 o 8</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Uso con arreglos</h3>
+  <pre><code>double real[22];
+int n = sizeof(real) / sizeof(double); // n = 22</code></pre>
+
+  <div class="tip">
+    <strong>Tip 7.3</strong>: <code>sizeof</code> no tiene sobrecarga en tiempo de ejecución.
+  </div>
+
+  <h2>8. Expresiones con apuntadores y aritmética de apuntadores (7.8)</h2>
+
+  <h3>Operaciones válidas</h3>
+  <ul>
+    <li><code>ptr++</code>, <code>ptr--</code></li>
+    <li><code>ptr + n</code>, <code>ptr - n</code></li>
+    <li><code>ptr1 - ptr2</code> → número de elementos entre ellos</li>
+  </ul>
+
+  <h3>Regla clave</h3>
+  <pre><code>ptr + n → dirección = ptr + n * sizeof(tipo)</code></pre>
+
+  <div class="error">
+    <strong>Errores comunes</strong>:
+    <ul>
+      <li>Aplicar aritmética a apuntadores fuera de arreglos (<strong>Error 7.5</strong>)</li>
+      <li>Comparar apuntadores de arreglos distintos (<strong>Error 7.6</strong>)</li>
+      <li>Rebasar límites del arreglo (<strong>Error 7.7</strong>)</li>
+    </ul>
+  </div>
+
+  <div class="tip">
+    <strong>Tip 7.3</strong>: La aritmética de apuntadores depende del tamaño del tipo → <strong>dependiente de la máquina</strong>.
+  </div>
+
+  <h2>9. Relación entre apuntadores y arreglos (7.9)</h2>
+  <ul>
+    <li>El nombre de un arreglo es un <strong>apuntador constante</strong> al primer elemento.</li>
+    <li><code>arr[i]</code> ≡ <code>*(arr + i)</code> ≡ <code>ptr[i]</code> ≡ <code>*(ptr + i)</code></li>
+  </ul>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Notación</th>
+        <th>Ejemplo</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Subíndice de arreglo</td><td><code>b[i]</code></td></tr>
+      <tr><td>Apuntador/desplazamiento con nombre</td><td><code>*(b + i)</code></td></tr>
+      <tr><td>Subíndice de apuntador</td><td><code>ptr[i]</code></td></tr>
+      <tr><td>Apuntador/desplazamiento con apuntador</td><td><code>*(ptr + i)</code></td></tr>
+    </tbody>
+  </table>
+
+  <div class="error">
+    <strong>Error 7.10</strong>: <code>b += 3;</code> → <strong>inválido</strong>, <code>b</code> es constante.
+  </div>
+
+  <h2>10. Arreglos de apuntadores (7.10)</h2>
+  <p>Útil para manejar <strong>arreglos de cadenas</strong>:</p>
+  <pre><code>const char *palos[4] = {
+    "Corazones", "Diamantes", "Treboles", "Espadas"
+};</code></pre>
+  <p>Cada elemento es un apuntador al primer carácter de la cadena.</p>
+
+  <div class="tip">
+    <strong>Ventaja</strong>: Ahorro de memoria vs. arreglo bidimensional de caracteres fijos.
+  </div>
+
+  <h2>11. Ejemplo práctico: Simulación para barajar y repartir cartas (7.11)</h2>
+
+  <h3>Estructura de datos</h3>
+  <ul>
+    <li>Arreglo <code>mazo[4][13]</code>: filas = palos, columnas = caras.</li>
+    <li>Arreglos de cadenas: <code>palo[]</code>, <code>cara[]</code>.</li>
+  </ul>
+
+  <h3>Algoritmo de barajado</h3>
+  <ul>
+    <li>Asigna números del 1 al 52 a posiciones aleatorias.</li>
+    <li>Usa <code>rand() % 4</code>, <code>rand() % 13</code>.</li>
+    <li><strong>Desventaja</strong>: posible <em>aplazamiento indefinido</em>.</li>
+  </ul>
+
+  <h3>Reparto</h3>
+  <ul>
+    <li>Busca secuencialmente el número de carta en el mazo.</li>
+    <li>Imprime <code>cara[col]</code> y <code>palo[fila]</code>.</li>
+  </ul>
+
+  <h2>12. Apuntadores a funciones (7.12)</h2>
+  <p>Un apuntador a función almacena la <strong>dirección de entrada</strong> de una función.</p>
+
+  <h3>Declaración</h3>
+  <pre><code>int (*compara)(int a, int b);</code></pre>
+
+  <h3>Uso en ordenamiento</h3>
+  <pre><code>void burbuja(int arr[], int n, int (*comp)(int, int)) {
+    if ((*comp)(arr[i], arr[i+1])) intercambia(...);
+}</code></pre>
+
+  <h3>Arreglo de apuntadores a funciones</h3>
+  <pre><code>void (*f[3])(int) = {func1, func2, func3};
+(*f[opcion])(arg);</code></pre>
+
+  <div class="tip">
+    <strong>Aplicación</strong>: Menús, callbacks, dispatch tables.
+  </div>
+
+  <h2>Resumen de conceptos clave</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Concepto</th>
+        <th>Definición</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Apuntador</strong></td><td>Variable que almacena una dirección de memoria</td></tr>
+      <tr><td><strong>Desreferencia</strong></td><td>Acceso al valor mediante <code>*ptr</code></td></tr>
+      <tr><td><strong>Llamada por referencia</strong></td><td>Paso de dirección para modificar variable original</td></tr>
+      <tr><td><strong><code>const</code> con apuntadores</strong></td><td>Control de modificación de dato y/o dirección</td></tr>
+      <tr><td><strong>Aritmética de apuntadores</strong></td><td>Operaciones basadas en tamaño del tipo apuntado</td></tr>
+      <tr><td><strong>Nombre de arreglo</strong></td><td>Apuntador constante al primer elemento</td></tr>
+      <tr><td><strong>Apuntador a función</strong></td><td>Variable que almacena dirección de función ejecutable</td></tr>
+    </tbody>
+  </table>
+
+  <h2>10 Ejercicios de práctica</h2>
+  <ol>
+    <li><strong>Declaración e inicialización</strong>: Declara e inicializa apuntadores a <code>int</code>, <code>float</code> y <code>char</code>. Imprime sus direcciones y valores desreferenciados.</li>
+    <li><strong>Intercambio por referencia</strong>: Escribe una función <code>swap(int *a, int *b)</code> que intercambie dos enteros.</li>
+    <li><strong>Uso de <code>const</code></strong>: Escribe una función que imprima una cadena sin modificarla. Usa <code>const char *</code>.</li>
+    <li><strong>Aritmética de apuntadores</strong>: Dado un arreglo <code>int arr[5] = {10,20,30,40,50}</code>, usa aritmética de apuntadores para imprimir el tercer elemento.</li>
+    <li><strong>Equivalencia arreglo-apuntador</strong>: Demuestra que <code>arr[i] == *(arr + i)</code> en un programa.</li>
+    <li><strong>Arreglo de cadenas</strong>: Crea un arreglo de apuntadores con los nombres de los días de la semana y muéstralos.</li>
+    <li><strong><code>sizeof</code> con arreglos</strong>: Calcula el número de elementos de un arreglo usando <code>sizeof</code>.</li>
+    <li><strong>Función que recibe apuntador a función</strong>: Escribe una función <code>operar(int a, int b, int (*f)(int,int))</code> que aplique <code>f</code> a <code>a</code> y <code>b</code>.</li>
+    <li><strong>Simulación de cartas</strong>: Implementa el barajado de un mazo de 52 cartas usando un arreglo <code>mazo[4][13]</code>.</li>
+    <li><strong>Menú con apuntadores a función</strong>: Crea un menú con 3 opciones que llame a funciones distintas mediante un arreglo de apuntadores.</li>
+  </ol>
+
+</body>
+</html>
+"""
+
+# Guardar el contenido en un archivo HTML
+with open("Capitulo7_Apuntadores_C.html", "w", encoding="utf-8") as f:
+    f.write(html_content)
+
+"Capitulo7_Apuntadores_C.html"
