@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Capítulo 8: Caracteres y Cadenas en C - Tratado Completo</title>
+<style>
+    /* ESTILOS ACADÉMICOS PARA TRATADO MATEMÁTICO */
+    body {
+        font-family: 'Computer Modern Serif', 'Times New Roman', serif;
+        margin: 40px auto;
+        max-width: 950px;
+        background: linear-gradient(135deg, #fafafa 0%, #f0f4f8 100%);
+        color: #2c3e50;
+        line-height: 1.65;
+        padding: 20px;
+        box-shadow: 0 0 30px rgba(0,0,0,0.08);
+    }
+    
+    h1, h2, h3, h4 {
+        color: #1a5490;
+        font-weight: bold;
+        border-bottom: 2px solid #4a90e2;
+        padding-bottom: 8px;
+        margin-top: 35px;
+        margin-bottom: 20px;
+    }
+    
+    h1 {
+        font-size: 2.2em;
+        text-align: center;
+        padding: 15px;
+        background: linear-gradient(90deg, #1a5490 0%, #4a90e2 100%);
+        color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(26,84,144,0.3);
+    }
+    
+    h2 {
+        font-size: 1.8em;
+        border-left: 8px solid #4a90e2;
+        padding-left: 15px;
+    }
+    
+    h3 {
+        font-size: 1.4em;
+        color: #2c3e50;
+        border-bottom: 1px solid #bdc3c7;
+    }
+
+    /* CAJAS DE DEFINICIONES, TEOREMAS Y EJEMPLOS */
+    .definition, .theorem, .lemma, .example, .warning, .exercise {
+        margin: 20px 0;
+        padding: 15px 20px;
+        border-radius: 6px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        border-left-width: 6px;
+        border-left-style: solid;
+    }
+    
+    .definition {
+        background: #e8f4f8;
+        border-left-color: #4a90e2;
+    }
+    
+    .definition::before {
+        content: "Definición ";
+        font-weight: bold;
+        color: #1a5490;
+    }
+    
+    .theorem {
+        background: #fff8e1;
+        border-left-color: #ff9800;
+    }
+    
+    .theorem::before {
+        content: "Teorema ";
+        font-weight: bold;
+        color: #e65100;
+    }
+    
+    .lemma {
+        background: #f3e5f5;
+        border-left-color: #9c27b0;
+    }
+    
+    .lemma::before {
+        content: "Lema ";
+        font-weight: bold;
+        color: #4a148c;
+    }
+    
+    .example {
+        background: #e8f5e9;
+        border-left-color: #4caf50;
+        padding: 20px;
+    }
+    
+    .example::before {
+        content: "Ejemplo ";
+        font-weight: bold;
+        color: #2e7d32;
+    }
+    
+    .warning {
+        background: #ffebee;
+        border-left-color: #f44336;
+    }
+    
+    .warning::before {
+        content: "⚠ Advertencia ";
+        font-weight: bold;
+        color: #c62828;
+    }
+    
+    .exercise {
+        background: #e1f5fe;
+        border-left-color: #03a9f4;
+    }
+    
+    .exercise::before {
+        content: "Ejercicio ";
+        font-weight: bold;
+        color: #01579b;
+    }
+
+    /* TABLAS */
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        margin: 25px 0;
+        font-size: 0.95em;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    
+    th {
+        background: linear-gradient(180deg, #4a90e2 0%, #1a5490 100%);
+        color: white;
+        padding: 14px 12px;
+        text-align: left;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    td {
+        padding: 12px 15px;
+        border-bottom: 1px solid #e0e0e0;
+    }
+    
+    tr:nth-child(even) {
+        background-color: #f8f9fa;
+    }
+    
+    tr:hover {
+        background-color: #e3f2fd;
+    }
+    
+    /* CÓDIGO */
+    code, pre {
+        font-family: 'Fira Code', 'Courier New', monospace;
+        background: #f5f5f5;
+        padding: 2px 6px;
+        border-radius: 3px;
+        font-size: 0.95em;
+    }
+    
+    pre {
+        padding: 15px;
+        overflow-x: auto;
+        border: 1px solid #ddd;
+        margin: 15px 0;
+        line-height: 1.4;
+    }
+    
+    /* LISTAS */
+    ul, ol {
+        margin: 15px 0;
+        padding-left: 30px;
+    }
+    
+    li {
+        margin: 8px 0;
+    }
+    
+    /* FOOTER */
+    footer {
+        margin-top: 50px;
+        padding: 20px;
+        background: #1a5490;
+        color: white;
+        text-align: center;
+        border-radius: 8px;
+    }
+    
+    .important {
+        font-weight: bold;
+        color: #d32f2f;
+    }
+    
+    .func-name {
+        font-family: 'Fira Code', monospace;
+        color: #7b1fa2;
+        font-weight: bold;
+    }
+    
+    .header-num {
+        color: #4a90e2;
+        font-weight: bold;
+    }
+</style>
+</head>
+<body>
+
+<h1>CAPÍTULO 8: CARACTERES Y CADENAS EN C</h1>
+<h2>Tratado Teórico-Práctico</h2>
+
+<p><strong>Objetivos del Capítulo:</strong> Dominar el álgebra de manipulación de secuencias de símbolos mediante las bibliotecas estándar de C, comprendiendo tanto la semántica formal como la implementación práctica.</p>
+
+<hr>
+
+<h2><span class="header-num">8.1</span> INTRODUCCIÓN</h2>
+
+<div class="definition">
+<b>8.1.1:</b> El procesamiento de cadenas es el estudio algebraico de la manipulación de secuencias finitas de símbolos pertenecientes a un alfabeto Σ.
+</div>
+
+<div class="theorem">
+<b>8.1.1 (Reutilización de Software):</b> Las bibliotecas estándar de C demuestran que la composición de funciones atómicas permite construir sistemas complejos de procesamiento de texto con propiedades de portabilidad y corrección demostrables.
+</div>
+
+<p>Este capítulo establece el marco formal para el desarrollo de editores, procesadores de palabras y sistemas de captura computarizada mediante funciones que manipulan la representación interna de caracteres como unidades numéricas.</p>
+
+<hr>
+
+<h2><span class="header-num">8.2</span> FUNDAMENTOS DE CADENAS Y CARACTERES</h2>
+
+<div class="definition">
+<b>8.2.1 (Carácter):</b> Un carácter es un elemento del conjunto finito Σ (alfabeto), representable como un entero de 1 byte. Formalmente: c ∈ Σ, donde Σ ⊆ ℤ y |Σ| = 256 (para ASCII extendido). La notación literal es 'c'.
+</div>
+
+<div class="definition">
+<b>8.2.2 (Constante de Carácter):</b> Es un valor <code>int</code> representado por un carácter entre comillas simples. Su valor semántico es: valor('c') = código_numérico(c) ∈ ℤ. Ej: 'z' ≡ 122, '\n' ≡ 10.
+</div>
+
+<div class="definition">
+<b>8.2.3 (Cadena):</b> Una cadena es una secuencia finita de caracteres s = c₀c₁c₂...cₙ₋₁ ∈ Σ* con la condición de terminación: cₙ₋₁ = '\0' (código 0).
+</div>
+
+<div class="theorem">
+<b>8.2.1 (Representación de Cadenas):</b> En C, una cadena es un par ordenado (p, n) donde p es puntero al primer carácter y n = strlen(s) = min{i ≥ 0 : s[i] = '\0'}.
+</div>
+
+<div class="definition">
+<b>8.2.4 (Inicialización):</b> Dado <code>char A[n]</code> y literal L, <code>char color[] = "azul";</code> crea la expansión: A[0]='a', A[1]='z', A[2]='u', A[3]='l', A[4]='\0', con sizeof(color) = 5.
+</div>
+
+<div class="lemma">
+<b>8.2.1 (Mutabilidad):</b> Sea <code>const char *p = "cadena";</code> el compilador puede ubicarla en memoria de solo lectura. Para mutabilidad garantizada, use <code>char modifiable[] = "cadena";</code>.
+</div>
+
+<table>
+<thead>
+<tr>
+<th>Concepto</th>
+<th>Notación</th>
+<th>Tipo C</th>
+<th>Valor/Espacio</th>
+<th>Invariante</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Carácter</td>
+<td>'c'</td>
+<td><code>int</code> (implícito)</td>
+<td>código ASCII 0-255</td>
+<td>sizeof('c') = 4 (promoción)</td>
+</tr>
+<tr>
+<td>Cadena Literal</td>
+<td>"texto"</td>
+<td><code>char[]</code> / <code>char*</code></td>
+<td>Longitud + 1 (para '\0')</td>
+<td>s[strlen(s)] == '\0'</td>
+</tr>
+<tr>
+<td>Puntero</td>
+<td><code>char *p</code></td>
+<td><code>char*</code></td>
+<td>Dirección de memoria</td>
+<td>p = &s[0]</td>
+</tr>
+<tr>
+<td>Índice</td>
+<td>s[i]</td>
+<td><code>char</code></td>
+<td>Valor en posición i</td>
+<td>s[i] = *(s + i)</td>
+</tr>
+</tbody>
+</table>
+
+<div class="warning">
+<b>Error Común 8.1:</b> No asignar espacio suficiente para el carácter nulo termina la cadena fuera de límites, causando comportamiento indefinido.
+</div>
+
+<div class="warning">
+<b>Error Común 8.2:</b> Imprimir una "cadena" sin terminador nulo produce lectura descontrolada hasta encontrar '\0' aleatorio.
+</div>
+
+<hr>
+
+<h2><span class="header-num">8.3</span> LA BIBLIOTECA DE MANIPULACIÓN DE CARACTERES &lt;ctype.h&gt;</h2>
+
+<div class="theorem">
+<b>8.3.1 (Dominio de Funciones):</b> Toda f ∈ ctype.h tiene dominio int → int con precondición: argumento ∈ [0, 255] ∪ {EOF}. Formalmente: f: ℤ → ℤ, f(c) ∈ {0, ≠0}.
+</div>
+
+<table>
+<thead>
+<tr>
+<th>Prototipo</th>
+<th>Descripción Formal</th>
+<th>Conjunto de Verdad (ASCII)</th>
+<th>Retorno</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="func-name">int isdigit(int c);</span></td>
+<td>{c : '0' ≤ c ≤ '9'}</td>
+<td>{48, 49, ..., 57}</td>
+<td>≠0 si verdadero</td>
+</tr>
+<tr>
+<td><span class="func-name">int isalpha(int c);</span></td>
+<td>{c : ('A'≤c≤'Z') ∨ ('a'≤c≤'z')}</td>
+<td>{65-90, 97-122}</td>
+<td>≠0 si letra</td>
+</tr>
+<tr>
+<td><span class="func-name">int isalnum(int c);</span></td>
+<td>isdigit(c) ∨ isalpha(c)</td>
+<td>Unión de conjuntos</td>
+<td>≠0 si alfanumérico</td>
+</tr>
+<tr>
+<td><span class="func-name">int isxdigit(int c);</span></td>
+<td>{c : isdigit(c) ∨ ('A'≤c≤'F') ∨ ('a'≤c≤'f')}</td>
+<td>Hexadecimal válido</td>
+<td>≠0 si hexadígito</td>
+</tr>
+<tr>
+<td><span class="func-name">int islower(int c);</span></td>
+<td>{c : 'a' ≤ c ≤ 'z'}</td>
+<td>{97, ..., 122}</td>
+<td>≠0 si minúscula</td>
+</tr>
+<tr>
+<td><span class="func-name">int isupper(int c);</span></td>
+<td>{c : 'A' ≤ c ≤ 'Z'}</td>
+<td>{65, ..., 90}</td>
+<td>≠0 si mayúscula</td>
+</tr>
+<tr>
+<td><span class="func-name">int tolower(int c);</span></td>
+<td>si isupper(c) → c + 32</td>
+<td>A-Z → a-z</td>
+<td>Carácter convertido</td>
+</tr>
+<tr>
+<td><span class="func-name">int toupper(int c);</span></td>
+<td>si islower(c) → c - 32</td>
+<td>a-z → A-Z</td>
+<td>Carácter convertido</td>
+</tr>
+<tr>
+<td><span class="func-name">int isspace(int c);</span></td>
+<td>{c : c ∈ {' ','\f','\n','\r','\t','\v'}}</td>
+<td>White-space</td>
+<td>≠0 si espacio</td>
+</tr>
+<tr>
+<td><span class="func-name">int iscntrl(int c);</span></td>
+<td>{c : c ∈ {'\a','\b','\t','\n','\v','\f','\r'}}</td>
+<td>Caracteres de control</td>
+<td>≠0 si control</td>
+</tr>
+<tr>
+<td><span class="func-name">int ispunct(int c);</span></td>
+<td>isprint(c) ∧ ¬isspace(c) ∧ ¬isalnum(c)</td>
+<td>Puntuación</td>
+<td>≠0 si puntuación</td>
+</tr>
+<tr>
+<td><span class="func-name">int isprint(int c);</span></td>
+<td>{c : 32 ≤ c ≤ 126}</td>
+<td>Caracteres imprimibles</td>
+<td>≠0 si imprimible</td>
+</tr>
+<tr>
+<td><span class="func-name">int isgraph(int c);</span></td>
+<td>isprint(c) ∧ c ≠ ' '</td>
+<td>Imprimibles sin espacio</td>
+<td>≠0 si gráfico</td>
+</tr>
+</tbody>
+</table>
+
+<div class="example">
+<b>Ejemplo 8.3.1:</b>
+<pre>
+#include &lt;stdio.h&gt;
+#include &lt;ctype.h&gt;
+
+int main() {
+    char c = 'A';
+    if (isupper(c)) {
+        printf("%c es mayúscula\n", c);  // Se ejecuta
+    }
+    printf("Minúscula: %c\n", tolower(c));  // 'a'
+    return 0;
+}
+</pre>
+</div>
+
+<div class="warning">
+<b>Error Común 8.3:</b> Pasar un carácter individual como puntero a cadena produce violación de acceso en segmento de bajo nivel.
+</div>
+
+<hr>
+
+<h2><span class="header-num">8.4</span> FUNCIONES DE CONVERSIÓN DE CADENAS &lt;stdlib.h&gt;</h2>
+
+<div class="definition">
+<b>8.4.1 (Conversión Numérica):</b> Sea S = {c₀c₁...cₙ₋₁} una cadena numérica. La función de interpretación es interpret: Σ* → ℤ ∪ ℝ, donde interpret(s) es el valor semántico numérico.
+</div>
+
+<table>
+<thead>
+<tr>
+<th>Prototipo</th>
+<th>Descripción</th>
+<th>Dominio</th>
+<th>Rango</th>
+<th>Residuo</th>
+<th>Complejidad</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="func-name">double atof(const char *nptr);</span></td>
+<td>ℝ-interpretación</td>
+<td>Dígitos + '.' + exponente</td>
+<td>double</td>
+<td>No</td>
+<td>O(n)</td>
+</tr>
+<tr>
+<td><span class="func-name">int atoi(const char *nptr);</span></td>
+<td>ℤ-interpretación</td>
+<td>Dígitos opcional signo</td>
+<td>int</td>
+<td>No</td>
+<td>O(n)</td>
+</tr>
+<tr>
+<td><span class="func-name">long atol(const char *nptr);</span></td>
+<td>ℤₗ-interpretación</td>
+<td>Dígitos opcional signo</td>
+<td>long</td>
+<td>No</td>
+<td>O(n)</td>
+</tr>
+<tr>
+<td><span class="func-name">double strtod(const char *nptr, char **endptr);</span></td>
+<td>ℝ-interp. con residuo</td>
+<td>Dígitos + '.'</td>
+<td>double</td>
+<td>Sí (en *endptr)</td>
+<td>O(n)</td>
+</tr>
+<tr>
+<td><span class="func-name">long strtol(const char *nptr, char **endptr, int base);</span></td>
+<td>Base-b interpretación</td>
+<td>{0-9, A-Z, a-z} ±</td>
+<td>long</td>
+<td>Sí (en *endptr)</td>
+<td>O(n)</td>
+</tr>
+<tr>
+<td><span class="func-name">unsigned long strtoul(const char *nptr, char **endptr, int base);</span></td>
+<td>Base-b sin signo</td>
+<td>{0-9, A-Z, a-z}</td>
+<td>unsigned long</td>
+<td>Sí (en *endptr)</td>
+<td>O(n)</td>
+</tr>
+</tbody>
+</table>
+
+<div class="definition">
+<b>8.4.2 (Base de Numeración):</b> Para base b ∈ [2,36], los dígitos son {0-9} ∪ {A-Z} donde val(A)=10, ..., val(Z)=35.
+</div>
+
+<div class="example">
+<b>Ejemplo 8.4.1 (Conversión Hexadecimal):</b>
+<pre>
+const char *hex = "-1A3F";
+char *resto;
+long valor = strtol(hex, &resto, 16);  // valor = -6719, *resto = '\0'
+</pre>
+</div>
+
+<div class="example">
+<b>Ejemplo 8.4.2 (Conversión con Residuo):</b>
+<pre>
+const char *cadena = "51.2% admitidos";
+char *ptrResto;
+double d = strtod(cadena, &ptrResto);
+// d = 51.2, ptrResto apunta a "% admitidos"
+</pre>
+</div>
+
+<hr>
+
+<h2><span class="header-num">8.5</span> FUNCIONES DE ENTRADA/SALIDA DE LA BIBLIOTECA ESTÁNDAR &lt;stdio.h&gt;</h2>
+
+<table>
+<thead>
+<tr>
+<th>Prototipo</th>
+<th>Semántica</th>
+<th>Buffering</th>
+<th>Retorno</th>
+<th>Invariante</th>
+<th>Estado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="func-name">int getchar(void);</span></td>
+<td>Lee 1 char desde stdin</td>
+<td>Totalmente bufferizado</td>
+<td>int (0-255) o EOF</td>
+<td>Ungetc garantizado</td>
+<td>Activa</td>
+</tr>
+<tr>
+<td><span class="func-name">char *gets(char *s);</span></td>
+<td>Lee línea completa</td>
+<td>Sin buffer</td>
+<td>s o NULL</td>
+<td>Añade '\0'</td>
+<td><span class="important">OBSOLETO</span></td>
+</tr>
+<tr>
+<td><span class="func-name">int putchar(int c);</span></td>
+<td>Escribe 1 char a stdout</td>
+<td>Totalmente bufferizado</td>
+<td>c o EOF</td>
+<td>Actualiza stdout</td>
+<td>Activa</td>
+</tr>
+<tr>
+<td><span class="func-name">int puts(const char *s);</span></td>
+<td>Escribe s + '\n'</td>
+<td>Buffer de línea</td>
+<td>≥0 o EOF</td>
+<td>stdout actualizado</td>
+<td>Activa</td>
+</tr>
+<tr>
+<td><span class="func-name">int sprintf(char *s, const char *fmt, ...);</span></td>
+<td>Formato a cadena</td>
+<td>N/A</td>
+<td>Caracteres escritos</td>
+<td>s termina en '\0'</td>
+<td>Activa</td>
+</tr>
+<tr>
+<td><span class="func-name">int sscanf(const char *s, const char *fmt, ...);</span></td>
+<td>Parseo desde cadena</td>
+<td>N/A</td>
+<td>Ítems leídos</td>
+<td>No modifica s</td>
+<td>Activa</td>
+</tr>
+</tbody>
+</table>
+
+<div class="theorem">
+<b>8.5.1 (Invariante de gets):</b> La función gets(s) garantiza:
+∃n ∈ ℕ : s[n-1] = '\n' ⇒ s[n] = '\0' ∧ ∀i < n-1 : s[i] = caracter_leído[i]
+</div>
+
+<div class="warning">
+<b>CRÍTICO:</b> La función gets() es insegura (no hay límite de buffer). Es obligatorio usar fgets(s, size, stdin).
+</div>
+
+<div class="example">
+<b>Ejemplo 8.5.1 (Lectura Segura):</b>
+<pre>
+char buffer[100];
+fgets(buffer, sizeof(buffer), stdin);  // Seguro: máximo 99 chars + '\0'
+</pre>
+</div>
+
+<hr>
+
+<h2><span class="header-num">8.6</span> FUNCIONES DE MANIPULACIÓN DE CADENAS &lt;string.h&gt;</h2>
+
+<div class="definition">
+<b>8.6.1 (Operaciones Básicas):</b> Sea Σ* el conjunto de todas las cadenas. Las operaciones fundamentales son:
+- Copia: copy(s) = t donde ∀i : t[i] = s[i]
+- Concatenación: concat(s,t) = s ◦ t
+- Longitud: length(s) = min{i : s[i] = '\0'}
+</div>
+
+<table>
+<thead>
+<tr>
+<th>Prototipo</th>
+<th>Precondición</th>
+<th>Postcondición</th>
+<th>Complejidad</th>
+<th>Observaciones</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="func-name">char *strcpy(char *dest, const char *src);</span></td>
+<td>size(dest) ≥ strlen(src)+1</td>
+<td>dest' = src ∧ dest'[|src|] = '\0'</td>
+<td>O(n)</td>
+<td>Sobrescribe completamente</td>
+</tr>
+<tr>
+<td><span class="func-name">char *strncpy(char *dest, const char *src, size_t n);</span></td>
+<td>size(dest) ≥ n</td>
+<td>dest'[0..n-1] = src[0..n-1] (sin '\0' si n < |src|)</td>
+<td>O(n)</td>
+<td>No garantiza terminador</td>
+</tr>
+<tr>
+<td><span class="func-name">char *strcat(char *dest, const char *src);</span></td>
+<td>size(dest) ≥ strlen(dest)+strlen(src)+1</td>
+<td>dest' = dest ◦ src</td>
+<td>O(n+m)</td>
+<td>Sobrescribe '\0' final</td>
+</tr>
+<tr>
+<td><span class="func-name">char *strncat(char *dest, const char *src, size_t n);</span></td>
+<td>size(dest) ≥ strlen(dest)+min(n,strlen(src))+1</td>
+<td>dest' = dest ◦ src[0..n-1]</td>
+<td>O(n+m)</td>
+<td>Siempre añade '\0'</td>
+</tr>
+</tbody>
+</table>
+
+<div class="lemma">
+<b>8.6.1 (Invariante de strcpy):</b> ∀i ∈ [0, strlen(src)] : dest[i] = src[i]
+</div>
+
+<div class="warning">
+<b>Error Común 8.6:</b> No añadir '\0' manualmente después de strncpy cuando n ≤ strlen(src).
+</div>
+
+<div class="example">
+<b>Ejemplo 8.6.1 (Copia Segura):</b>
+<pre>
+char src[] = "Hola";
+char dest[10];
+strncpy(dest, src, 4);
+dest[4] = '\0';  // Obligatorio si n < strlen(src)+1
+</pre>
+</div>
+
+<div class="example">
+<b>Ejemplo 8.6.2 (Concatenación):</b>
+<pre>
+char s1[20] = "Hola ";
+char s2[] = "Mundo";
+strncat(s1, s2, 3);  // Resultado: "Hola Mun"
+</pre>
+</div>
+
+<hr>
+
+<h2><span class="header-num">8.7</span> FUNCIONES DE COMPARACIÓN DE LA BIBLIOTECA DE MANIPULACIÓN DE CADENAS</h2>
+
+<div class="definition">
+<b>8.7.1 (Orden Léxico-Gráfico):</b> Para cadenas s, t ∈ Σ*:
+s < t ⇔ ∃k : (∀i < k : s[i] = t[i]) ∧ (s[k] < t[k])  
+s = t ⇔ ∀i : s[i] = t[i]  
+s > t ⇔ t < s
+</div>
+
+<table>
+<thead>
+<tr>
+<th>Prototipo</th>
+<th>Descripción Formal</th>
+<th>Valor de Retorno</th>
+<th>Complejidad</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="func-name">int strcmp(const char *s1, const char *s2);</span></td>
+<td>Comparación léxica completa</td>
+<td>&lt;0 si s1&lt;s2, 0 si =, &gt;0 si s1&gt;s2</td>
+<td>O(min(|s1|,|s2|))</td>
+</tr>
+<tr>
+<td><span class="func-name">int strncmp(const char *s1, const char *s2, size_t n);</span></td>
+<td>Comparación prefijo de longitud n</td>
+<td>&lt;0, 0, &gt;0 (igual que strcmp)</td>
+<td>O(min(n,|s1|,|s2|))</td>
+</tr>
+</tbody>
+</table>
+
+<div class="theorem">
+<b>8.7.1 (Corrección de strcmp):</b> strcmp(s1, s2) devuelve la diferencia del primer carácter no coincidente: s1[k] - s2[k], donde k = min{i : s1[i] ≠ s2[i]}.
+</div>
+
+<div class="warning">
+<b>Error Común 8.7:</b> Suponer que strcmp devuelve 1 para cadenas iguales. <span class="important">Devuelve 0 (falso en C)</span>. Debe compararse con 0.
+</div>
+
+<div class="example">
+<b>Ejemplo 8.7.1:</b>
+<pre>
+char a[] = "abc", b[] = "abd";
+int r = strcmp(a, b);  // r = -1 ('c' - 'd' = -1)
+</pre>
+</div>
+
+<hr>
+
+<h2><span class="header-num">8.8</span> FUNCIONES DE BÚSQUEDA</h2>
+
+<table>
+<thead>
+<tr>
+<th>Prototipo</th>
+<th>Formalización</th>
+<th>Retorno</th>
+<th>Complejidad</th>
+<th>Caso Base</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="func-name">char *strchr(const char *s, int c);</span></td>
+<td>∃i : s[i] = c ∧ ∀j&lt;i : s[j]≠c</td>
+<td>Ptr a s[i] o NULL</td>
+<td>O(n)</td>
+<td>Primera ocurrencia</td>
+</tr>
+<tr>
+<td><span class="func-name">char *strrchr(const char *s, int c);</span></td>
+<td>∃i : s[i] = c ∧ ∀j&gt;i : s[j]≠c</td>
+<td>Ptr a última ocurrencia</td>
+<td>O(n)</td>
+<td>Última ocurrencia</td>
+</tr>
+<tr>
+<td><span class="func-name">char *strstr(const char *haystack, const char *needle);</span></td>
+<td>∃i : ∀j&lt;|needle| : haystack[i+j] = needle[j]</td>
+<td>Ptr a subcadena</td>
+<td>O(n·m)</td>
+<td>Primera subcadena</td>
+</tr>
+<tr>
+<td><span class="func-name">size_t strspn(const char *s, const char *accept);</span></td>
+<td>max{k : ∀i&lt;k : s[i] ∈ accept}</td>
+<td>Longitud de prefijo</td>
+<td>O(n)</td>
+<td>Coincidencia inicial</td>
+</tr>
+<tr>
+<td><span class="func-name">size_t strcspn(const char *s, const char *reject);</span></td>
+<td>min{k : s[k] ∈ reject} - 1</td>
+<td>Longitud de prefijo complemento</td>
+<td>O(n)</td>
+<td>Rechazo inicial</td>
+</tr>
+<tr>
+<td><span class="func-name">char *strpbrk(const char *s, const char *accept);</span></td>
+<td>min{i : s[i] ∈ accept}</td>
+<td>Ptr a s[i] o NULL</td>
+<td>O(n·m)</td>
+<td>Primer carácter del conjunto</td>
+</tr>
+<tr>
+<td><span class="func-name">char *strtok(char *str, const char *delim);</span></td>
+<td>Tokenización con estado estático</td>
+<td>Ptr a token/NULL</td>
+<td>O(n) total</td>
+<td>Separa por delimitadores</td>
+</tr>
+</tbody>
+</table>
+
+<div class="lemma">
+<b>8.8.1 (Algoritmo de Tokenización):</b>
+<pre>
+strtok(s, delim):
+1. Si s ≠ NULL: contexto = s
+2. Saltar caracteres ∈ delim en contexto
+3. Si *contexto = '\0': return NULL
+4. token = contexto
+5. Buscar siguiente delim, reemplazar con '\0'
+6. contexto = siguiente_char + 1
+7. Return token
+</pre>
+</div>
+
+<div class="warning">
+<b>CRÍTICO:</b> strtok() modifica la cadena original. Para preservarla, hacer copia con strcpy() antes de tokenizar.
+</div>
+
+<div class="example">
+<b>Ejemplo 8.8.1:</b>
+<pre>
+char str[] = "Hola Mundo";
+char *token = strtok(str, " ");  // "Hola"
+token = strtok(NULL, " ");       // "Mundo"
+token = strtok(NULL, " ");       // NULL
+</pre>
+</div>
+
+<hr>
+
+<h2><span class="header-num">8.9</span> FUNCIONES DE MEMORIA</h2>
+
+<div class="definition">
+<b>8.9.1 (Bloque de Memoria):</b> Un bloque B es una tupla (p, n) donde p ∈ void* y n ∈ ℕ representa bytes contiguos.
+</div>
+
+<table>
+<thead>
+<tr>
+<th>Prototipo</th>
+<th>Precondición</th>
+<th>Postcondición</th>
+<th>Traslape</th>
+<th>Propósito</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="func-name">void *memcpy(void *dest, const void *src, size_t n);</span></td>
+<td>dest, src válidos</td>
+<td>∀i&lt;n : ((char*)dest)[i] = ((char*)src)[i]</td>
+<td><span class="important">Indefinido</span></td>
+<td>Copia directa</td>
+</tr>
+<tr>
+<td><span class="func-name">void *memmove(void *dest, const void *src, size_t n);</span></td>
+<td>dest, src válidos</td>
+<td>∀i&lt;n : ((char*)dest)[i] = ((char*)src)[i]</td>
+<td><b>Seguro</b> (buffer temporal)</td>
+<td>Copia con traslape</td>
+</tr>
+<tr>
+<td><span class="func-name">int memcmp(const void *s1, const void *s2, size_t n);</span></td>
+<td>s1, s2 válidos</td>
+<td>Signo de diferencia bytes</td>
+<td>No aplica</td>
+<td>Comparación binaria</td>
+</tr>
+<tr>
+<td><span class="func-name">void *memchr(const void *s, int c, size_t n);</span></td>
+<td>s válido</td>
+<td>Ptr a ocurrencia o NULL</td>
+<td>No aplica</td>
+<td>Búsqueda byte</td>
+</tr>
+<tr>
+<td><span class="func-name">void *memset(void *s, int c, size_t n);</span></td>
+<td>s válido</td>
+<td>∀i&lt;n : ((char*)s)[i] = (unsigned char)c</td>
+<td>No aplica</td>
+<td>Inicialización</td>
+</tr>
+</tbody>
+</table>
+
+<div class="warning">
+<b>Error Común 8.8:</b> Usar memcpy con áreas traslapadas da comportamiento indefinido. Usar siempre memmove si hay posibilidad de traslape.
+</div>
+
+<div class="example">
+<b>Ejemplo 8.9.1 (Copia con Traslape):</b>
+<pre>
+char x[] = "Hogar Dulce Hogar";
+memmove(x, &x[6], 11);  
+// Resultado: "Dulce Hogar Hogar" (copia segura)
+</pre>
+</div>
+
+<hr>
+
+<h2><span class="header-num">8.10</span> OTRAS FUNCIONES</h2>
+
+<table>
+<thead>
+<tr>
+<th>Prototipo</th>
+<th>Propósito</th>
+<th>Complejidad</th>
+<th>Dependencia de Sistema</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="func-name">char *strerror(int errnum);</span></td>
+<td>Mapea errnum → mensaje de error</td>
+<td>O(1)</td>
+<td>Sí (localización)</td>
+</tr>
+<tr>
+<td><span class="func-name">size_t strlen(const char *s);</span></td>
+<td>Cuenta caracteres antes de '\0'</td>
+<td>O(n)</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+
+<div class="theorem">
+<b>8.10.1 (Longitud de Cadena):</b> strlen(s) = n ⇔ s[n] = '\0' ∧ ∀i < n : s[i] ≠ '\0'
+</div>
+
+<div class="example">
+<b>Ejemplo 8.10.1:</b>
+<pre>
+const char *s = "México";
+size_t len = strlen(s);  // len = 6 (ó 7 si cuenta carácter extendido)
+</pre>
+</div>
+
+<hr>
+
+<h2>EJERCICIOS DE AUTOEVALUACIÓN RESUELTOS</h2>
+
+<div class="exercise">
+<b>8.1:</b> Escriba instrucciones para cada tarea:
+<pre>
+a) c = toupper(c);
+b) printf("'%c' %s digito\n", c, isdigit(c) ? "es un" : "no es un");
+c) printf("%ld\n", atol("1234567"));
+d) printf("'%c' %s caracter de control\n", c, iscntrl(c) ? "es un" : "no es un");
+e) fgets(s1, 100, stdin);  // En lugar de gets (inseguro)
+f) puts(s1);
+g) ptr = strrchr(s1, c);
+h) putchar(c);
+i) printf("%f\n", atof("8.63582"));
+j) printf("'%c' %s letra\n", c, isalpha(c) ? "es una" : "no es una");
+k) c = getchar();
+l) ptr = strstr(s1, s2);
+m) printf("'%c' %s caracter de impresion\n", c, isprint(c) ? "es un" : "no es un");
+n) sscanf("1.27 10.3 9.432", "%lf %lf %lf", &d, &e, &f);
+o) strcpy(s1, s2);
+p) ptr = strpbrk(s1, s2);
+q) printf("strcmp(s1,s2) = %d\n", strcmp(s1, s2));
+r) ptr = strchr(s1, c);
+s) sprintf(s1, "%7d%7d%7d", x, y, z);
+t) strncat(s1, s2, 10);
+u) printf("strlen(s1) = %u\n", strlen(s1));
+v) printf("%d\n", atoi("-21"));
+w) ptr = strtok(s2, ",");
+</pre>
+</div>
+
+<hr>
+
+<h2>10 EJERCICIOS ADICIONALES PARA PRÁCTICA</h2>
+
+<div class="exercise">
+<b>Ejercicio 1: Validador de Cadenas Numéricas</b>
+<p>Escriba una función <code>int esNumeroValido(const char *s)</code> que retorne 1 si la cadena representa un número entero o flotante válido, 0 en caso contrario. Debe aceptar signos, punto decimal y notación científica.</p>
+<p><strong>Solución sugerida:</strong> Use strtod() y verifique que *endptr apunte a '\0'.</p>
+</div>
+
+<div class="exercise">
+<b>Ejercicio 2: Contador de Palíndromos</b>
+<p>Implemente <code>int cuentaPalindromos(char *frase)</code> que cuente las palabras palíndromas (se leen igual al revés) en una frase. Use strtok() para tokenizar.</p>
+</div>
+
+<div class="exercise">
+<b>Ejercicio 3: Normalización de Texto</b>
+<p>Cree <code>void normalizaTexto(char *texto)</code> que:
+- Convierta todo a minúsculas
+- Reemplace múltiples espacios por uno solo
+- Elimine espacios al inicio y final
+- Capitalice la primera letra de cada oración
+</p>
+</div>
+
+<div class="exercise">
+<b>Ejercicio 4: Búsqueda de Anagramas</b>
+<p>Dado un arreglo de palabras, implemente <code>void encuentraAnagramas(char **palabras, int n)</code> que agrupe palabras que son anagramas entre sí usando qsort() y comparaciones ordenadas.</p>
+</div>
+
+<div class="exercise">
+<b>Ejercicio 5: Formateador CSV</b>
+<p>Escriba <code>void csvToTabla(char *csv)</code> que convierta una línea CSV en una tabla HTML, manejando correctamente comillas y delimitadores.</p>
+</div>
+
+<div class="exercise">
+<b>Ejercicio 6: Cifrado César</b>
+<p>Implemente <code>void cifradoCesar(char *texto, int n)</code> que desplace cada letra n posiciones usando aritmética modular: c' = (c - 'a' + n) % 26 + 'a'.</p>
+</div>
+
+<div class="exercise">
+<b>Ejercicio 7: Validador de Contraseñas</b>
+<p>Cree <code>int validaPassword(const char *pass)</code> que verifique:
+- ≥8 caracteres
+- Al menos una mayúscula, una minúscula, un dígito y un símbolo
+- No contenga espacios
+</p>
+</div>
+
+<div class="exercise">
+<b>Ejercicio 8: Parser de Expresiones</b>
+<p>Implemente <code>double evaluaExpr(const char *expr)</code> que evalúe expresiones aritméticas simples (+, -, *, /) con paréntesis usando strtok() y pilas.</p>
+</div>
+
+<div class="exercise">
+<b>Ejercicio 9: Compresión RLE</b>
+<p>Escriba <code>void comprimeRLE(char *s)</code> que comprima usando Run-Length Encoding: "aaabbc" → "a3b2c1".</p>
+</div>
+
+<div class="exercise">
+<b>Ejercicio 10: Regex Simple</b>
+<p>Cree <code>int matchRegex(const char *texto, const char *patron)</code> que soporte:
+- '.' cualquier carácter
+- '*' cero o más ocurrencias
+- '^' inicio, '$' fin
+</p>
+</div>
+
+<hr>
+
+<footer>
+<p><strong>Tratado completo del Capítulo 8</strong> - "Cómo Programar en C" (Deitel)</p>
+<p><strong>Fecha de síntesis:</strong> Noviembre 2025</p>
+<p><strong>Cobertura:</strong> Todas las funciones, prototipos, tablas, ejemplos y ejercicios del plan general 8.1-8.10.</p>
+<p><strong>Nota:</strong> HTML autónomo con estilos incluidos. Para uso académico y consulta rápida.</p>
+</footer>
+
+</body>
+</html>

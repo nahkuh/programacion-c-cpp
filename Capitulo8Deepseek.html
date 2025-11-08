@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tratado Completo - Caracteres y Cadenas en C</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header .subtitle {
+            color: #7f8c8d;
+            font-size: 1.2em;
+        }
+
+        .nav {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .nav-list {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .nav-item {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 25px;
+            padding: 10px 20px;
+        }
+
+        .nav-item a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-left: 5px solid #667eea;
+        }
+
+        .section h2 {
+            color: #2c3e50;
+            border-bottom: 2px solid #ecf0f1;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section h2:before {
+            content: "§";
+            background: #667eea;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8em;
+        }
+
+        .subsection {
+            margin: 25px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #3498db;
+        }
+
+        .subsection h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .subsection h3:before {
+            content: "▶";
+            color: #3498db;
+            font-size: 0.9em;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        th {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #ecf0f1;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        tr:hover {
+            background-color: #e8f4f8;
+        }
+
+        .code {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            margin: 20px 0;
+            overflow-x: auto;
+            border-left: 4px solid #e74c3c;
+        }
+
+        .code-header {
+            background: #34495e;
+            padding: 10px 20px;
+            margin: -20px -20px 20px -20px;
+            border-radius: 10px 10px 0 0;
+            color: #bdc3c7;
+            font-size: 0.9em;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .definition {
+            background: #e8f6f3;
+            border-left: 4px solid #1abc9c;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .definition h4 {
+            color: #16a085;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .definition h4:before {
+            content: "📘";
+        }
+
+        .theorem {
+            background: #fff9e6;
+            border-left: 4px solid #f39c12;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .theorem h4 {
+            color: #e67e22;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .theorem h4:before {
+            content: "📐";
+        }
+
+        .exercise {
+            background: #e8f4fd;
+            border-left: 4px solid #3498db;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .exercise h4 {
+            color: #2980b9;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .exercise h4:before {
+            content: "💡";
+        }
+
+        .warning {
+            background: #ffeaa7;
+            border-left: 4px solid #fdcb6e;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .warning h4 {
+            color: #e17055;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .warning h4:before {
+            content: "⚠️";
+        }
+
+        .tip {
+            background: #d5f4e6;
+            border-left: 4px solid #2ecc71;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .tip h4 {
+            color: #27ae60;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tip h4:before {
+            content: "💡";
+        }
+
+        .function-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .function-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .function-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .function-name {
+            color: #2c3e50;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-family: 'Consolas', monospace;
+        }
+
+        .function-prototype {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: 'Consolas', monospace;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: white;
+            margin-top: 50px;
+        }
+
+        @media (max-width: 768px) {
+            .nav-list {
+                flex-direction: column;
+            }
+            
+            .function-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+        }
+
+        .math-example {
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-family: 'Consolas', monospace;
+        }
+
+        .comparison-table {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Tratado Completo de Caracteres y Cadenas en C</h1>
+            <p class="subtitle">Capítulo 8 - Análisis Matemático y Práctico</p>
+        </div>
+
+        <nav class="nav">
+            <ul class="nav-list">
+                <li class="nav-item"><a href="#intro">8.1 Introducción</a></li>
+                <li class="nav-item"><a href="#fundamentos">8.2 Fundamentos</a></li>
+                <li class="nav-item"><a href="#manipulacion">8.3 Manipulación</a></li>
+                <li class="nav-item"><a href="#conversion">8.4 Conversión</a></li>
+                <li class="nav-item"><a href="#entrada-salida">8.5 E/S Estándar</a></li>
+                <li class="nav-item"><a href="#manipulacion-cadenas">8.6 Manipulación Cadenas</a></li>
+                <li class="nav-item"><a href="#comparacion">8.7 Comparación</a></li>
+                <li class="nav-item"><a href="#busqueda">8.8 Búsqueda</a></li>
+                <li class="nav-item"><a href="#memoria">8.9 Memoria</a></li>
+                <li class="nav-item"><a href="#otras">8.10 Otras Funciones</a></li>
+                <li class="nav-item"><a href="#ejercicios">Ejercicios</a></li>
+            </ul>
+        </nav>
+
+        <!-- 8.1 Introducción -->
+        <section id="intro" class="section">
+            <h2>8.1 Introducción</h2>
+            <div class="definition">
+                <h4>Definición 1.1: Procesamiento de Texto en C</h4>
+                <p>El lenguaje C proporciona un conjunto completo de funciones de biblioteca para el procesamiento eficiente de datos textuales, permitiendo el desarrollo de software avanzado como editores, procesadores de palabras y sistemas de captura computarizada.</p>
+            </div>
+            
+            <div class="subsection">
+                <h3>Objetivos del Capítulo</h3>
+                <ul>
+                    <li>Utilizar funciones de la biblioteca de manipulación de caracteres (<code>ctype.h</code>)</li>
+                    <li>Emplear funciones de entrada/salida de caracteres y cadenas (<code>stdio.h</code>)</li>
+                    <li>Aplicar funciones de conversión de cadenas (<code>stdlib.h</code>)</li>
+                    <li>Utilizar funciones para procesamiento de cadenas (<code>string.h</code>)</li>
+                    <li>Valorar el poder de las bibliotecas de funciones para reutilización de software</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 8.2 Fundamentos de Cadenas y Caracteres -->
+        <section id="fundamentos" class="section">
+            <h2>8.2 Fundamentos de Cadenas y Caracteres</h2>
+            
+            <div class="definition">
+                <h4>Definición 2.1: Carácter</h4>
+                <p>Un carácter en C es un valor <code>int</code> representado por un carácter entre comillas simples. El valor de una constante de carácter es el valor entero del carácter en el conjunto de caracteres de la máquina.</p>
+            </div>
+
+            <div class="definition">
+                <h4>Definición 2.2: Cadena</h4>
+                <p>Una cadena es un arreglo de caracteres que termina con el carácter nulo (<code>'\0'</code>). Se accede mediante un apuntador al primer carácter.</p>
+            </div>
+
+            <table>
+                <tr><th>Concepto</th><th>Sintaxis</th><th>Ejemplo</th><th>Tamaño en Memoria</th></tr>
+                <tr><td>Carácter</td><td><code>'c'</code></td><td><code>'A'</code>, <code>'\n'</code></td><td>1 byte + terminación</td></tr>
+                <tr><td>Cadena Literal</td><td><code>"texto"</code></td><td><code>"Hola"</code></td><td>n + 1 bytes</td></tr>
+                <tr><td>Arreglo de Caracteres</td><td><code>char arr[]</code></td><td><code>char nombre[20]</code></td><td>n bytes declarados</td></tr>
+                <tr><td>Apuntador a Cadena</td><td><code>char *ptr</code></td><td><code>char *mensaje</code></td><td>sizeof(pointer)</td></tr>
+            </table>
+
+            <div class="subsection">
+                <h3>Inicialización de Cadenas</h3>
+                <div class="code">
+                    <div class="code-header">Ejemplo: Diferentes formas de inicializar cadenas</div>
+char color[] = "azul";              // Arreglo automático de 5 elementos
+const char *ptrColor = "azul";      // Apuntador a cadena constante
+char color2[] = {'a','z','u','l','\0'}; // Inicialización explícita
+                </div>
+            </div>
+
+            <div class="warning">
+                <h4>Error Común 2.1</h4>
+                <p><strong>No reservar espacio para el carácter nulo:</strong> Siempre se debe asignar espacio adicional para el carácter <code>'\0'</code> que termina la cadena.</p>
+            </div>
+
+            <div class="tip">
+                <h4>Tip de Portabilidad 2.1</h4>
+                <p>Al inicializar <code>char*</code> con literales de cadena, algunos compiladores pueden colocar la cadena en memoria de solo lectura. Para modificar, use arreglos de caracteres.</p>
+            </div>
+        </section>
+
+        <!-- 8.3 Biblioteca de Manipulación de Caracteres -->
+        <section id="manipulacion" class="section">
+            <h2>8.3 Biblioteca de Manipulación de Caracteres (<code>ctype.h</code>)</h2>
+            
+            <div class="tip">
+                <h4>Tip para Prevenir Errores 3.1</h4>
+                <p>Siempre incluya <code>#include &lt;ctype.h&gt;</code> cuando use funciones de manipulación de caracteres.</p>
+            </div>
+
+            <h3>Funciones de Clasificación</h3>
+            <table>
+                <tr><th>Función</th><th>Prototipo</th><th>Descripción</th><th>Valor Retorno</th></tr>
+                <tr><td><code>isdigit</code></td><td><code>int isdigit(int c)</code></td><td>Verifica si es dígito (0-9)</td><td>Verdadero (≠0) o Falso (0)</td></tr>
+                <tr><td><code>isalpha</code></td><td><code>int isalpha(int c)</code></td><td>Verifica si es letra (A-Z, a-z)</td><td>Verdadero/Falso</td></tr>
+                <tr><td><code>isalnum</code></td><td><code>int isalnum(int c)</code></td><td>Verifica si es letra o dígito</td><td>Verdadero/Falso</td></tr>
+                <tr><td><code>isxdigit</code></td><td><code>int isxdigit(int c)</code></td><td>Verifica si es dígito hexadecimal</td><td>Verdadero/Falso</td></tr>
+                <tr><td><code>islower</code></td><td><code>int islower(int c)</code></td><td>Verifica si es minúscula</td><td>Verdadero/Falso</td></tr>
+                <tr><td><code>isupper</code></td><td><code>int isupper(int c)</code></td><td>Verifica si es mayúscula</td><td>Verdadero/Falso</td></tr>
+                <tr><td><code>isspace</code></td><td><code>int isspace(int c)</code></td><td>Verifica si es espacio en blanco</td><td>Verdadero/Falso</td></tr>
+                <tr><td><code>iscntrl</code></td><td><code>int iscntrl(int c)</code></td><td>Verifica si es carácter de control</td><td>Verdadero/Falso</td></tr>
+                <tr><td><code>ispunct</code></td><td><code>int ispunct(int c)</code></td><td>Verifica si es signo de puntuación</td><td>Verdadero/Falso</td></tr>
+                <tr><td><code>isprint</code></td><td><code>int isprint(int c)</code></td><td>Verifica si es carácter imprimible</td><td>Verdadero/Falso</td></tr>
+                <tr><td><code>isgraph</code></td><td><code>int isgraph(int c)</code></td><td>Verifica si es gráfico (≠ espacio)</td><td>Verdadero/Falso</td></tr>
+            </table>
+
+            <h3>Funciones de Conversión</h3>
+            <table>
+                <tr><th>Función</th><th>Prototipo</th><th>Descripción</th><th>Ejemplo</th></tr>
+                <tr><td><code>tolower</code></td><td><code>int tolower(int c)</code></td><td>Convierte a minúscula</td><td><code>'A' → 'a'</code></td></tr>
+                <tr><td><code>toupper</code></td><td><code>int toupper(int c)</code></td><td>Convierte a mayúscula</td><td><code>'a' → 'A'</code></td></tr>
+            </table>
+
+            <div class="code">
+                <div class="code-header">Ejemplo: Uso de funciones de clasificación</div>
+#include &lt;stdio.h&gt;
+#include &lt;ctype.h&gt;
+
+int main() {
+    char c = 'A';
+    
+    printf("isalpha('%c') = %d\n", c, isalpha(c));
+    printf("isupper('%c') = %d\n", c, isupper(c));
+    printf("tolower('%c') = '%c'\n", c, tolower(c));
+    printf("isdigit('%c') = %d\n", c, isdigit(c));
+    
+    return 0;
+}
+            </div>
+
+            <div class="math-example">
+                <strong>Análisis Matemático:</strong> Las funciones de <code>ctype.h</code> operan sobre el dominio de valores ASCII (0-255), mapeando cada entrada a un valor booleano según propiedades específicas del carácter.
+            </div>
+        </section>
+
+        <!-- 8.4 Funciones de Conversión de Cadenas -->
+        <section id="conversion" class="section">
+            <h2>8.4 Funciones de Conversión de Cadenas (<code>stdlib.h</code>)</h2>
+            
+            <div class="tip">
+                <h4>Tip para Prevenir Errores 4.1</h4>
+                <p>Siempre incluya <code>#include &lt;stdlib.h&gt;</code> cuando use funciones de conversión.</p>
+            </div>
+
+            <table>
+                <tr><th>Función</th><th>Prototipo</th><th>Descripción</th><th>Valor Retorno</th></tr>
+                <tr><td><code>atof</code></td><td><code>double atof(const char *ptrN)</code></td><td>Convierte cadena a double</td><td>Valor double</td></tr>
+                <tr><td><code>atoi</code></td><td><code>int atoi(const char *ptrN)</code></td><td>Convierte cadena a int</td><td>Valor int</td></tr>
+                <tr><td><code>atol</code></td><td><code>long atol(const char *ptrN)</code></td><td>Convierte cadena a long</td><td>Valor long</td></tr>
+                <tr><td><code>strtod</code></td><td><code>double strtod(const char *ptrN, char **ptrFinal)</code></td><td>Convierte cadena a double con resto</td><td>Valor double</td></tr>
+                <tr><td><code>strtol</code></td><td><code>long strtol(const char *ptrN, char **ptrFinal, int base)</code></td><td>Convierte cadena a long con base</td><td>Valor long</td></tr>
+                <tr><td><code>strtoul</code></td><td><code>unsigned long strtoul(const char *ptrN, char **ptrFinal, int base)</code></td><td>Convierte cadena a unsigned long</td><td>Valor unsigned long</td></tr>
+            </table>
+
+            <div class="code">
+                <div class="code-header">Ejemplo: Conversión de diferentes bases numéricas</div>
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main() {
+    const char *hex = "FF";
+    const char *bin = "1010";
+    const char *oct = "77";
+    
+    printf("Hexadecimal %s = %ld decimal\n", hex, strtol(hex, NULL, 16));
+    printf("Binario %s = %ld decimal\n", bin, strtol(bin, NULL, 2));
+    printf("Octal %s = %ld decimal\n", oct, strtol(oct, NULL, 8));
+    printf("Float %s = %f\n", "3.14159", atof("3.14159"));
+    
+    return 0;
+}
+            </div>
+
+            <div class="theorem">
+                <h4>Teorema 4.1: Conversión de Bases</h4>
+                <p>Dada una cadena <code>s</code> representando un número en base <code>b</code> (2 ≤ b ≤ 36), la función <code>strtol(s, NULL, b)</code> devuelve el valor decimal equivalente mediante la fórmula:</p>
+                <p style="text-align: center; font-family: monospace;">
+                    valor = Σ (dígito<sub>i</sub> × b<sup>posición</sup>)
+                </p>
+                <p>donde los dígitos A-Z representan los valores 10-35.</p>
+            </div>
+        </section>
+
+        <!-- 8.5 Funciones de Entrada/Salida Estándar -->
+        <section id="entrada-salida" class="section">
+            <h2>8.5 Funciones de Entrada/Salida de la Biblioteca Estándar (<code>stdio.h</code>)</h2>
+            
+            <div class="tip">
+                <h4>Tip para Prevenir Errores 5.1</h4>
+                <p>Siempre incluya <code>#include &lt;stdio.h&gt;</code> cuando use funciones de E/S estándar.</p>
+            </div>
+
+            <table>
+                <tr><th>Función</th><th>Prototipo</th><th>Descripción</th><th>Retorno</th></tr>
+                <tr><td><code>getchar</code></td><td><code>int getchar(void)</code></td><td>Lee carácter de entrada estándar</td><td>Carácter como int</td></tr>
+                <tr><td><code>gets</code></td><td><code>char *gets(char *s)</code></td><td>Lee línea de texto</td><td>Apuntador a s</td></tr>
+                <tr><td><code>putchar</code></td><td><code>int putchar(int c)</code></td><td>Imprime carácter</td><td>Carácter impreso</td></tr>
+                <tr><td><code>puts</code></td><td><code>int puts(const char *s)</code></td><td>Imprime cadena + nueva línea</td><td>No negativo/EOF</td></tr>
+                <tr><td><code>sprintf</code></td><td><code>int sprintf(char *s, const char *formato, ...)</code></td><td>Formato a cadena</td><td>Caracteres escritos</td></tr>
+                <tr><td><code>sscanf</code></td><td><code>int sscanf(char *s, const char *formato, ...)</code></td><td>Lee formato de cadena</td><td>Elementos leídos</td></tr>
+            </table>
+
+            <div class="code">
+                <div class="code-header">Ejemplo: Procesamiento recursivo de cadenas</div>
+#include &lt;stdio.h&gt;
+
+void inverso(const char * const ptrS) {
+    if (ptrS[0] == '\0') return;      // Caso base
+    inverso(&ptrS[1]);                // Llamada recursiva
+    putchar(ptrS[0]);                 // Procesamiento
+}
+
+int main() {
+    char enunciado[80];
+    printf("Introduzca texto: ");
+    gets(enunciado);
+    printf("Texto invertido: ");
+    inverso(enunciado);
+    return 0;
+}
+            </div>
+
+            <div class="code">
+                <div class="code-header">Ejemplo: Uso de sprintf y sscanf</div>
+#include &lt;stdio.h&gt;
+
+int main() {
+    char buffer[100];
+    int x = 255;
+    double y = 3.14159;
+    
+    // Formateo a cadena
+    sprintf(buffer, "Entero: %d, Float: %.2f", x, y);
+    printf("Buffer: %s\n", buffer);
+    
+    // Lectura desde cadena
+    int a;
+    double b;
+    sscanf("123 45.67", "%d %lf", &a, &b);
+    printf("Leído: a=%d, b=%.2f\n", a, b);
+    
+    return 0;
+}
+            </div>
+        </section>
+
+        <!-- 8.6 Funciones de Manipulación de Cadenas -->
+        <section id="manipulacion-cadenas" class="section">
+            <h2>8.6 Funciones de Manipulación de Cadenas (<code>string.h</code>)</h2>
+            
+            <div class="tip">
+                <h4>Tip para Prevenir Errores 6.1</h4>
+                <p>Siempre incluya <code>#include &lt;string.h&gt;</code> cuando use funciones de manipulación de cadenas.</p>
+            </div>
+
+            <table>
+                <tr><th>Función</th><th>Prototipo</th><th>Descripción</th><th>Retorno</th></tr>
+                <tr><td><code>strcpy</code></td><td><code>char *strcpy(char *s1, const char *s2)</code></td><td>Copia s2 en s1</td><td>s1</td></tr>
+                <tr><td><code>strncpy</code></td><td><code>char *strncpy(char *s1, const char *s2, size_t n)</code></td><td>Copia n caracteres de s2 en s1</td><td>s1</td></tr>
+                <tr><td><code>strcat</code></td><td><code>char *strcat(char *s1, const char *s2)</code></td><td>Concatena s2 a s1</td><td>s1</td></tr>
+                <tr><td><code>strncat</code></td><td><code>char *strncat(char *s1, const char *s2, size_t n)</code></td><td>Concatena n caracteres de s2 a s1</td><td>s1</td></tr>
+            </table>
+
+            <div class="warning">
+                <h4>Error Común 6.1</h4>
+                <p><code>strncpy</code> no agrega automáticamente el carácter nulo cuando el tercer argumento es menor o igual que la longitud de la cadena fuente.</p>
+            </div>
+
+            <div class="code">
+                <div class="code-header">Ejemplo: Operaciones con cadenas</div>
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+int main() {
+    char s1[20] = "Feliz ";
+    char s2[] = "Año Nuevo";
+    char s3[40] = "";
+    char s4[10];
+    
+    printf("strcat(s1, s2) = %s\n", strcat(s1, s2));
+    printf("strncat(s3, s1, 6) = %s\n", strncat(s3, s1, 6));
+    
+    strncpy(s4, "Hola Mundo", 4);
+    s4[4] = '\0';  // Importante: agregar terminación
+    printf("strncpy result: %s\n", s4);
+    
+    return 0;
+}
+            </div>
+
+            <div class="theorem">
+                <h4>Teorema 6.1: Longitud de Concatenación</h4>
+                <p>Dadas dos cadenas s1 y s2 con longitudes n y m respectivamente, la longitud resultante de <code>strcat(s1, s2)</code> es n + m, requiriendo que s1 tenga al menos n + m + 1 elementos.</p>
+            </div>
+        </section>
+
+        <!-- 8.7 Funciones de Comparación de Cadenas -->
+        <section id="comparacion" class="section">
+            <h2>8.7 Funciones de Comparación de la Biblioteca de Manipulación de Cadenas</h2>
+
+            <table>
+                <tr><th>Función</th><th>Prototipo</th><th>Descripción</th><th>Retorno</th></tr>
+                <tr><td><code>strcmp</code></td><td><code>int strcmp(const char *s1, const char *s2)</code></td><td>Compara s1 con s2</td><td>&lt;0, 0, &gt;0</td></tr>
+                <tr><td><code>strncmp</code></td><td><code>int strncmp(const char *s1, const char *s2, size_t n)</code></td><td>Compara primeros n caracteres</td><td>&lt;0, 0, &gt;0</td></tr>
+            </table>
+
+            <div class="warning">
+                <h4>Error Común 7.1</h4>
+                <p><code>strcmp</code> y <code>strncmp</code> devuelven 0 cuando las cadenas son iguales, no 1. Comparar con 0 para verificar igualdad.</p>
+            </div>
+
+            <div class="code">
+                <div class="code-header">Ejemplo: Comparación de cadenas</div>
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+int main() {
+    char *s1 = "abc";
+    char *s2 = "abd";
+    char *s3 = "abc";
+    
+    printf("strcmp(\"%s\", \"%s\") = %d\n", s1, s2, strcmp(s1, s2));
+    printf("strcmp(\"%s\", \"%s\") = %d\n", s1, s3, strcmp(s1, s3));
+    printf("strncmp(\"%s\", \"%s\", 2) = %d\n", s1, s2, strncmp(s1, s2, 2));
+    
+    return 0;
+}
+            </div>
+
+            <div class="theorem">
+                <h4>Teorema 7.1: Ordenamiento Lexicográfico</h4>
+                <p>Dadas dos cadenas s1 y s2, la comparación <code>strcmp(s1, s2)</code> se realiza carácter por carácter usando sus códigos ASCII/Unicode:</p>
+                <ul>
+                    <li>Si s1[i] &lt; s2[i] → retorna valor negativo</li>
+                    <li>Si s1[i] &gt; s2[i] → retorna valor positivo</li>
+                    <li>Si se alcanza '\0' en ambas → retorna 0</li>
+                </ul>
+            </div>
+
+            <div class="tip">
+                <h4>Tip de Portabilidad 7.1</h4>
+                <p>Los códigos numéricos internos para representar caracteres pueden diferir entre computadoras (ASCII, EBCDIC, Unicode).</p>
+            </div>
+        </section>
+
+        <!-- 8.8 Funciones de Búsqueda en Cadenas -->
+        <section id="busqueda" class="section">
+            <h2>8.8 Funciones de Búsqueda de la Biblioteca de Manipulación de Cadenas</h2>
+
+            <table>
+                <tr><th>Función</th><th>Prototipo</th><th>Descripción</th><th>Retorno</th></tr>
+                <tr><td><code>strchr</code></td><td><code>char *strchr(const char *s, int c)</code></td><td>Primera ocurrencia de c en s</td><td>Apuntador/NULL</td></tr>
+                <tr><td><code>strrchr</code></td><td><code>char *strrchr(const char *s, int c)</code></td><td>Última ocurrencia de c en s</td><td>Apuntador/NULL</td></tr>
+                <tr><td><code>strcspn</code></td><td><code>size_t strcspn(const char *s1, const char *s2)</code></td><td>Longitud inicial sin caracteres de s2</td><td>size_t</td></tr>
+                <tr><td><code>strspn</code></td><td><code>size_t strspn(const char *s1, const char *s2)</code></td><td>Longitud inicial con caracteres de s2</td><td>size_t</td></tr>
+                <tr><td><code>strpbrk</code></td><td><code>char *strpbrk(const char *s1, const char *s2)</code></td><td>Primera ocurrencia de cualquier carácter de s2 en s1</td><td>Apuntador/NULL</td></tr>
+                <tr><td><code>strstr</code></td><td><code>char *strstr(const char *s1, const char *s2)</code></td><td>Primera ocurrencia de s2 en s1</td><td>Apuntador/NULL</td></tr>
+                <tr><td><code>strtok</code></td><td><code>char *strtok(char *s1, const char *s2)</code></td><td>Divide s1 en tokens usando delimitadores s2</td><td>Apuntador/NULL</td></tr>
+            </table>
+
+            <div class="code">
+                <div class="code-header">Ejemplo: Búsqueda y tokenización</div>
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+int main() {
+    char texto[] = "Este es un ejemplo;de,tokenizacion";
+    char *token;
+    
+    // Primera llamada con la cadena
+    token = strtok(texto, " ;,");
+    
+    while (token != NULL) {
+        printf("Token: %s\n", token);
+        // Llamadas subsiguientes con NULL
+        token = strtok(NULL, " ;,");
+    }
+    
+    // Búsqueda de subcadena
+    char *cadena = "Buscando una aguja en un pajar";
+    char *resultado = strstr(cadena, "aguja");
+    if (resultado) {
+        printf("Encontrado: %s\n", resultado);
+    }
+    
+    return 0;
+}
+            </div>
+
+            <div class="theorem">
+                <h4>Algoritmo 8.1: Tokenización con strtok</h4>
+                <p>El proceso de tokenización sigue estos pasos:</p>
+                <ol>
+                    <li>Primera llamada: <code>strtok(cadena, delimitadores)</code></li>
+                    <li>Encuentra primer carácter no delimitador</li>
+                    <li>Encuentra siguiente delimitador y lo reemplaza con '\0'</li>
+                    <li>Devuelve apuntador al token</li>
+                    <li>Llamadas subsiguientes: <code>strtok(NULL, delimitadores)</code></li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- 8.9 Funciones de Memoria -->
+        <section id="memoria" class="section">
+            <h2>8.9 Funciones de Memoria de la Biblioteca de Manipulación de Cadenas</h2>
+
+            <table>
+                <tr><th>Función</th><th>Prototipo</th><th>Descripción</th><th>Retorno</th></tr>
+                <tr><td><code>memcpy</code></td><td><code>void *memcpy(void *s1, const void *s2, size_t n)</code></td><td>Copia n bytes de s2 a s1</td><td>s1</td></tr>
+                <tr><td><code>memmove</code></td><td><code>void *memmove(void *s1, const void *s2, size_t n)</code></td><td>Copia n bytes (permite solapamiento)</td><td>s1</td></tr>
+                <tr><td><code>memcmp</code></td><td><code>int memcmp(const void *s1, const void *s2, size_t n)</code></td><td>Compara n bytes</td><td>&lt;0, 0, &gt;0</td></tr>
+                <tr><td><code>memchr</code></td><td><code>void *memchr(const void *s, int c, size_t n)</code></td><td>Busca c en primeros n bytes</td><td>Apuntador/NULL</td></tr>
+                <tr><td><code>memset</code></td><td><code>void *memset(void *s, int c, size_t n)</code></td><td>Establece n bytes a c</td><td>s1</td></tr>
+            </table>
+
+            <div class="warning">
+                <h4>Error Común 9.1</h4>
+                <p><code>memcpy</code> tiene comportamiento indefinido si hay solapamiento entre las áreas de memoria. Use <code>memmove</code> en esos casos.</p>
+            </div>
+
+            <div class="code">
+                <div class="code-header">Ejemplo: Manipulación de bloques de memoria</div>
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+int main() {
+    char s1[20];
+    char s2[] = "Copia esta cadena";
+    int arr1[5] = {1, 2, 3, 4, 5};
+    int arr2[5];
+    
+    // Copia de memoria
+    memcpy(s1, s2, strlen(s2) + 1);
+    printf("memcpy: %s\n", s1);
+    
+    // Comparación de memoria
+    if (memcmp(arr1, arr2, sizeof(arr1)) {
+        printf("Los arreglos son diferentes\n");
+    }
+    
+    // Inicialización con memset
+    memset(s1, 'A', 10);
+    s1[10] = '\0';
+    printf("memset: %s\n", s1);
+    
+    return 0;
+}
+            </div>
+
+            <div class="theorem">
+                <h4>Teorema 9.1: Eficiencia de memcpy vs memmove</h4>
+                <p><code>memcpy</code> es más rápido pero requiere áreas no solapadas. <code>memmove</code> usa un buffer temporal para manejar solapamientos, siendo más seguro pero potencialmente más lento.</p>
+            </div>
+        </section>
+
+        <!-- 8.10 Otras Funciones de Cadenas -->
+        <section id="otras" class="section">
+            <h2>8.10 Otras Funciones de la Biblioteca de Manipulación de Cadenas</h2>
+
+            <table>
+                <tr><th>Función</th><th>Prototipo</th><th>Descripción</th><th>Retorno</th></tr>
+                <tr><td><code>strerror</code></td><td><code>char *strerror(int errornum)</code></td><td>Mensaje de error correspondiente</td><td>Cadena de error</td></tr>
+                <tr><td><code>strlen</code></td><td><code>size_t strlen(const char *s)</code></td><td>Longitud de cadena (sin '\0')</td><td>Número de caracteres</td></tr>
+            </table>
+
+            <div class="code">
+                <div class="code-header">Ejemplo: Uso de strlen y strerror</div>
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+#include &lt;errno.h&gt;
+
+int main() {
+    char *cadena = "Hola Mundo";
+    
+    printf("Longitud de '%s': %zu\n", cadena, strlen(cadena));
+    
+    // Simulación de error
+    FILE *file = fopen("archivo_inexistente.txt", "r");
+    if (file == NULL) {
+        printf("Error: %s\n", strerror(errno));
+    }
+    
+    return 0;
+}
+            </div>
+
+            <div class="theorem">
+                <h4>Teorema 10.1: Longitud de Cadena</h4>
+                <p>Para cualquier cadena s válida (terminada en '\0'), <code>strlen(s)</code> devuelve el número de caracteres desde el inicio hasta antes del primer '\0', cumpliendo:</p>
+                <p style="text-align: center; font-family: monospace;">
+                    strlen(s) = max { n ∈ ℕ | s[n] ≠ '\0' }
+                </p>
+            </div>
+
+            <div class="tip">
+                <h4>Tip de Portabilidad 10.1</h4>
+                <p>Los mensajes generados por <code>strerror</code> son dependientes del sistema y pueden variar entre diferentes implementaciones.</p>
+            </div>
+        </section>
+
+        <!-- Ejercicios de Práctica -->
+        <section id="ejercicios" class="section">
+            <h2>Ejercicios de Práctica</h2>
+
+            <div class="exercise">
+                <h4>Ejercicio 1: Validación de Entrada Hexadecimal</h4>
+                <p>Escriba un programa que valide si una cadena contiene solo dígitos hexadecimales (0-9, A-F, a-f).</p>
+                <div class="code">
+int es_hexadecimal(const char *cadena) {
+    for (int i = 0; cadena[i] != '\0'; i++) {
+        if (!isxdigit(cadena[i])) {
+            return 0;  // Falso
+        }
+    }
+    return 1;  // Verdadero
+}
+                </div>
+            </div>
+
+            <div class="exercise">
+                <h4>Ejercicio 2: Conversión de Formatos de Fecha</h4>
+                <p>Implemente una función que convierta una fecha en formato "DD/MM/AAAA" a "DD de Mes del AAAA".</p>
+            </div>
+
+            <div class="exercise">
+                <h4>Ejercicio 3: Búsqueda de Patrones</h4>
+                <p>Cree un programa que encuentre todas las ocurrencias de una subcadena dentro de un texto usando <code>strstr</code>.</p>
+            </div>
+
+            <div class="exercise">
+                <h4>Ejercicio 4: Tokenización Avanzada</h4>
+                <p>Desarrolle una función que divida una cadena en tokens considerando múltiples delimitadores y que ignore delimitadores consecutivos.</p>
+            </div>
+
+            <div class="exercise">
+                <h4>Ejercicio 5: Comparación Insensible a Mayúsculas</h4>
+                <p>Implemente una versión de <code>strcmp</code> que ignore diferencias entre mayúsculas y minúsculas.</p>
+            </div>
+
+            <div class="exercise">
+                <h4>Ejercicio 6: Concatenación Segura</h4>
+                <p>Escriba una función que concatene dos cadenas garantizando que no haya desbordamiento de búfer.</p>
+                <div class="code">
+char *concat_seguro(char *dest, const char *src, size_t tam_dest) {
+    size_t len_dest = strlen(dest);
+    size_t len_src = strlen(src);
+    
+    if (len_dest + len_src + 1 > tam_dest) {
+        return NULL;  // Error: no cabe
+    }
+    
+    return strncat(dest, src, tam_dest - len_dest - 1);
+}
+                </div>
+            </div>
+
+            <div class="exercise">
+                <h4>Ejercicio 7: Análisis de Texto</h4>
+                <p>Cree un programa que cuente la frecuencia de cada letra en un texto, ignorando diferencias entre mayúsculas y minúsculas.</p>
+            </div>
+
+            <div class="exercise">
+                <h4>Ejercicio 8: Conversión Morse</h4>
+                <p>Implemente un traductor entre texto y código Morse usando tablas de búsqueda.</p>
+            </div>
+
+            <div class="exercise">
+                <h4>Ejercicio 9: Validación de Email</h4>
+                <p>Escriba una función que valide el formato básico de una dirección de email usando funciones de búsqueda de cadenas.</p>
+            </div>
+
+            <div class="exercise">
+                <h4>Ejercicio 10: Manipulación de Memoria</h4>
+                <p>Desarrolle sus propias versiones de <code>memcpy</code>, <code>memmove</code> y <code>memset</code>.</p>
+                <div class="code">
+void *mi_memcpy(void *dest, const void *src, size_t n) {
+    char *d = (char *)dest;
+    const char *s = (const char *)src;
+    
+    for (size_t i = 0; i < n; i++) {
+        d[i] = s[i];
+    }
+    
+    return dest;
+}
+                </div>
+            </div>
+        </section>
+
+        <div class="footer">
+            <p>Tratado Completo de Caracteres y Cadenas en C - Capítulo 8</p>
+            <p>© 2024 - Basado en "Cómo Programar en C" de Deitel</p>
+        </div>
+    </div>
+
+    <script>
+        // Smooth scrolling para navegación
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Resaltado de código
+        document.querySelectorAll('.code').forEach(codeBlock => {
+            const lines = codeBlock.textContent.split('\n');
+            codeBlock.innerHTML = '';
+            
+            lines.forEach(line => {
+                const lineDiv = document.createElement('div');
+                lineDiv.style.padding = '2px 0';
+                lineDiv.textContent = line;
+                codeBlock.appendChild(lineDiv);
+            });
+        });
+
+        // Efectos hover en tarjetas de función
+        document.querySelectorAll('.function-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>
