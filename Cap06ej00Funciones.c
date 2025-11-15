@@ -1,0 +1,829 @@
+/* biblioteca de las funciones de los ejercicios del capitulo 6
+| Cap06ej00Funciones.h | 8nov2025 |
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+#include "Cap06ej00Funciones.h"
+
+
+
+
+
+
+/*
+suma los elementos de un arreglo | Cap06ej02SumaUnA.c | 10nov2025 | 
+*/
+double  sumaArreglo( double A[], int N ){
+
+    double Total=0;
+
+    for(int i=0; i<N; i++){
+        Total+=A[i];
+    }
+    return Total;
+}
+
+
+
+/*
+muestra ordenamiento descendente | Cap06ej03OrdenamientoB.c | 10nov2025 | 
+*/
+int ordenamientoBurbuja(int a[],int N, char selector[]){
+    
+    char cadena[]="ascendente";
+
+    int p;
+    int i; /* contador de comparaciones */
+    int almacena; /* ubicación temporal utilizada para el intercambio de
+    elementos */
+    int verdad;
+
+    printf("%s ? %s\n",selector,cadena);
+    for(i=0;i<11;i++){                              /*ciclo que sirve para comparar dos cadenas elemento por elemento */
+        verdad=(selector[i]==cadena[i])?1:0;
+        if(verdad==0){
+            printf("%c ? %c\n",selector[i],cadena[i]);
+            break;
+            
+        }
+    }
+    
+      
+    
+    /* ordenamiento burbuja */
+    /* ciclo para controlar el número de pasos */
+    for ( p = 1; p < N; p++ ) {
+    
+    /* ciclo para controlar el número de comparaciones por pasada */
+        for ( i = 0; i < N - 1; i++ ) {
+    
+        /* compara los elementos adyacentes y los intercambia si el primer
+        elemento es mayor que el segundo */
+            if (  (verdad)?a[ i ] > a[ i + 1 ]:a[ i ] < a[ i + 1 ] ) {
+                almacena = a[ i ];
+                a[ i ] = a[ i + 1 ];
+                a[ i + 1 ] = almacena;
+            } /* fin de if */
+    
+        } /* fin del for interno */
+    
+    } /* fin del for externo */
+    
+    printf( "\nElementos de datos en orden %s\n",selector );
+    
+    /* muestra el arreglo ordenado */
+   // for ( i = 0; i < N; i++ ) {
+   // printf( "%4d", a[ i ] );
+   // } /* fin de for */
+    
+    printf( "\n" );
+
+    return 0; /* indica terminación exitosa */
+}
+
+/*
+muestra busqueda lineal | Cap06ej04BusquedaL.c | 11nov2025 | 
+*/
+int busquedaLineal(int a[],int N, int llave){
+    
+    int i; /* contador de comparaciones */
+    
+    printf("\nla llave es %d\n",llave);
+    /* busqueda lineal */
+    /* ciclo para controlar de comparación */
+   
+    /* ciclo para controlar el número de comparaciones por pasada */
+    for ( i = 0; i < N; i++ ) {
+
+    /* compara los elementos uno a uno hasta que coincida  uno con la llave */
+        if (  llave == a[i] ) {
+            return i;
+        } /* fin de if */
+
+    } /* fin del for interno */
+
+    return -1; /* indica terminación exitosa */
+}
+
+/*
+muestra busqueda binaria | Cap06ej04BusquedaL.c | 11nov2025 | 
+*/
+int busquedaBinaria(int a[],int N, int llave){
+   
+    int alto=N; /* contador de comparaciones */
+    int bajo=0;
+    int central;
+
+    //printf("\nla llave es %d\n",llave);
+    /* busqueda lineal */
+    /* ciclo para controlar de comparación */
+   
+    /* ciclo para controlar el número de comparaciones por pasada */
+    while (bajo<=alto){
+        central = ( bajo + alto ) / 2;
+    /* compara los elementos uno a uno hasta que coincida  uno con la llave */
+            if (  llave == a[central] ) {
+                return central;
+            } else if ( llave<a[central] ){
+                alto = central - 1;
+            } else{
+                bajo = central + 1;
+            }/* fin de if */
+
+    }
+    
+    return -1; /* indica terminación exitosa */
+}
+
+
+/* 
+simula una partida de 36k tiros de 2 dados | Cap06ej06TiraDados36k.c | 11nov2027 |
+*/
+void tira2Dados(int d[][DAD], int frec[][NUM] ){ /*  hay 2=DAD dados, y cada dado tiene NUM=6 caras */
+    int i;
+    int j;
+    int Dado1;
+    int Dado2;
+    
+   
+    srand( time(NULL) );
+
+    printf("Los datos son: \n");
+
+    for( j=0; j<ENE; j++ ){  /* y lanzamos los dados 36000=ENE veces*/
+            
+        for( i=0; i<DAD; i++ ){ /*se lanzan 2 dados a la vez*/
+
+            printf( "%2d, " , d[ j ][ i ] = rand() % NUM + 1 );
+            
+            if( i==0 )
+                Dado1=d[j][i]-1;
+
+            if( i==1 ){
+                Dado2=d[j][i]-1;    
+                ++frec[ Dado1 ][ Dado2 ];
+            }
+        }
+
+        printf("    ");
+
+        if( 9 == j % 10 )
+            printf( "\n\n" );
+            
+    }
+
+    
+
+
+}
+
+void histograma( int f[ ][ NUM ] , int F[] ){
+    
+    int acumula;
+    printf("\n\n DADO1 | DADO2 | SUMA DE DADOS | FRECUENCIA  \n");
+    for( int i=0 ; i<NUM; i++ ){
+        
+        for( int j=0; j<NUM; j++){
+            printf("%4d   | %4d  | %7d       | %6d      ",i+1,j+1, acumula=i+1+j+1, f[i][j] );
+            F[acumula-2]+=f[i][j];
+            for( int k=1; k<=f[i][j]; k++ ){
+                if( k != f[i][j] ){
+                    printf("-");
+                }else{ printf(">\n"); }
+            }
+            
+        }    
+        printf("\n");
+    }
+}
+
+
+/* 
+imprime una matriz de dim mXn con m,n en los Naturales | Cap06ej07Matrix.c | 11nov2027 |
+*/
+void imprimirMatriz(int M[][Columnas]){
+    
+       
+    for( int i=0 ; i<Renglones; i++ ){
+        
+        for( int j=0; j<Columnas; j++ ){
+         
+            printf( "%5d  ",M[i][j]);
+        
+        }
+        printf("\n\n");
+    }    
+
+}
+
+
+/*
+Programa que toma una base de datos y calcula una estadistica 3M y frecuencias
+| Cap06ej08Estadistico3MyF.c | 13nov2025 | 
+*/
+double promedio( int x[], int n ){
+
+    
+    double acumula;
+   
+    for( int i=0; i<n; i++ ){
+        
+        acumula += (double) x[i];
+
+        
+    }
+
+    return (double)acumula/n;    
+
+}
+
+void frecuencia( int x[], int n, int F[], int m ){
+    
+    int acumula=F[0];
+    int a[]={0};
+    
+    for( int i=0; i<n; i++ ){
+
+        F[x[i]]++;
+
+    }
+
+
+    printf("\n\n [   Datos   ] | FRECUENCIA  \n");
+    for( int i=0; i<m; i++ ){
+        
+        
+        printf(" %7d       | %6d      ",i,F[i]);
+        
+        if(  i != F[i] ){
+            printf("-");
+        }else{ printf(">\n"); }
+        
+        printf("\n");
+    }
+
+}
+
+void moda( int F[], int m , int MODAS[], int RANGO[] ){
+
+    int i;
+    int j;
+    int grande=0;
+    int peque;
+
+    for( i==0; i<m; i++ ){
+
+        if(F[i]>grande){
+            grande=F[i];
+        }
+
+    }
+    for( i==0; i<m; i++ ){
+
+        if(F[i]==grande){
+            printf("Moda = %d, ",MODAS[i]=RANGO[i]);
+            
+        }
+
+    }
+    printf("\n");
+
+}
+
+int mediana( int x[], int n ){
+
+    if(n%2==1){
+        return x[(n+1/2)-1];
+    }else{
+        return x[n/2-1];
+    }
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
