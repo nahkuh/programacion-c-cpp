@@ -25,7 +25,7 @@ int main(){
 
     for( i=0 ; i<RUL; i++ ){
   
-        printf( "%4d  ",d[i]=rand()%(DOM/2)+1 );
+        printf( "%4d  ",d[i]=rand()%DOM+1 );
 
         if((i+1)%DOM==0)
             printf("\n\n");
@@ -39,7 +39,7 @@ int main(){
         
         
          
-        printf( "%4d  ",d[i]=rand()%100+1 );
+        printf( "%4d  ",d[i] );
 
         if((i+1)%DOM==0)
             printf("\n\n");
@@ -52,21 +52,19 @@ int main(){
         RANGO[i]=i+1;
     }
 
-    frecuencia(d,RUL,F,DOM);
+    frecuencia(d,RUL,F,DOM,RANGO);
     
     printf("\n\n");
 
-    printf("Promedio = %f", promedio(d,RUL));
-    
+    printf("Promedio = %f", promedio(d,RUL) );
+        
     printf("\n\n");
 
-    moda(F,DOM, MODAS, RANGO );
+    moda( F,DOM, MODAS, RANGO );
 
     printf("\n\n");
 
     printf("mediana = %d", mediana(d,RUL));
-
-    
 
     return 0;
 }

@@ -66,7 +66,7 @@ Programa que toma una base de datos y calcula una estadistica 3M y frecuencias
 */
 double promedio( int x[], int n );
 
-void frecuencia( int x[], int n, int F[], int m );
+void frecuencia( int x[], int n, int F[], int m , int RANGO[]);
 
 void moda( int F[], int m , int MODAS[], int RANGO[] );
 

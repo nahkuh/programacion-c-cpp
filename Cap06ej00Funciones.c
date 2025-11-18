@@ -31,7 +31,7 @@ double  sumaArreglo( double A[], int N ){
 /*
 muestra ordenamiento descendente | Cap06ej03OrdenamientoB.c | 10nov2025 | 
 */
-int ordenamientoBurbuja(int a[],int N, char selector[]){
+int ordenamientoBurbuja( int a[], int N, char selector[] ){
     
     char cadena[]="ascendente";
 
@@ -45,7 +45,7 @@ int ordenamientoBurbuja(int a[],int N, char selector[]){
     for(i=0;i<11;i++){                              /*ciclo que sirve para comparar dos cadenas elemento por elemento */
         verdad=(selector[i]==cadena[i])?1:0;
         if(verdad==0){
-            printf("%c ? %c\n",selector[i],cadena[i]);
+            printf("%c ? %c | verdad=%d\n",selector[i],cadena[i],verdad);
             break;
             
         }
@@ -72,12 +72,12 @@ int ordenamientoBurbuja(int a[],int N, char selector[]){
     
     } /* fin del for externo */
     
-    printf( "\nElementos de datos en orden %s\n",selector );
+    //printf( "\nElementos de datos en orden %s & %s | %d\n",selector,cadena,verdad );
     
     /* muestra el arreglo ordenado */
-   // for ( i = 0; i < N; i++ ) {
-   // printf( "%4d", a[ i ] );
-   // } /* fin de for */
+    //for ( i = 0; i < N; i++ ) {
+    //printf( "%4d", a[ i ] );
+    //} /* fin de for */
     
     printf( "\n" );
 
@@ -240,28 +240,42 @@ double promedio( int x[], int n ){
 
 }
 
-void frecuencia( int x[], int n, int F[], int m ){
+void frecuencia( int x[], int n, int F[], int m,  int RANGO[] ){
     
     int acumula=F[0];
-    int a[]={0};
-    
+    // int a[]={0};
+    int k=0,j=0; /*contador especializado*/
+    RANGO[0]=x[0], j=0;
+
+    printf("\n\nentra F[0] = %d, x[0] = %d\n\n",F[0],x[0]);
+
     for( int i=0; i<n; i++ ){
-
-        F[x[i]]++;
-
+        
+        ++F[x[i]-1];
+        if(i<n-2 && x[i]<x[i+1]){
+            j++;
+            RANGO[j]=x[i+1];
+        }
+        
+    }
+    printf("\n\nentra F[0] = %d, x[0] = %d\n\n",F[0],x[0]);
+    if(x[n-2]<x[n-1]){
+            j++;
+            RANGO[j]=x[n-1];
     }
 
 
+    printf("\n\nsale j=%d F[0] = %d, x[0] = %d\n\n",j,F[0],x[0]);
+
     printf("\n\n [   Datos   ] | FRECUENCIA  \n");
     for( int i=0; i<m; i++ ){
-        
-        
-        printf(" %7d       | %6d      ",i,F[i]);
-        
-        if(  i != F[i] ){
-            printf("-");
-        }else{ printf(">\n"); }
-        
+               
+        printf(" %7d       | %6d      ",x[i],F[i]);
+        for(k=0;k<=F[i];k++){
+            if(  k == F[i] ){
+                printf(">");
+            }else{ printf("-"); }
+        }       
         printf("\n");
     }
 
@@ -273,19 +287,22 @@ void moda( int F[], int m , int MODAS[], int RANGO[] ){
     int j;
     int grande=0;
     int peque;
-
-    for( i==0; i<m; i++ ){
+    printf("\n\n\n%d %d %d %d",F[0],m,MODAS[0],RANGO[0]);
+    for( i=0; i<m; i++ ){
 
         if(F[i]>grande){
             grande=F[i];
         }
 
     }
-    for( i==0; i<m; i++ ){
+    printf("\n\ngrande=%d\n\n",grande);
+    printf("\n");
+    for( i=0; i<m; i++ ){
 
         if(F[i]==grande){
             printf("Moda = %d, ",MODAS[i]=RANGO[i]);
-            
+        }else{
+            MODAS[i]=0;
         }
 
     }
@@ -302,254 +319,6 @@ int mediana( int x[], int n ){
     }
     
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
