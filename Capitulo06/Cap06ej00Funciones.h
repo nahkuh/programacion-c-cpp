@@ -12,8 +12,8 @@
 #define NUM 6
 #define DAD 2
 
-#define Renglones 5
-#define Columnas 4
+#define Renglones 3
+#define Columnas 3
 
 #define RUL 10000
 #define DOM 100
@@ -58,7 +58,7 @@ void histograma(int f[][NUM],  int F[] );
 /* 
 imprime una matriz de dim mXn con m,n en los Naturales | Cap06ej07Matrix.c | 11nov2027 |
 */
-void imprimirMatriz(int M[][Columnas]);
+void imprimirMatriz(double M[][Columnas]);
 
 /*
 Programa que toma una base de datos y calcula una estadistica 3M y frecuencias
@@ -71,6 +71,18 @@ void frecuencia( int x[], int n, int F[], int m , int RANGO[]);
 void moda( int F[], int m , int MODAS[], int RANGO[] );
 
 int mediana( int x[], int n );
+
+
+/*
+muestra busqueda binaria recursiva | Cap06ej09BusquedaBinRe.c | 19nov2025 | 
+*/
+int busquedaBinariaRec( int a[], int i, int N, int llave1);
+
+/* 
+Este programa calcula el valor de un determinante de 3x3 | Cap06ej10Determinante3x3.c | 19nov2025 |
+*/
+double Determinante( double x[][Columnas],int m);
+
 
 
 #endif

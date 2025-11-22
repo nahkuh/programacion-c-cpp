@@ -48,11 +48,19 @@ int main(){
     
     printf("\n\n\n\n\n\n");
 
+printf("\n\n");   
+
     for(int k=0; k<DOM; k++){
-        RANGO[i]=i+1;
+        printf("%d  ",RANGO[k]);
     }
 
     frecuencia(d,RUL,F,DOM,RANGO);
+
+    printf("\n\n");   
+
+    for(int k=0; k<DOM; k++){
+        printf("%d  ",RANGO[k]);
+    }
     
     printf("\n\n");
 

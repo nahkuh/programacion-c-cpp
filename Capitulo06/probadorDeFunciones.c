@@ -1,5 +1,5 @@
 /*
-solo sirve para probar funciones que no hacen lo que debería
+solo sirve para probar funciones que no hacen lo que deberían
 */
 
 #include <stdio.h>

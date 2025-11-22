@@ -24,7 +24,7 @@ int main(){
 
     srand(time( NULL ));
     
-    int Matrix[Renglones][Columnas]={0};
+    double Matrix[Renglones][Columnas]={0};
        
     for( int i=0 ; i<Renglones; i++ ){
         

@@ -204,14 +204,14 @@ void histograma( int f[ ][ NUM ] , int F[] ){
 /* 
 imprime una matriz de dim mXn con m,n en los Naturales | Cap06ej07Matrix.c | 11nov2027 |
 */
-void imprimirMatriz(int M[][Columnas]){
+void imprimirMatriz(double M[][Columnas]){
     
        
     for( int i=0 ; i<Renglones; i++ ){
         
         for( int j=0; j<Columnas; j++ ){
          
-            printf( "%5d  ",M[i][j]);
+            printf( "%5d  ",(int)M[i][j]);
         
         }
         printf("\n\n");
@@ -245,7 +245,7 @@ void frecuencia( int x[], int n, int F[], int m,  int RANGO[] ){
     int acumula=F[0];
     // int a[]={0};
     int k=0,j=0; /*contador especializado*/
-    RANGO[0]=x[0], j=0;
+    RANGO[0]=x[0];
 
     printf("\n\nentra F[0] = %d, x[0] = %d\n\n",F[0],x[0]);
 
@@ -270,7 +270,7 @@ void frecuencia( int x[], int n, int F[], int m,  int RANGO[] ){
     printf("\n\n [   Datos   ] | FRECUENCIA  \n");
     for( int i=0; i<m; i++ ){
                
-        printf(" %7d       | %6d      ",x[i],F[i]);
+        printf(" %7d       | %6d      ",RANGO[i],F[i]);
         for(k=0;k<=F[i];k++){
             if(  k == F[i] ){
                 printf(">");
@@ -322,271 +322,95 @@ int mediana( int x[], int n ){
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/*
+muestra busqueda binaria recursiva | Cap06ej09BusquedaBinRe.c | 19nov2025 | 
+*/
+int busquedaBinariaRec( int a[], int i, int N,  int llave1){
+   
+    int alto=N; /* contador de comparaciones */
+    int bajo=i;
+    int central;
+
+    //printf("\nla llave es %d\n",llave);
+    /* busqueda lineal */
+    /* ciclo para controlar de comparación */
+   
+    /* en vez de ciclo para controlar el número de comparaciones por pasada se hacen llamadas recursivas*/
+    
+        central = ( bajo + alto ) / 2;
+    /* compara los elementos uno a uno hasta que coincida  uno con la llave */
+            if (  llave1 == a[central] ) {
+                printf("\na[%d]=%d<=a[%d]=%d<=a[%d]=%d\n",bajo,a[bajo],central,a[central],alto,a[alto]);
+                return central;
+
+            } else if ( llave1<a[central] ){
+
+                alto=central-1;
+
+                printf("\na[%d]=%d<=a[%d]=%d<=a[%d]=%d\n",bajo,a[bajo],central,a[central],alto,a[alto]);
+                
+                return busquedaBinariaRec(a,bajo,alto,llave1);   //alto = central - 1;
+
+            } else{
+
+                bajo=central+1;
+
+                printf("\na[%d]=%d<=a[%d]=%d<=a[%d]=%d\n",bajo,a[bajo],central,a[central],alto,a[alto]);
+                
+                return busquedaBinariaRec(a,bajo,alto,llave1);    //bajo = central + 1;
+
+            }/* fin de if */
+
+    
+    
+    return -1; /* indica terminación exitosa */
+} 
+
+/* 
+Este programa calcula el valor de un determinante de 3x3 | Cap06ej10Determinante3x3.c | 19nov2025 |
+*/
+double Determinante( double x[][Columnas],int m){
+    m=Renglones;
+    int n=Columnas;
+    int signo;
+    double pivote;
+
+    double dif;
+    double a1;
+    double a2;
+    double b1;
+    double b2;
+    
+
+    for( int j=0; j<m; j++ ){
+        signo=(j%2==0)?1:-1;
+        pivote=signo*x[0][j];
+       
+        if(j==0){
+            a1=x[1][1];      
+            b1=x[2][1];         /* a1 a2  */
+            a2=x[1][2];         /* b1 b2 */
+            b2=x[2][2];
+        }
+        if(j==1){
+            a1=x[1][0];
+            b1=x[2][0];
+            a2=x[1][2];
+            b2=x[2][2];
+        }
+        if(j==2){
+            a1=x[1][0];
+            b1=x[2][0];
+            a2=x[1][1];
+            b2=x[2][1];
+        }
+        dif+=pivote*(a1*b2-a2*b1);
+
+        
+
+    }
+    return dif;
+}
 
 
 
