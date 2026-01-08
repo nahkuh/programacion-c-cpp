@@ -8,9 +8,9 @@
 #include "Cap07eg00Funciones.h"
 
 int cuboPorValor( int n ){ /* calcula y devuelve el cubo de un argumento entero, para probar una 
-                            llamada a una funcion con argumentos pasados por valor*/
+                            llamada a una funcion con argumentos pasados por valor */
 
-return n * n * n; /* eleva al cubo la variable local n y devuelve el resultado */
+    return n * n * n; /* eleva al cubo la variable local n y devuelve el resultado */
 
 } /* fin de la función cuboPorValor */
 
@@ -18,7 +18,7 @@ return n * n * n; /* eleva al cubo la variable local n y devuelve el resultado *
 /* calcula el cubo de *ptrN; modifica la variable numero en main para probar una llamada a una funcion con argumentos pasados por refernencia*/
 void cuboPorReferencia( int *ptrN ){
 
-*ptrN = *ptrN * *ptrN * *ptrN; /* cubo de *ptrN */
+    *ptrN = *ptrN * *ptrN * *ptrN; /* cubo de *ptrN */
 
 } /* fin de la función cuboPorReferencia */ 
 
@@ -26,13 +26,25 @@ void cuboPorReferencia( int *ptrN ){
 /* convierte una cadena a letras mayúsculas apuntador ptrs NO CONSTANTE a dato *ptrs NO CONSTANTE*/
 void convierteAMayusculas( char *ptrS )
 {
-while ( *ptrS != '\0' ) { /* el carácter actual no es ‘\0’ */
+    while ( *ptrS != '\0' ) { /* el carácter actual no es ‘\0’ */
 
-if ( islower( *ptrS ) ) { /* si el carácter es minúscula, */
-*ptrS = toupper( *ptrS ); /* Lo convierte a mayúscula */
-} /* fin de if */
+        if ( islower( *ptrS ) ) { /* si el carácter es minúscula, */
+            *ptrS = toupper( *ptrS ); /* Lo convierte a mayúscula */
+        } /* fin de if */
 
-++ptrS; /* mueve ptrS al siguiente carácter */
-} /* fin del while */
+        ++ptrS; /* mueve ptrS al siguiente carácter */
+    } /* fin del while */
 
 } /* fin de la función convierteAMayusculas */ 
+
+
+/* ptrS no puede modificar el carácter al cual apunta,
+es decir, ptrS es un apuntador de "solo lectura" */
+void imprimeCaracteres( const char *ptrS ) /* imprime una cadena a letras mayúsculas apuntador ptrs SI CONSTANTE a dato *ptrs NO CONSTANTE */
+{
+    /* repite el ciclo para toda la cadena */
+    for ( ; *ptrS != '\0'; ptrS++ ) { /* sin inicialización */
+        printf( "%c", *ptrS );
+    } /* fin de for */
+
+} /* fin de la función imprimeCaracteres */

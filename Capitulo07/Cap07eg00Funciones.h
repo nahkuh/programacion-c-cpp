@@ -13,4 +13,6 @@ void cuboPorReferencia( int *ptrN ); /* prototipo funcion que eleva al cubo para
 
 void convierteAMayusculas( char *ptrS ); /* prototipo apuntador ptrs NO CONSTANTE a dato *ptrs NO CONSTANTE */
 
+void imprimeCaracteres( const char *ptrS ); /* prototipo apuntador ptrs SI CONSTANTE a dato *ptrs NO CONSTANTE */
+
 #endif

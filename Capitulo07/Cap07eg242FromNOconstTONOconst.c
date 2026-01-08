@@ -8,12 +8,12 @@ mediante un apuntador no constante a un dato no constante */
 
 int main()
 {
-char cadena[] = "caracteres y $32.98"; /* inicializa char arreglo */
+    char cadena[] = "caracteres y $32.98"; /* inicializa char arreglo los elementos cadena[i] que NO SON const*/
 
-printf( "La cadena antes de la conversion es : %s", cadena );
-convierteAMayusculas( cadena );
-printf( "\nLa cadena despues de la conversion es: %s\n", cadena );
+    printf( "La cadena antes de la conversion es : %s", cadena );
+    convierteAMayusculas( cadena ); /* void convierteAMayusculas( char *ptrS ) ptrS apunta a cadena que NO ES const */
+    printf( "\nLa cadena despues de la conversion es: %s\n", cadena );
 
-return 0; /* indica terminación exitosa */
+    return 0; /* indica terminación exitosa */
 
 } /* fin de main */
